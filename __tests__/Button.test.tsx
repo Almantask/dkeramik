@@ -8,41 +8,37 @@ describe('Button', () => {
   });
 
   it('applies primary variant styles by default', () => {
-    render(<Button>Primary Button</Button>);
-    const button = screen.getByText('Primary Button');
-    expect(button).toHaveClass('bg-clay-500');
+    render(<Button>Primary</Button>);
+    expect(screen.getByText('Primary')).toHaveClass('bg-clay-500');
   });
 
   it('applies secondary variant styles when specified', () => {
-    render(<Button variant="secondary">Secondary Button</Button>);
-    const button = screen.getByText('Secondary Button');
-    expect(button).toHaveClass('bg-clay-100');
+    render(<Button variant="secondary">Secondary</Button>);
+    expect(screen.getByText('Secondary')).toHaveClass('bg-clay-100');
   });
 
   it('handles click events', () => {
     const handleClick = jest.fn();
     render(<Button onClick={handleClick}>Clickable</Button>);
-    
-    const button = screen.getByText('Clickable');
-    fireEvent.click(button);
-    
+    fireEvent.click(screen.getByText('Clickable'));
     expect(handleClick).toHaveBeenCalledTimes(1);
   });
 
   it('can be disabled', () => {
     const handleClick = jest.fn();
-    render(<Button onClick={handleClick} disabled>Disabled Button</Button>);
-    
-    const button = screen.getByText('Disabled Button');
-    expect(button).toBeDisabled();
-    
-    fireEvent.click(button);
+    render(
+      <Button onClick={handleClick} disabled>
+        Disabled
+      </Button>,
+    );
+    const btn = screen.getByText('Disabled');
+    expect(btn).toBeDisabled();
+    fireEvent.click(btn);
     expect(handleClick).not.toHaveBeenCalled();
   });
 
   it('accepts custom className', () => {
     render(<Button className="custom-class">Custom</Button>);
-    const button = screen.getByText('Custom');
-    expect(button).toHaveClass('custom-class');
+    expect(screen.getByText('Custom')).toHaveClass('custom-class');
   });
 });

@@ -1,0 +1,19 @@
+# ═══════════════════════════════════════════════════════════════════════════════
+# CUSTOM DOMAIN — GitHub Pages
+#
+# To use a custom domain:
+#   1. Replace the placeholder below with your actual domain (no "https://").
+#   2. Set CUSTOM_DOMAIN=true in the GitHub Actions workflow
+#      (.github/workflows/deploy.yml → Build job → env).
+#   3. In your domain registrar, add:
+#        Type   Host   Value
+#        CNAME  www    <your-github-username>.github.io
+#      or an A-record pointing to GitHub's IPs:
+#        185.199.108.153  185.199.109.153  185.199.110.153  185.199.111.153
+#   4. Enable "Enforce HTTPS" in repository Settings → Pages.
+#
+# Example: www.dkeramik.com
+# ═══════════════════════════════════════════════════════════════════════════════
+
+# TODO: replace with your custom domain
+# your-custom-domain.com

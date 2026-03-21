@@ -1,47 +1,63 @@
 import { render, screen } from '@testing-library/react';
 import Home from '@/app/page';
+import { LanguageProvider } from '@/lib/i18n';
+
+function renderWithLanguage(ui: React.ReactElement) {
+  return render(<LanguageProvider>{ui}</LanguageProvider>);
+}
 
 describe('Home Page', () => {
-  it('renders the main headline', () => {
-    render(<Home />);
-    expect(screen.getByText(/Homes become true homes/i)).toBeInTheDocument();
+  it('renders the LT headline by default', () => {
+    renderWithLanguage(<Home />);
+    expect(
+      screen.getByText(/Namai tampa tikrais namais/i),
+    ).toBeInTheDocument();
   });
 
-  it('renders heartfelt details text', () => {
-    render(<Home />);
-    expect(screen.getByText('heartfelt details')).toBeInTheDocument();
+  it('renders bold keywords in LT intro paragraph', () => {
+    renderWithLanguage(<Home />);
+    expect(screen.getByText('prisiminimų')).toBeInTheDocument();
+    expect(screen.getByText('tradicijų')).toBeInTheDocument();
+    expect(screen.getByText('šilumos')).toBeInTheDocument();
+    expect(screen.getByText('mažų detalių')).toBeInTheDocument();
   });
 
-  it('renders CTA buttons', () => {
-    render(<Home />);
-    expect(screen.getByText('Explore Collection')).toBeInTheDocument();
-    expect(screen.getByText('Our Story')).toBeInTheDocument();
+  it('renders the LT signature statement', () => {
+    renderWithLanguage(<Home />);
+    expect(
+      screen.getByText(/Namai kuriami po truputį/i),
+    ).toBeInTheDocument();
   });
 
-  it('renders the signature statement', () => {
-    render(<Home />);
-    expect(screen.getByText(/Homes are created little by little/i)).toBeInTheDocument();
+  it('renders the LT invitation', () => {
+    renderWithLanguage(<Home />);
+    expect(
+      screen.getByText(/pajusk molio šilumą/i),
+    ).toBeInTheDocument();
   });
 
-  it('renders the invitation section', () => {
-    render(<Home />);
-    expect(screen.getByText('An Invitation')).toBeInTheDocument();
+  it('renders CTA buttons in LT', () => {
+    renderWithLanguage(<Home />);
+    expect(screen.getByText('Žiūrėti kolekciją')).toBeInTheDocument();
+    expect(screen.getByText('Apie mane')).toBeInTheDocument();
   });
 
-  it('renders the warmth of clay tagline', () => {
-    render(<Home />);
-    expect(screen.getByText(/Take it in your hands and feel the warmth of clay/i)).toBeInTheDocument();
+  it('has a link to the collection page', () => {
+    renderWithLanguage(<Home />);
+    const link = screen.getByRole('link', { name: /Žiūrėti kolekciją/i });
+    expect(link).toHaveAttribute('href', '/collection');
   });
 
-  it('contains link to collection page', () => {
-    render(<Home />);
-    const collectionLink = screen.getByRole('link', { name: /Explore Collection/i });
-    expect(collectionLink).toHaveAttribute('href', '/collection');
+  it('has a link to the about page', () => {
+    renderWithLanguage(<Home />);
+    const link = screen.getByRole('link', { name: /Apie mane/i });
+    expect(link).toHaveAttribute('href', '/about');
   });
 
-  it('contains link to about page', () => {
-    render(<Home />);
-    const aboutLink = screen.getByRole('link', { name: /Our Story/i });
-    expect(aboutLink).toHaveAttribute('href', '/about');
+  it('renders the brand mark DKeramik text', () => {
+    renderWithLanguage(<Home />);
+    // Brand mark renders "DKeramik" text
+    const dkeramikElements = screen.getAllByText('DKeramik');
+    expect(dkeramikElements.length).toBeGreaterThan(0);
   });
 });

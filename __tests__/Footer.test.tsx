@@ -1,39 +1,43 @@
 import { render, screen } from '@testing-library/react';
 import Footer from '@/components/layout/Footer';
+import { LanguageProvider } from '@/lib/i18n';
+
+function renderWithLanguage(ui: React.ReactElement) {
+  return render(<LanguageProvider>{ui}</LanguageProvider>);
+}
 
 describe('Footer', () => {
   it('renders the DKeramik brand name', () => {
-    render(<Footer />);
+    renderWithLanguage(<Footer />);
     expect(screen.getByText('DKeramik')).toBeInTheDocument();
   });
 
-  it('renders the tagline', () => {
-    render(<Footer />);
-    expect(screen.getByText(/Take it into your hands and feel the warmth of clay/i)).toBeInTheDocument();
+  it('renders the LT tagline by default', () => {
+    renderWithLanguage(<Footer />);
+    expect(
+      screen.getByText(/Paimk į rankas ir pajusk molio šilumą/i),
+    ).toBeInTheDocument();
   });
 
-  it('renders navigation links', () => {
-    render(<Footer />);
-    
-    expect(screen.getByText('Collection')).toBeInTheDocument();
-    expect(screen.getByText('Our Craft')).toBeInTheDocument();
-    expect(screen.getByText('Journal')).toBeInTheDocument();
-    expect(screen.getByText('Custom Orders')).toBeInTheDocument();
+  it('renders navigation links in LT by default', () => {
+    renderWithLanguage(<Footer />);
+    expect(screen.getByText('Kolekcija')).toBeInTheDocument();
+    expect(screen.getByText('Kūryba')).toBeInTheDocument();
+    expect(screen.getByText('Dienoraštis')).toBeInTheDocument();
+    expect(screen.getByText('Individualūs užsakymai')).toBeInTheDocument();
   });
 
   it('renders social media links', () => {
-    render(<Footer />);
-    
-    const socialLinks = screen.getAllByRole('link').filter(
-      link => link.getAttribute('target') === '_blank'
-    );
-    
+    renderWithLanguage(<Footer />);
+    const socialLinks = screen
+      .getAllByRole('link')
+      .filter((link) => link.getAttribute('target') === '_blank');
     expect(socialLinks.length).toBeGreaterThanOrEqual(2);
   });
 
-  it('displays copyright text', () => {
-    render(<Footer />);
-    const currentYear = new Date().getFullYear();
-    expect(screen.getByText(new RegExp(`© ${currentYear} DKeramik`))).toBeInTheDocument();
+  it('displays copyright year', () => {
+    renderWithLanguage(<Footer />);
+    const year = new Date().getFullYear();
+    expect(screen.getByText(new RegExp(String(year)))).toBeInTheDocument();
   });
 });

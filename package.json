@@ -10,6 +10,8 @@
     "test:watch": "jest --watch"
   },
   "dependencies": {
+    "@fontsource/nunito": "^5.2.7",
+    "@fontsource/playfair-display": "^5.2.8",
     "@mdx-js/loader": "^3.1.1",
     "@mdx-js/react": "^3.1.1",
     "@next/mdx": "^16.2.1",
