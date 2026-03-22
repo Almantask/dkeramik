@@ -13,7 +13,7 @@ import createMDX from '@next/mdx';
 // GitHub Pages with a custom domain:
 //   • Set CUSTOM_DOMAIN=true in the CI workflow.
 //   • basePath is left empty — the site lives at the root of the domain.
-//   • Add your domain to public/CNAME (see that file for full instructions).
+//   • Create a public/CNAME file containing your domain name (e.g. www.example.com).
 //
 // Local development / Vercel / other hosts:
 //   • Leave both env vars unset — no basePath is applied.
