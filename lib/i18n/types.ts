@@ -6,7 +6,6 @@ export interface NavTranslations {
   collection: string;
   craft: string;
   journal: string;
-  customOrders: string;
   contact: string;
 }
 
@@ -106,29 +105,6 @@ export interface JournalTranslations {
   entries: JournalEntry[];
 }
 
-export interface CustomOrdersTranslations {
-  headline: string;
-  subheadline: string;
-  intro1: string;
-  intro2Part1: string;
-  intro2Bold: string;
-  intro2Part2: string;
-  whatHeading: string;
-  whatItems: string[];
-  processHeading: string;
-  processSteps: string[];
-  formNameLabel: string;
-  formNamePlaceholder: string;
-  formEmailLabel: string;
-  formEmailPlaceholder: string;
-  formMessageLabel: string;
-  formMessagePlaceholder: string;
-  formSubmit: string;
-  formSuccessTitle: string;
-  formSuccessBody: string;
-  closing: string;
-}
-
 export interface ContactTranslations {
   headline: string;
   subheadline: string;
@@ -149,7 +125,6 @@ export interface FooterTranslations {
     collection: string;
     craft: string;
     journal: string;
-    customOrders: string;
   };
 }
 
@@ -166,7 +141,6 @@ export interface SiteTranslations {
   product: ProductTranslations;
   craft: CraftTranslations;
   journal: JournalTranslations;
-  customOrders: CustomOrdersTranslations;
   contact: ContactTranslations;
   footer: FooterTranslations;
   common: CommonTranslations;

@@ -31,7 +31,6 @@ describe('Header', () => {
     expect(hrefs).toContain('/collection');
     expect(hrefs).toContain('/craft');
     expect(hrefs).toContain('/journal');
-    expect(hrefs).toContain('/custom');
     expect(hrefs).toContain('/contact');
   });
 

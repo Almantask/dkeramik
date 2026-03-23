@@ -7,7 +7,6 @@ export const lt: SiteTranslations = {
     collection: 'Kolekcija',
     craft: 'Kūryba',
     journal: 'Dienoraštis',
-    customOrders: 'Užsakymai',
     contact: 'Kontaktai',
   },
 
@@ -188,44 +187,6 @@ export const lt: SiteTranslations = {
     ],
   },
 
-  customOrders: {
-    headline: 'Individualūs užsakymai',
-    subheadline: 'Sukurkime kažką prasmingo Tavo namams.',
-    intro1:
-      'Kiekvienas namas yra skirtingas. Kiekvienas žmogus turi savo ritualus, savo estetiką, savo grožio viziją. Kartais to, ko reikia, dar nėra – kol mes to nesukuriame kartu.',
-    intro2Part1: '',
-    intro2Bold: 'Individualūs kūriniai prieinami',
-    intro2Part2:
-      ' tiems, kurie ieško kažko konkretaus. Ar tai dubenėlių rinkinys tam tikro dydžio, vaza tinkanti konkrečiai erdvei, ar puodeliai su individualiu glazūros deriniu – aš esu čia bendradarbiauti.',
-    whatHeading: 'Ką galima individualizuoti',
-    whatItems: [
-      'Dydis ir forma',
-      'Glazūros spalva ir faktūra',
-      'Rinkiniai ir poros',
-      'Asmeniniai užrašai ar žymės',
-      'Sezoniniai ir dovanų rinkiniai',
-    ],
-    processHeading: 'Kaip tai veikia',
-    processSteps: [
-      'Parašyk man – aprašyk, ko įsivaizduoji',
-      'Aptarsime idėją, medžiagas ir lūkesčius',
-      'Gausim patvirtinimą dėl laiko ir kainos',
-      'Kūrinys sukuriamas su meile ir intencija',
-      'Pristatomas tiesiai į Tavo duris',
-    ],
-    formNameLabel: 'Vardas',
-    formNamePlaceholder: 'Tavo vardas',
-    formEmailLabel: 'El. paštas',
-    formEmailPlaceholder: 'tavo@elpastas.lt',
-    formMessageLabel: 'Žinutė',
-    formMessagePlaceholder: 'Aprašyk savo idėją, kuo detaliau – tuo geriau...',
-    formSubmit: 'Siųsti žinutę',
-    formSuccessTitle: 'Žinutė gauta',
-    formSuccessBody:
-      'Ačiū, kad kreipeisi. Atsakysiu per 1–2 darbo dienas. Laukiu mūsų pokalbio.',
-    closing: 'Kiekvienas kūrinys yra atsakas į gyvenimą – į svajas, tradicijas ir šilumą.',
-  },
-
   contact: {
     headline: 'Susisiekime',
     subheadline: 'Maloniai laukiu Tavo žinučių.',
@@ -247,7 +208,6 @@ export const lt: SiteTranslations = {
       collection: 'Kolekcija',
       craft: 'Kūryba',
       journal: 'Dienoraštis',
-      customOrders: 'Individualūs užsakymai',
     },
   },
 
