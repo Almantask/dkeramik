@@ -38,7 +38,7 @@ export default function Home() {
         </p>
 
         <div className="flex flex-wrap gap-4">
-          <Link href="/collection">
+          <Link href="/portfolio">
             <Button>{h.ctaPortfolio}</Button>
           </Link>
           <Link href="/about">

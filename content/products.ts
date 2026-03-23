@@ -5,10 +5,12 @@ export interface BilingualText {
 
 export interface Product {
   id: string;
-  /** Category key maps to CollectionTranslations keys */
+  /** Category key maps to PortfolioTranslations keys */
   categoryKey: 'categoryBowls' | 'categoryCups' | 'categoryVases' | 'categorySmallDecor';
   name: BilingualText;
   image: string;
+  /** Additional detail images for the product gallery */
+  gallery: string[];
   description: BilingualText;
   dimensions: string;
   material: BilingualText;
@@ -45,6 +47,68 @@ const vesselSVG = `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"
   <rect x="86" y="42" width="28" height="10" rx="3" fill="#e8d5c0"/>
 </svg>`;
 
+// ─── Detail SVG placeholders for gallery ─────────────────────────────────────
+
+const bowlDetailSVG = `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <rect x="30" y="60" width="140" height="90" rx="6" fill="#e8d5c0"/>
+  <ellipse cx="100" cy="105" rx="50" ry="8" fill="#c19572" opacity="0.5"/>
+  <path d="M 55 90 Q 55 130, 100 138 Q 145 130, 145 90" fill="none" stroke="#c19572" stroke-width="2"/>
+  <circle cx="85" cy="100" r="3" fill="#d4b896"/>
+  <circle cx="115" cy="98" r="2" fill="#d4b896"/>
+</svg>`;
+
+const bowlGlazeSVG = `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <rect x="20" y="50" width="160" height="100" rx="8" fill="#f0e6d8"/>
+  <ellipse cx="100" cy="95" rx="60" ry="35" fill="#d4b896"/>
+  <ellipse cx="100" cy="90" rx="45" ry="25" fill="#e8d5c0"/>
+  <path d="M 60 88 Q 80 78, 100 85 Q 120 78, 140 88" fill="none" stroke="#c19572" stroke-width="1.5" opacity="0.6"/>
+</svg>`;
+
+const cupDetailSVG = `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <rect x="50" y="50" width="100" height="110" rx="6" fill="#e8d5c0"/>
+  <rect x="60" y="60" width="80" height="90" rx="4" fill="#f0e6d8"/>
+  <path d="M 140 75 Q 158 75, 158 100 Q 158 125, 140 125" fill="none" stroke="#c19572" stroke-width="4" stroke-linecap="round"/>
+  <ellipse cx="100" cy="60" rx="30" ry="5" fill="#c19572" opacity="0.4"/>
+</svg>`;
+
+const cupTextureSVG = `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <rect x="40" y="40" width="120" height="120" rx="8" fill="#f0e6d8"/>
+  <circle cx="80" cy="90" r="20" fill="#d4b896" opacity="0.3"/>
+  <circle cx="120" cy="100" r="15" fill="#c19572" opacity="0.2"/>
+  <path d="M 60 110 Q 100 95, 140 110" fill="none" stroke="#c19572" stroke-width="1.5"/>
+  <path d="M 60 120 Q 100 105, 140 120" fill="none" stroke="#d4b896" stroke-width="1"/>
+</svg>`;
+
+const vaseDetailSVG = `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <rect x="30" y="30" width="140" height="140" rx="8" fill="#f0e6d8"/>
+  <path d="M 80 55 Q 70 80, 70 110 L 70 155 Q 70 165, 85 168 L 115 168 Q 130 165, 130 155 L 130 110 Q 130 80, 120 55 Z" fill="#d4b896" opacity="0.6"/>
+  <path d="M 90 70 L 90 160" stroke="#c19572" stroke-width="1" opacity="0.4"/>
+  <path d="M 110 70 L 110 160" stroke="#c19572" stroke-width="1" opacity="0.4"/>
+</svg>`;
+
+const vaseGlazeSVG = `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <rect x="30" y="30" width="140" height="140" rx="8" fill="#e8d5c0"/>
+  <ellipse cx="100" cy="100" rx="40" ry="55" fill="#d4b896"/>
+  <ellipse cx="100" cy="90" rx="30" ry="40" fill="#f0e6d8" opacity="0.5"/>
+  <circle cx="90" cy="80" r="5" fill="#c19572" opacity="0.3"/>
+  <circle cx="110" cy="110" r="7" fill="#c19572" opacity="0.2"/>
+</svg>`;
+
+const vesselDetailSVG = `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <rect x="20" y="20" width="160" height="160" rx="8" fill="#f0e6d8"/>
+  <ellipse cx="100" cy="100" rx="55" ry="60" fill="#d4b896" opacity="0.5"/>
+  <path d="M 55 80 Q 100 60, 145 80" fill="none" stroke="#c19572" stroke-width="2"/>
+  <path d="M 55 100 Q 100 80, 145 100" fill="none" stroke="#c19572" stroke-width="1.5" opacity="0.5"/>
+</svg>`;
+
+const vesselTextureSVG = `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <rect x="25" y="25" width="150" height="150" rx="8" fill="#e8d5c0"/>
+  <circle cx="70" cy="80" r="12" fill="#d4b896" opacity="0.4"/>
+  <circle cx="130" cy="90" r="10" fill="#d4b896" opacity="0.3"/>
+  <circle cx="100" cy="120" r="14" fill="#c19572" opacity="0.2"/>
+  <path d="M 50 140 Q 100 125, 150 140" fill="none" stroke="#c19572" stroke-width="1.5"/>
+</svg>`;
+
 // ─── Product data ────────────────────────────────────────────────────────────
 
 export const products: Product[] = [
@@ -53,6 +117,7 @@ export const products: Product[] = [
     categoryKey: 'categoryBowls',
     name: { lt: 'Vakarienės dubenėlis', en: 'Rustic Dinner Bowl' },
     image: bowlSVG,
+    gallery: [bowlDetailSVG, bowlGlazeSVG],
     description: {
       lt: 'Dubenėlis, kuriame telpa daugiau nei maistas – jame telpa susitikimo šiluma ir dalijimosi džiaugsmas. Kiekviena forma rankų liesta, kiekviena glazūra unikali.',
       en: 'A bowl that holds more than food — it holds the warmth of gathering and the joy of sharing. Each curve shaped by hand, each glaze unique.',
@@ -72,6 +137,7 @@ export const products: Product[] = [
     categoryKey: 'categoryCups',
     name: { lt: 'Ryto puodelis', en: 'Morning Coffee Mug' },
     image: cupSVG,
+    gallery: [cupDetailSVG, cupTextureSVG],
     description: {
       lt: 'Tavo rankos apglėbia šilumą. Tobulas svoris, tobula kreivė. Mažas kasdieninis malonumas, suteikiantis rytams intencijos.',
       en: 'Your hands wrapped around warmth. The perfect weight, the perfect curve. A small daily pleasure that makes mornings feel intentional.',
@@ -91,6 +157,7 @@ export const products: Product[] = [
     categoryKey: 'categoryVases',
     name: { lt: 'Mažytė vazutė', en: 'Petite Bud Vase' },
     image: vaseSVG,
+    gallery: [vaseDetailSVG, vaseGlazeSVG],
     description: {
       lt: 'Viena šakelė tampa poezija. Ši subtili vazutė įneša gamtą į vidų, paverčia mažiausią detalę kažkuo vertu pastebėjimo.',
       en: 'A single stem becomes poetry. This delicate vase brings nature indoors, transforming the smallest detail into something worth noticing.',
@@ -110,6 +177,7 @@ export const products: Product[] = [
     categoryKey: 'categoryVases',
     name: { lt: 'Skulptūrinis indas', en: 'Sculptural Vessel' },
     image: vesselSVG,
+    gallery: [vesselDetailSVG, vesselTextureSVG],
     description: {
       lt: 'Menas ir funkcija susipina. Šis kūrinys gražiai stovi tuščias ar pripildytas – meditacija apie formą, traukianti žvilgsnį ir raminanti dvasią.',
       en: 'Art and function intertwined. This piece stands beautifully empty or filled — a meditation on form that draws the eye and soothes the spirit.',
@@ -129,6 +197,7 @@ export const products: Product[] = [
     categoryKey: 'categoryBowls',
     name: { lt: 'Trijų dubenėlių rinkinys', en: 'Nesting Bowls Set' },
     image: bowlSVG,
+    gallery: [bowlDetailSVG, bowlGlazeSVG],
     description: {
       lt: 'Trys dubenėliai, kurie susideda vienas į kitą tarsi paslaptis. Patiekti, maišyti, laikyti namų ingredientus.',
       en: 'Three bowls that nestle together like a secret. For serving, for mixing, for holding the ingredients of home.',
@@ -148,6 +217,7 @@ export const products: Product[] = [
     categoryKey: 'categoryCups',
     name: { lt: 'Arbatos puodelių pora', en: 'Tea Cup Pair' },
     image: cupSVG,
+    gallery: [cupDetailSVG, cupTextureSVG],
     description: {
       lt: 'Bendriems momentams. Du puodeliai, priklausantys vienas kitam, kiekvienas šiek tiek unikalus – kaip geriausia draugystė.',
       en: 'For shared moments. Two cups that belong together, each slightly unique, like the best friendships.',
@@ -167,6 +237,7 @@ export const products: Product[] = [
     categoryKey: 'categorySmallDecor',
     name: { lt: 'Dėmėtas vazonėlis', en: 'Speckled Planter' },
     image: vesselSVG,
+    gallery: [vesselDetailSVG, vesselTextureSVG],
     description: {
       lt: 'Kur auga gyvybė. Namai sukulentams, žolelėms ar mažiems žiedams. Dėmėta glazūra primena, kad netobulumas yra gražus.',
       en: 'Where life grows. A home for succulents, herbs, or small blooms. The speckled glaze reminds us that imperfection is beautiful.',
@@ -186,6 +257,7 @@ export const products: Product[] = [
     categoryKey: 'categorySmallDecor',
     name: { lt: 'Žvakidžių trijulė', en: 'Candle Holder Trio' },
     image: vesselSVG,
+    gallery: [vesselDetailSVG, vesselTextureSVG],
     description: {
       lt: 'Šviesa tampa atmosfera. Trys skirtingo aukščio žvakidės ant bet kurio paviršiaus sukuria šilumos kraštovaizdį.',
       en: 'Light becomes atmosphere. Three holders of varying heights create a landscape of warmth on any surface.',
@@ -202,7 +274,7 @@ export const products: Product[] = [
   },
 ];
 
-// Category filter keys used in the collection page
+// Category filter keys used in the portfolio page
 export const categoryKeys = [
   'categoryAll',
   'categoryBowls',

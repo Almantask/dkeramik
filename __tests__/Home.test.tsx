@@ -32,10 +32,10 @@ describe('Home Page', () => {
     expect(screen.getByText('Susisiek')).toBeInTheDocument();
   });
 
-  it('has a link to the collection page', () => {
+  it('has a link to the portfolio page', () => {
     renderWithLanguage(<Home />);
     const link = screen.getByRole('link', { name: /Portfolio/i });
-    expect(link).toHaveAttribute('href', '/collection');
+    expect(link).toHaveAttribute('href', '/portfolio');
   });
 
   it('has a link to the about page', () => {
