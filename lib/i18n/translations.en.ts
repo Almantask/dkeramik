@@ -4,7 +4,7 @@ export const en: SiteTranslations = {
   nav: {
     home: 'Home',
     about: 'About',
-    collection: 'Collection',
+    portfolio: 'Portfolio',
     craft: 'Craft',
     journal: 'Journal',
     contact: 'Contact',
@@ -32,7 +32,7 @@ export const en: SiteTranslations = {
     signature: 'Homes are built little by little — detail by detail.',
     invitation: 'If you wish, take it in your hands and feel the warmth of clay.',
     closing: 'Perhaps here you will find what will become part of your home\'s story.',
-    ctaCollection: 'Explore Collection',
+    ctaPortfolio: 'Explore Portfolio',
     ctaAbout: 'About Me',
   },
 
@@ -59,8 +59,8 @@ export const en: SiteTranslations = {
     closing: 'Homes are created little by little — detail by detail.',
   },
 
-  collection: {
-    headline: 'Collection',
+  portfolio: {
+    headline: 'Portfolio',
     subheadline:
       'Each piece is handcrafted with intention. Designed for daily use, built to last, made to bring warmth to your home.',
     categoryAll: 'All',
@@ -83,7 +83,8 @@ export const en: SiteTranslations = {
       'Each piece is individually crafted, so slight variations in size, shape, and glaze are natural and celebrated. Your piece will be beautifully unique.',
     closingBody:
       'This piece is ready to become part of your daily rituals. To bring warmth to your table. To remind you that beautiful things don\'t have to wait for special occasions — they make ordinary moments special.',
-    backToCollection: '← Back to Collection',
+    galleryHeading: 'Details',
+    backToPortfolio: '← Back to Portfolio',
   },
 
   craft: {
@@ -205,7 +206,7 @@ export const en: SiteTranslations = {
     connectHeading: 'Connect',
     copyright: 'DKeramik. All rights reserved.',
     links: {
-      collection: 'Collection',
+      portfolio: 'Portfolio',
       craft: 'Our Craft',
       journal: 'Journal',
     },

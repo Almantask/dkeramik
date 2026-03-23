@@ -17,17 +17,17 @@ export default function ProductDetail({ slug }: ProductDetailProps) {
   if (!product) notFound();
 
   const categoryLabel =
-    t.collection[product.categoryKey as keyof typeof t.collection] as string;
+    t.portfolio[product.categoryKey as keyof typeof t.portfolio] as string;
 
   return (
     <div className="min-h-screen bg-clay-50">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         {/* Back link */}
         <Link
-          href="/collection"
+          href="/portfolio"
           className="text-clay-500 hover:text-clay-600 text-sm mb-8 inline-block transition-colors"
         >
-          {p.backToCollection}
+          {p.backToPortfolio}
         </Link>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mt-6">
@@ -39,7 +39,7 @@ export default function ProductDetail({ slug }: ProductDetailProps) {
             />
           </div>
 
-          {/* Details — no price shown (gallery, not shop) */}
+          {/* Details */}
           <div>
             <p className="text-clay-400 text-xs uppercase tracking-widest mb-2">
               {categoryLabel}
@@ -48,47 +48,47 @@ export default function ProductDetail({ slug }: ProductDetailProps) {
               {product.name[language]}
             </h1>
 
-            {/* Poetic description */}
-            <p className="text-clay-600 leading-loose italic mb-8">
+            {/* Description */}
+            <p className="text-clay-600 leading-loose mb-8">
               {product.description[language]}
             </p>
 
-            {/* Specifications */}
-            <dl className="space-y-4 mb-8">
-              <div>
-                <dt className="text-clay-700 font-semibold text-xs uppercase tracking-widest mb-1">
-                  {p.dimensionsLabel}
-                </dt>
-                <dd className="text-clay-600">{product.dimensions}</dd>
-              </div>
-              <div>
-                <dt className="text-clay-700 font-semibold text-xs uppercase tracking-widest mb-1">
-                  {p.materialLabel}
-                </dt>
-                <dd className="text-clay-600">{product.material[language]}</dd>
-              </div>
-              <div>
-                <dt className="text-clay-700 font-semibold text-xs uppercase tracking-widest mb-1">
-                  {p.careLabel}
-                </dt>
-                <dd className="text-clay-600">{product.care[language]}</dd>
-              </div>
-            </dl>
+            {/* Compact specifications */}
+            <p className="text-clay-500 text-sm mb-8">
+              {product.material[language]} · {product.dimensions}
+            </p>
 
             {/* Handmade variation note */}
-            <div className="bg-clay-100 border border-clay-200 p-6 mb-8">
+            <div className="bg-clay-100 border border-clay-200 p-6">
               <p className="text-clay-600 text-sm leading-relaxed">
                 <strong className="text-clay-700">{p.handmadeNoteTitle}: </strong>
                 {p.handmadeNoteBody}
               </p>
             </div>
-
-            {/* Emotional closing */}
-            <p className="font-playfair text-clay-500 italic leading-loose border-t border-clay-200 pt-6">
-              {p.closingBody}
-            </p>
           </div>
         </div>
+
+        {/* Gallery section */}
+        {product.gallery && product.gallery.length > 0 && (
+          <div className="mt-16">
+            <h2 className="font-playfair text-2xl text-clay-600 mb-6">
+              {p.galleryHeading}
+            </h2>
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+              {product.gallery.map((img, i) => (
+                <div
+                  key={i}
+                  className="bg-clay-100 aspect-square flex items-center justify-center"
+                >
+                  <div
+                    className="w-3/4 h-3/4 flex items-center justify-center"
+                    dangerouslySetInnerHTML={{ __html: img }}
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

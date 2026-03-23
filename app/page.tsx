@@ -76,8 +76,8 @@ export default function Home() {
 
         {/* ── CTAs ─────────────────────────────────────────────────────── */}
         <div className="mt-10 flex flex-wrap gap-4">
-          <Link href="/collection">
-            <Button>{h.ctaCollection}</Button>
+          <Link href="/portfolio">
+            <Button>{h.ctaPortfolio}</Button>
           </Link>
           <Link href="/about">
             <Button variant="secondary">{h.ctaAbout}</Button>

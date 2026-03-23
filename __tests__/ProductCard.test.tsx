@@ -39,7 +39,7 @@ describe('ProductCard', () => {
   it('links to the product detail page', () => {
     renderWithLanguage(<ProductCard product={mockProduct} />);
     const link = screen.getByRole('link');
-    expect(link).toHaveAttribute('href', '/collection/test-bowl');
+    expect(link).toHaveAttribute('href', '/portfolio/test-bowl');
   });
 
   it('renders image container', () => {

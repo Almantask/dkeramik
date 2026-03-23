@@ -38,14 +38,14 @@ describe('Home Page', () => {
 
   it('renders CTA buttons in LT', () => {
     renderWithLanguage(<Home />);
-    expect(screen.getByText('Žiūrėti kolekciją')).toBeInTheDocument();
+    expect(screen.getByText('Žiūrėti portfolio')).toBeInTheDocument();
     expect(screen.getByText('Apie mane')).toBeInTheDocument();
   });
 
-  it('has a link to the collection page', () => {
+  it('has a link to the portfolio page', () => {
     renderWithLanguage(<Home />);
-    const link = screen.getByRole('link', { name: /Žiūrėti kolekciją/i });
-    expect(link).toHaveAttribute('href', '/collection');
+    const link = screen.getByRole('link', { name: /Žiūrėti portfolio/i });
+    expect(link).toHaveAttribute('href', '/portfolio');
   });
 
   it('has a link to the about page', () => {
