@@ -7,7 +7,6 @@ export const en: SiteTranslations = {
     collection: 'Collection',
     craft: 'Craft',
     journal: 'Journal',
-    customOrders: 'Custom Orders',
     contact: 'Contact',
   },
 
@@ -188,44 +187,6 @@ export const en: SiteTranslations = {
     ],
   },
 
-  customOrders: {
-    headline: 'Custom Orders',
-    subheadline: 'Let\'s create something meaningful for your home.',
-    intro1:
-      'Every home is different. Every person has their own rituals, their own aesthetic, their own vision of beauty. Sometimes, what you need doesn\'t exist yet — until we make it together.',
-    intro2Part1: '',
-    intro2Bold: 'Custom pieces are available',
-    intro2Part2:
-      ' for those seeking something specific. Whether it\'s a set of dinner bowls in a particular size, a vase to fit a specific space, or mugs with a custom glaze combination, I\'m here to collaborate.',
-    whatHeading: 'What can be customised',
-    whatItems: [
-      'Size and shape',
-      'Glaze colour and texture',
-      'Sets and pairs',
-      'Personal inscriptions or marks',
-      'Seasonal and gift sets',
-    ],
-    processHeading: 'How it works',
-    processSteps: [
-      'Write to me — describe what you have in mind',
-      'We\'ll discuss the idea, materials, and expectations',
-      'You\'ll receive confirmation of timing and cost',
-      'The piece is created with love and intention',
-      'Delivered directly to your door',
-    ],
-    formNameLabel: 'Name',
-    formNamePlaceholder: 'Your name',
-    formEmailLabel: 'Email',
-    formEmailPlaceholder: 'your@email.com',
-    formMessageLabel: 'Message',
-    formMessagePlaceholder: 'Describe your idea, the more detail the better...',
-    formSubmit: 'Send message',
-    formSuccessTitle: 'Message received',
-    formSuccessBody:
-      'Thank you for reaching out. I\'ll reply within 1–2 business days. Looking forward to our conversation.',
-    closing: 'Every piece is a response to life — to dreams, traditions, and warmth.',
-  },
-
   contact: {
     headline: 'Get in Touch',
     subheadline: 'I\'d love to hear from you.',
@@ -247,7 +208,6 @@ export const en: SiteTranslations = {
       collection: 'Collection',
       craft: 'Our Craft',
       journal: 'Journal',
-      customOrders: 'Custom Orders',
     },
   },
 

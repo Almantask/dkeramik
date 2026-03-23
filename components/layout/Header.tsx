@@ -14,7 +14,6 @@ export default function Header() {
     { href: '/collection', label: t.nav.collection },
     { href: '/craft', label: t.nav.craft },
     { href: '/journal', label: t.nav.journal },
-    { href: '/custom', label: t.nav.customOrders },
     { href: '/contact', label: t.nav.contact },
   ];
 

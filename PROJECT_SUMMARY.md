@@ -72,12 +72,6 @@
 - Full article layout with metadata
 - Back navigation
 
-#### Custom Orders Page (/custom)
-- Introduction and customization options
-- Contact form (name, email, message)
-- Form submission handling
-- Success state
-
 #### Contact Page (/contact)
 - Contact information
 - Social media links

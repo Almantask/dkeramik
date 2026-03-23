@@ -51,14 +51,6 @@ export default function Footer() {
                   {t.footer.links.journal}
                 </Link>
               </li>
-              <li>
-                <Link
-                  href="/custom"
-                  className="text-clay-600 hover:text-clay-500 text-sm transition-colors"
-                >
-                  {t.footer.links.customOrders}
-                </Link>
-              </li>
             </ul>
           </div>
 

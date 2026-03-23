@@ -32,7 +32,6 @@ dkeramik/
 │   │   └── [slug]/              # Individual product pages
 │   ├── contact/                  # Contact page
 │   ├── craft/                    # Craft process page
-│   ├── custom/                   # Custom orders page
 │   ├── journal/                  # Blog/journal
 │   │   └── [slug]/              # Individual journal entries
 │   ├── layout.tsx               # Root layout with Header/Footer
@@ -140,8 +139,7 @@ clay-900: #2d1f12
 5. **Craft** (`/craft`) - Process and methodology (from MDX)
 6. **Journal** (`/journal`) - Blog/journal article listing
 7. **Journal Entry** (`/journal/[slug]`) - Individual articles (from MDX)
-8. **Custom Orders** (`/custom`) - Custom order inquiry form
-9. **Contact** (`/contact`) - Contact information and social links
+8. **Contact** (`/contact`) - Contact information and social links
 
 ## 🧪 Testing
 

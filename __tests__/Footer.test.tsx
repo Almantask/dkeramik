@@ -24,7 +24,6 @@ describe('Footer', () => {
     expect(screen.getByText('Kolekcija')).toBeInTheDocument();
     expect(screen.getByText('Kūryba')).toBeInTheDocument();
     expect(screen.getByText('Dienoraštis')).toBeInTheDocument();
-    expect(screen.getByText('Individualūs užsakymai')).toBeInTheDocument();
   });
 
   it('renders social media links', () => {
