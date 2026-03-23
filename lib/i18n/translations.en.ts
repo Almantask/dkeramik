@@ -12,28 +12,11 @@ export const en: SiteTranslations = {
 
   home: {
     headline: 'Homes become true homes\nwhen they are filled with heartfelt details.',
-    introParagraph1Part1: 'Home means something different to each of us.\nFor me, it is made of ',
-    introBold1: 'memories',
-    introParagraph1Part2: ', ',
-    introBold2: 'traditions',
-    introParagraph1Part3: ', ',
-    introBold3: 'warmth',
-    introParagraph1Part4: ' and ',
-    introBold4: 'small details',
-    introParagraph1Part5: ', that slowly fill a space with life.',
-    introParagraph2:
-      'Growing up, I watched my mother fill our home with handmade ceramics from local makers — small boxes, angel figurines, and other objects with their own character and soul. From her I learned that handmade things have a special power — they bring not only beauty to everyday life, but also warmth, mood, and meaning.',
-    introParagraph3Part1: 'Through ',
-    introParagraph3Bold: 'DKeramik',
-    introParagraph3Part2:
-      ' I seek to continue this thought — to create ceramics that remind us that it is the small details that enrich life.',
-    introParagraph4:
-      'I hope that each of my pieces will become more than just an object — a small spark of joy and a cosy part of your home\'s story.',
-    signature: 'Homes are built little by little — detail by detail.',
-    invitation: 'If you wish, take it in your hands and feel the warmth of clay.',
-    closing: 'Perhaps here you will find what will become part of your home\'s story.',
-    ctaCollection: 'Explore Collection',
-    ctaAbout: 'About Me',
+    introText:
+      'Home means something different to each of us. For me, it is made of memories, traditions, warmth, and small details that slowly fill a space with life.',
+    ctaPortfolio: 'Portfolio',
+    ctaAbout: 'About',
+    ctaContact: 'Contact',
   },
 
   about: {

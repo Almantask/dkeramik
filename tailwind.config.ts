@@ -32,6 +32,7 @@ const config: Config = {
         // ───────────────────────────────────────────────────────────────────
         playfair: ['"Playfair Display"', 'Georgia', '"Times New Roman"', 'serif'],
         nunito: ['Nunito', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'sans-serif'],
+        lato: ['Lato', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'sans-serif'],
       },
       lineHeight: {
         loose: '1.9',

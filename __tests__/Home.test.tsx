@@ -7,6 +7,10 @@ function renderWithLanguage(ui: React.ReactElement) {
 }
 
 describe('Home Page', () => {
+  beforeEach(() => {
+    localStorage.clear();
+  });
+
   it('renders the LT headline by default', () => {
     renderWithLanguage(<Home />);
     expect(
@@ -14,50 +18,35 @@ describe('Home Page', () => {
     ).toBeInTheDocument();
   });
 
-  it('renders bold keywords in LT intro paragraph', () => {
-    renderWithLanguage(<Home />);
-    expect(screen.getByText('prisiminimų')).toBeInTheDocument();
-    expect(screen.getByText('tradicijų')).toBeInTheDocument();
-    expect(screen.getByText('šilumos')).toBeInTheDocument();
-    expect(screen.getByText('mažų detalių')).toBeInTheDocument();
-  });
-
-  it('renders the LT signature statement', () => {
+  it('renders the LT intro text', () => {
     renderWithLanguage(<Home />);
     expect(
-      screen.getByText(/Namai kuriami po truputį/i),
+      screen.getByText(/Namai kiekvienam iš mūsų reiškia kažką skirtingo/i),
     ).toBeInTheDocument();
   });
 
-  it('renders the LT invitation', () => {
+  it('renders three CTA buttons in LT', () => {
     renderWithLanguage(<Home />);
-    expect(
-      screen.getByText(/pajusk molio šilumą/i),
-    ).toBeInTheDocument();
-  });
-
-  it('renders CTA buttons in LT', () => {
-    renderWithLanguage(<Home />);
-    expect(screen.getByText('Žiūrėti kolekciją')).toBeInTheDocument();
-    expect(screen.getByText('Apie mane')).toBeInTheDocument();
+    expect(screen.getByText('Portfolio')).toBeInTheDocument();
+    expect(screen.getByText('Apie')).toBeInTheDocument();
+    expect(screen.getByText('Susisiek')).toBeInTheDocument();
   });
 
   it('has a link to the collection page', () => {
     renderWithLanguage(<Home />);
-    const link = screen.getByRole('link', { name: /Žiūrėti kolekciją/i });
+    const link = screen.getByRole('link', { name: /Portfolio/i });
     expect(link).toHaveAttribute('href', '/collection');
   });
 
   it('has a link to the about page', () => {
     renderWithLanguage(<Home />);
-    const link = screen.getByRole('link', { name: /Apie mane/i });
+    const link = screen.getByRole('link', { name: /Apie/i });
     expect(link).toHaveAttribute('href', '/about');
   });
 
-  it('renders the brand mark DKeramik text', () => {
+  it('has a link to the contact page', () => {
     renderWithLanguage(<Home />);
-    // Brand mark renders "DKeramik" text
-    const dkeramikElements = screen.getAllByText('DKeramik');
-    expect(dkeramikElements.length).toBeGreaterThan(0);
+    const link = screen.getByRole('link', { name: /Susisiek/i });
+    expect(link).toHaveAttribute('href', '/contact');
   });
 });
