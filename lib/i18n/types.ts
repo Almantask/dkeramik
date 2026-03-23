@@ -11,25 +11,10 @@ export interface NavTranslations {
 
 export interface HomeTranslations {
   headline: string;
-  introParagraph1Part1: string;
-  introBold1: string;
-  introParagraph1Part2: string;
-  introBold2: string;
-  introParagraph1Part3: string;
-  introBold3: string;
-  introParagraph1Part4: string;
-  introBold4: string;
-  introParagraph1Part5: string;
-  introParagraph2: string;
-  introParagraph3Part1: string;
-  introParagraph3Bold: string;
-  introParagraph3Part2: string;
-  introParagraph4: string;
-  signature: string;
-  invitation: string;
-  closing: string;
-  ctaCollection: string;
+  introText: string;
+  ctaPortfolio: string;
   ctaAbout: string;
+  ctaContact: string;
 }
 
 export interface AboutTranslations {

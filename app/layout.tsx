@@ -19,6 +19,7 @@ import type { Metadata } from 'next';
 // Current fonts:
 //   • Headings  → Playfair Display  (elegant serif)
 //   • Body text → Nunito            (rounded humanist sans-serif)
+//   • Home page → Lato              (clean sans-serif, used on home body text)
 // ═══════════════════════════════════════════════════════════════════════════════
 
 // Playfair Display — serif for headings
@@ -34,6 +35,11 @@ import '@fontsource/nunito/400.css';
 import '@fontsource/nunito/500.css';
 import '@fontsource/nunito/600.css';
 import '@fontsource/nunito/700.css';
+
+// Lato — clean sans-serif for home page body text
+import '@fontsource/lato/300.css';
+import '@fontsource/lato/400.css';
+import '@fontsource/lato/700.css';
 
 import './globals.css';
 import Header from '@/components/layout/Header';

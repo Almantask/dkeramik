@@ -12,28 +12,11 @@ export const lt: SiteTranslations = {
 
   home: {
     headline: 'Namai tampa tikrais namais,\nkai juose atsiranda širdžiai mielos detalės.',
-    introParagraph1Part1: 'Namai kiekvienam iš mūsų reiškia kažką skirtingo.\nMan jie kuriami iš ',
-    introBold1: 'prisiminimų',
-    introParagraph1Part2: ', ',
-    introBold2: 'tradicijų',
-    introParagraph1Part3: ', ',
-    introBold3: 'šilumos',
-    introParagraph1Part4: ' ir ',
-    introBold4: 'mažų detalių',
-    introParagraph1Part5: ', kurios pamažu pripildo erdvę gyvybės.',
-    introParagraph2:
-      'Augdama mačiau, kaip mama mūsų namus pripildydavo rankų darbo keramikos kūriniais iš vietinių kūrėjų – mažomis dėžutėmis, angelų skulptūrėlėmis ir kitais daiktais, turinčiais savo charakterį ir sielą. Iš jos išmokau, kad rankų darbo daiktai turi ypatingą galią – jie į kasdienybę atneša ne tik grožį, bet ir jaukumą, nuotaiką bei prasmę.',
-    introParagraph3Part1: 'Per ',
-    introParagraph3Bold: 'DKeramik',
-    introParagraph3Part2:
-      ' siekiu tęsti šią mintį – kurti keramiką, kuri primena, kad būtent mažos detalės praturtina gyvenimą.',
-    introParagraph4:
-      'Tikiuosi, kad kiekvienas mano kūrinys taps daugiau nei tik objektu – maža džiaugsmo kibirkštimi ir jaukia Tavo namų istorijos dalimi.',
-    signature: 'Namai kuriami po truputį – detalė po detalės.',
-    invitation: 'Jei norisi, paimk į rankas ir pajusk molio šilumą.',
-    closing: 'Galbūt čia rasi tai, kas papildys Tavo namų istoriją?',
-    ctaCollection: 'Žiūrėti kolekciją',
-    ctaAbout: 'Apie mane',
+    introText:
+      'Namai kiekvienam iš mūsų reiškia kažką skirtingo. Man jie kuriami iš prisiminimų, tradicijų, šilumos ir mažų detalių, kurios pamažu pripildo erdvę gyvybės.',
+    ctaPortfolio: 'Portfolio',
+    ctaAbout: 'Apie',
+    ctaContact: 'Susisiek',
   },
 
   about: {
