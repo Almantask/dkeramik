@@ -4,7 +4,7 @@ export const lt: SiteTranslations = {
   nav: {
     home: 'Pradžia',
     about: 'Apie mane',
-    collection: 'Kolekcija',
+    portfolio: 'Portfolio',
     craft: 'Kūryba',
     journal: 'Dienoraštis',
     contact: 'Kontaktai',
@@ -42,8 +42,8 @@ export const lt: SiteTranslations = {
     closing: 'Namai kuriami po truputį – detalė po detalės.',
   },
 
-  collection: {
-    headline: 'Kolekcija',
+  portfolio: {
+    headline: 'Portfolio',
     subheadline:
       'Kiekvienas kūrinys sukurtas rankomis su intencija. Skirtas kasdieniniam naudojimui, ilgaamžis, atsinešantis šilumą į Tavo namus.',
     categoryAll: 'Visi',
@@ -64,9 +64,7 @@ export const lt: SiteTranslations = {
     handmadeNoteTitle: 'Rankų darbo ypatybė',
     handmadeNoteBody:
       'Kiekvienas kūrinys yra individualiai sukurtas, todėl nedideli dydžio, formos ir glazūros skirtumai yra natūralūs ir džiugina. Tavo kūrinys bus unikaliai gražus.',
-    closingBody:
-      'Šis kūrinys pasiruošęs tapti Tavo kasdienių ritualų dalimi. Atsinešti šilumos prie Tavo stalo. Priminti, kad gražūs daiktai nelaukia ypatingų progų – jie patys padaro paprastas akimirkas ypatingomis.',
-    backToCollection: '← Grįžti į kolekciją',
+    backToPortfolio: '← Grįžti į portfolio',
   },
 
   craft: {
@@ -188,7 +186,7 @@ export const lt: SiteTranslations = {
     connectHeading: 'Sekti',
     copyright: 'DKeramik. Visos teisės saugomos.',
     links: {
-      collection: 'Kolekcija',
+      portfolio: 'Portfolio',
       craft: 'Kūryba',
       journal: 'Dienoraštis',
     },

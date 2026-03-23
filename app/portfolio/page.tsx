@@ -6,9 +6,9 @@ import ProductCard from '@/components/ui/ProductCard';
 import { useLanguage } from '@/lib/i18n';
 import { products, categoryKeys, type CategoryKey } from '@/content/products';
 
-export default function CollectionPage() {
+export default function PortfolioPage() {
   const { t } = useLanguage();
-  const c = t.collection;
+  const c = t.portfolio;
 
   const [selectedKey, setSelectedKey] = useState<CategoryKey>('categoryAll');
 
@@ -53,7 +53,7 @@ export default function CollectionPage() {
         {filteredProducts.length === 0 ? (
           <p className="text-center text-clay-500 py-16">{c.emptyState}</p>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {filteredProducts.map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}

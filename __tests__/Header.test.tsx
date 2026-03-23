@@ -16,7 +16,7 @@ describe('Header', () => {
     renderWithLanguage(<Header />);
     expect(screen.getAllByText('Pradžia').length).toBeGreaterThan(0);
     expect(screen.getAllByText('Apie mane').length).toBeGreaterThan(0);
-    expect(screen.getAllByText('Kolekcija').length).toBeGreaterThan(0);
+    expect(screen.getAllByText('Portfolio').length).toBeGreaterThan(0);
     expect(screen.getAllByText('Kūryba').length).toBeGreaterThan(0);
     expect(screen.getAllByText('Dienoraštis').length).toBeGreaterThan(0);
     expect(screen.getAllByText('Kontaktai').length).toBeGreaterThan(0);
@@ -28,7 +28,7 @@ describe('Header', () => {
     const hrefs = links.map((link) => link.getAttribute('href'));
     expect(hrefs).toContain('/');
     expect(hrefs).toContain('/about');
-    expect(hrefs).toContain('/collection');
+    expect(hrefs).toContain('/portfolio');
     expect(hrefs).toContain('/craft');
     expect(hrefs).toContain('/journal');
     expect(hrefs).toContain('/contact');
@@ -47,6 +47,6 @@ describe('Header', () => {
     fireEvent.click(switchBtn);
     // After switching, EN nav labels should appear
     expect(screen.getAllByText('Home').length).toBeGreaterThan(0);
-    expect(screen.getAllByText('Collection').length).toBeGreaterThan(0);
+    expect(screen.getAllByText('Portfolio').length).toBeGreaterThan(0);
   });
 });

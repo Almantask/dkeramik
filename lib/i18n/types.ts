@@ -3,7 +3,7 @@ export type Language = 'lt' | 'en';
 export interface NavTranslations {
   home: string;
   about: string;
-  collection: string;
+  portfolio: string;
   craft: string;
   journal: string;
   contact: string;
@@ -36,7 +36,7 @@ export interface AboutTranslations {
   closing: string;
 }
 
-export interface CollectionTranslations {
+export interface PortfolioTranslations {
   headline: string;
   subheadline: string;
   categoryAll: string;
@@ -56,8 +56,7 @@ export interface ProductTranslations {
   careLabel: string;
   handmadeNoteTitle: string;
   handmadeNoteBody: string;
-  closingBody: string;
-  backToCollection: string;
+  backToPortfolio: string;
 }
 
 export interface CraftStep {
@@ -107,7 +106,7 @@ export interface FooterTranslations {
   connectHeading: string;
   copyright: string;
   links: {
-    collection: string;
+    portfolio: string;
     craft: string;
     journal: string;
   };
@@ -122,7 +121,7 @@ export interface SiteTranslations {
   nav: NavTranslations;
   home: HomeTranslations;
   about: AboutTranslations;
-  collection: CollectionTranslations;
+  portfolio: PortfolioTranslations;
   product: ProductTranslations;
   craft: CraftTranslations;
   journal: JournalTranslations;

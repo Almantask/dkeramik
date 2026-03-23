@@ -8,6 +8,7 @@ const mockProduct: Product = {
   categoryKey: 'categoryBowls',
   name: { lt: 'Bandymo dubenėlis', en: 'Test Bowl' },
   image: '<svg></svg>',
+  gallery: ['<svg></svg>', '<svg></svg>'],
   description: { lt: 'Bandymo aprašymas', en: 'Test description' },
   dimensions: '20 cm × 7 cm',
   material: { lt: 'Molis', en: 'Clay' },
@@ -39,7 +40,7 @@ describe('ProductCard', () => {
   it('links to the product detail page', () => {
     renderWithLanguage(<ProductCard product={mockProduct} />);
     const link = screen.getByRole('link');
-    expect(link).toHaveAttribute('href', '/collection/test-bowl');
+    expect(link).toHaveAttribute('href', '/portfolio/test-bowl');
   });
 
   it('renders image container', () => {

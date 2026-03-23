@@ -21,7 +21,7 @@ describe('Footer', () => {
 
   it('renders navigation links in LT by default', () => {
     renderWithLanguage(<Footer />);
-    expect(screen.getByText('Kolekcija')).toBeInTheDocument();
+    expect(screen.getByText('Portfolio')).toBeInTheDocument();
     expect(screen.getByText('Kūryba')).toBeInTheDocument();
     expect(screen.getByText('Dienoraštis')).toBeInTheDocument();
   });

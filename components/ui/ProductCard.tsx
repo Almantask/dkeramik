@@ -12,20 +12,23 @@ export default function ProductCard({ product }: ProductCardProps) {
   const { language, t } = useLanguage();
 
   const categoryLabel =
-    t.collection[product.categoryKey as keyof typeof t.collection] as string;
+    t.portfolio[product.categoryKey as keyof typeof t.portfolio] as string;
 
   return (
-    <Link href={`/collection/${product.id}`} className="group">
-      <div className="bg-clay-100 overflow-hidden mb-4 aspect-square flex items-center justify-center">
+    <Link href={`/portfolio/${product.id}`} className="group">
+      <div className="bg-clay-100 overflow-hidden aspect-[3/4] relative flex items-center justify-center">
         <div
           className="w-full h-full flex items-center justify-center bg-clay-200"
           dangerouslySetInnerHTML={{ __html: product.image }}
         />
+        <div className="absolute inset-0 bg-gradient-to-t from-clay-700/60 via-transparent to-transparent" />
+        <div className="absolute bottom-0 left-0 right-0 p-4">
+          <h3 className="font-playfair text-lg text-clay-50 mb-1 group-hover:text-white transition-colors">
+            {product.name[language]}
+          </h3>
+          <p className="text-clay-200 text-sm">{categoryLabel}</p>
+        </div>
       </div>
-      <h3 className="font-playfair text-lg text-clay-700 mb-1 group-hover:text-clay-500 transition-colors">
-        {product.name[language]}
-      </h3>
-      <p className="text-clay-400 text-sm">{categoryLabel}</p>
     </Link>
   );
 }

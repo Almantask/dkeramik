@@ -29,10 +29,10 @@ export default function Footer() {
             <ul className="space-y-2">
               <li>
                 <Link
-                  href="/collection"
+                  href="/portfolio"
                   className="text-clay-600 hover:text-clay-500 text-sm transition-colors"
                 >
-                  {t.footer.links.collection}
+                  {t.footer.links.portfolio}
                 </Link>
               </li>
               <li>
