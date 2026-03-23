@@ -142,6 +142,8 @@ export interface ContactTranslations {
   studioLabel: string;
   studioValue: string;
   socialHeading: string;
+  socialInstagram: string;
+  socialPinterest: string;
   closing: string;
 }
 
@@ -156,11 +158,16 @@ export interface FooterTranslations {
     journal: string;
     customOrders: string;
   };
+  socialInstagram: string;
+  socialPinterest: string;
 }
 
 export interface CommonTranslations {
   handcraftedWith: string;
   languageSwitchLabel: string;
+  ariaMainNav: string;
+  ariaToggleMenu: string;
+  ariaMobileNav: string;
 }
 
 export interface SiteTranslations {

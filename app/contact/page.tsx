@@ -50,7 +50,7 @@ export default function ContactPage() {
                 rel="noopener noreferrer"
                 className="text-clay-600 hover:text-clay-500 transition-colors text-sm"
               >
-                Instagram
+                {c.socialInstagram}
               </a>
               <a
                 href="https://pinterest.com"
@@ -58,7 +58,7 @@ export default function ContactPage() {
                 rel="noopener noreferrer"
                 className="text-clay-600 hover:text-clay-500 transition-colors text-sm"
               >
-                Pinterest
+                {c.socialPinterest}
               </a>
             </div>
           </div>

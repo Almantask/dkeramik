@@ -240,6 +240,8 @@ export const en: SiteTranslations = {
     studioLabel: 'Studio',
     studioValue: 'By appointment only\nPlease email to schedule a visit',
     socialHeading: 'Social',
+    socialInstagram: 'Instagram',
+    socialPinterest: 'Pinterest',
     closing: 'Take it into your hands and feel the warmth of clay.',
   },
 
@@ -254,10 +256,15 @@ export const en: SiteTranslations = {
       journal: 'Journal',
       customOrders: 'Custom Orders',
     },
+    socialInstagram: 'Instagram',
+    socialPinterest: 'Pinterest',
   },
 
   common: {
     handcraftedWith: 'Handcrafted with care',
     languageSwitchLabel: 'LT',
+    ariaMainNav: 'Main navigation',
+    ariaToggleMenu: 'Toggle menu',
+    ariaMobileNav: 'Mobile navigation',
   },
 };

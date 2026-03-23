@@ -9,12 +9,12 @@ interface JournalEntry {
 
 interface JournalCardProps {
   entry: JournalEntry;
-  readMoreLabel?: string;
+  readMoreLabel: string;
 }
 
 export default function JournalCard({
   entry,
-  readMoreLabel = 'Read more →',
+  readMoreLabel,
 }: JournalCardProps) {
   return (
     <Link href={`/journal/${entry.slug}`} className="group block">

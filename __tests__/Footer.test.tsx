@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import Footer from '@/components/layout/Footer';
 import { LanguageProvider } from '@/lib/i18n';
+import { lt } from '@/lib/i18n/translations.lt';
 
 function renderWithLanguage(ui: React.ReactElement) {
   return render(<LanguageProvider>{ui}</LanguageProvider>);
@@ -39,5 +40,11 @@ describe('Footer', () => {
     renderWithLanguage(<Footer />);
     const year = new Date().getFullYear();
     expect(screen.getByText(new RegExp(String(year)))).toBeInTheDocument();
+  });
+
+  it('uses translated aria-labels for social links', () => {
+    renderWithLanguage(<Footer />);
+    expect(screen.getByLabelText(lt.footer.socialInstagram)).toBeInTheDocument();
+    expect(screen.getByLabelText(lt.footer.socialPinterest)).toBeInTheDocument();
   });
 });

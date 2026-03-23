@@ -35,7 +35,7 @@ export default function Header() {
           </Link>
 
           {/* Desktop navigation */}
-          <nav className="hidden md:flex items-center space-x-7" aria-label="Main navigation">
+          <nav className="hidden md:flex items-center space-x-7" aria-label={t.common.ariaMainNav}>
             {navLinks.map((link) => (
               <Link
                 key={link.href}
@@ -69,7 +69,7 @@ export default function Header() {
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               className="text-clay-600 focus:outline-none"
-              aria-label="Toggle menu"
+              aria-label={t.common.ariaToggleMenu}
               aria-expanded={isMenuOpen}
             >
               <svg
@@ -94,7 +94,7 @@ export default function Header() {
 
         {/* Mobile menu */}
         {isMenuOpen && (
-          <nav className="md:hidden pb-4" aria-label="Mobile navigation">
+          <nav className="md:hidden pb-4" aria-label={t.common.ariaMobileNav}>
             <div className="flex flex-col space-y-3">
               {navLinks.map((link) => (
                 <Link

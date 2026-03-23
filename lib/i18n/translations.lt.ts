@@ -240,6 +240,8 @@ export const lt: SiteTranslations = {
     studioLabel: 'Dirbtuvė',
     studioValue: 'Tik iš anksto suderinus\nParašyk, norėdamas apsilankyti',
     socialHeading: 'Socialiniai tinklai',
+    socialInstagram: 'Instagram',
+    socialPinterest: 'Pinterest',
     closing: 'Paimk į rankas ir pajusk molio šilumą.',
   },
 
@@ -254,10 +256,15 @@ export const lt: SiteTranslations = {
       journal: 'Dienoraštis',
       customOrders: 'Individualūs užsakymai',
     },
+    socialInstagram: 'Instagram',
+    socialPinterest: 'Pinterest',
   },
 
   common: {
     handcraftedWith: 'Kuriama su meile',
     languageSwitchLabel: 'EN',
+    ariaMainNav: 'Pagrindinė navigacija',
+    ariaToggleMenu: 'Atidaryti meniu',
+    ariaMobileNav: 'Mobili navigacija',
   },
 };

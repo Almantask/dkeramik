@@ -1,12 +1,18 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import Header from '@/components/layout/Header';
 import { LanguageProvider } from '@/lib/i18n';
+import { lt } from '@/lib/i18n/translations.lt';
+import { en } from '@/lib/i18n/translations.en';
 
 function renderWithLanguage(ui: React.ReactElement) {
   return render(<LanguageProvider>{ui}</LanguageProvider>);
 }
 
 describe('Header', () => {
+  beforeEach(() => {
+    localStorage.clear();
+  });
+
   it('renders the DKeramik logo', () => {
     renderWithLanguage(<Header />);
     expect(screen.getByText('DKeramik')).toBeInTheDocument();
@@ -49,5 +55,23 @@ describe('Header', () => {
     // After switching, EN nav labels should appear
     expect(screen.getAllByText('Home').length).toBeGreaterThan(0);
     expect(screen.getAllByText('Collection').length).toBeGreaterThan(0);
+  });
+
+  it('uses translated aria-label for desktop navigation', () => {
+    renderWithLanguage(<Header />);
+    expect(screen.getByLabelText(lt.common.ariaMainNav)).toBeInTheDocument();
+  });
+
+  it('uses translated aria-label for toggle menu button', () => {
+    renderWithLanguage(<Header />);
+    expect(screen.getByLabelText(lt.common.ariaToggleMenu)).toBeInTheDocument();
+  });
+
+  it('uses EN aria-labels after language switch', () => {
+    renderWithLanguage(<Header />);
+    const switchBtn = screen.getAllByRole('button', { name: /switch language/i })[0];
+    fireEvent.click(switchBtn);
+    expect(screen.getByLabelText(en.common.ariaMainNav)).toBeInTheDocument();
+    expect(screen.getByLabelText(en.common.ariaToggleMenu)).toBeInTheDocument();
   });
 });
