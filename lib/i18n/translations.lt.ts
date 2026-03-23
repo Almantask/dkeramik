@@ -48,15 +48,20 @@ export const lt: SiteTranslations = {
     section2Body:
       'DKeramik gimė mažoje dirbtuvėje, moliu išteptomis rankomis ir svajone kurti daiktus, nešančius prasmę. Ne tik gražius objektus, bet ',
     section2Bold1: 'kasdienių ritualų indus',
+    section2BodyPart2: ' – ryto kava, bendras valgis, viena gėlė, sakanti „pastebėjau grožį šiandien". Ne tobulumas, o ',
     section2Bold2: 'šilumos',
+    section2BodySuffix: '. Ne vienodumas, o charakteris.',
     section3Heading: 'Filosofija',
     section3Body:
       'Kiekvieną kūrinį kuriu lėtai, su intencija. Molis kalba, kai sukasi ant rato, ir aš klausausi. Kartais jis nori tapti plačiu, dosniu dubenėliu. Kartais – lieknu vazonu. Kiekvienas kūrinys atsiranda ',
     section3Bold: 'unikalus',
+    section3BodyPart2: ', nešantis kūrimo žymių – nedideli glazūros skirtumai, švelni asimetrija, žmogaus prisilietimo pėdsakas. Tai nėra defektas. Tai ',
+    section3Bold2: 'rankų darbo grožis',
     section4Heading: 'Pažadas',
     section4Body:
       'Kai atsinešate DKeramik kūrinį į savo namus, ne tik įsigyjate produktą. Jūs kviečiate į savo gyvenimą mažą amato gabalėlį, tylų kasdienį malonumą, priminimą, kad ',
     section4Bold: 'gražūs daiktai neturi šaukti',
+    section4BodySuffix: '. Jie gali šnabždėti.',
     closing: 'Namai kuriami po truputį – detalė po detalės.',
   },
 

@@ -48,15 +48,20 @@ export const en: SiteTranslations = {
     section2Body:
       'DKeramik was born in a small studio, with clay-stained hands and the dream of creating pieces that carry meaning. Not just beautiful objects, but ',
     section2Bold1: 'vessels for daily rituals',
+    section2BodyPart2: ' — the morning coffee, the shared meal, the single flower that says "I noticed beauty today." Not perfection, but ',
     section2Bold2: 'warmth',
+    section2BodySuffix: '. Not uniformity, but character.',
     section3Heading: 'Philosophy',
     section3Body:
       'Every piece I create is made slowly, with intention. The clay speaks as it spins on the wheel, and I listen. Sometimes it wants to become a wide, generous bowl. Sometimes a slender vase. Each piece emerges ',
     section3Bold: 'unique',
+    section3BodyPart2: ', carrying the marks of the making — slight variations in glaze, gentle asymmetry, the trace of human touch. This is not a flaw. This is ',
+    section3Bold2: 'the beauty of handmade',
     section4Heading: 'The Promise',
     section4Body:
       'When you bring a DKeramik piece into your home, you\'re not just acquiring a product. You\'re inviting in a small piece of craftsmanship, a quiet daily pleasure, a reminder that ',
     section4Bold: 'beautiful things don\'t have to shout',
+    section4BodySuffix: '. They can whisper.',
     closing: 'Homes are created little by little — detail by detail.',
   },
 

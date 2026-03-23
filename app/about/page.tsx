@@ -4,10 +4,8 @@ import CeramicBackground from '@/components/ui/CeramicBackground';
 import { useLanguage } from '@/lib/i18n';
 
 export default function AboutPage() {
-  const { language, t } = useLanguage();
+  const { t } = useLanguage();
   const a = t.about;
-
-  const isLt = language === 'lt';
 
   return (
     <div className="relative bg-clay-50 min-h-screen">
@@ -37,13 +35,9 @@ export default function AboutPage() {
             <p>
               {a.section2Body}
               <strong className="font-semibold text-clay-700">{a.section2Bold1}</strong>
-              {isLt
-                ? ' – ryto kava, bendras valgis, viena gėlė, sakanti „pastebėjau grožį šiandien". Ne tobulumas, o '
-                : ' — the morning coffee, the shared meal, the single flower that says "I noticed beauty today." Not perfection, but '}
+              {a.section2BodyPart2}
               <strong className="font-semibold text-clay-700">{a.section2Bold2}</strong>
-              {isLt
-                ? '. Ne vienodumas, o charakteris.'
-                : '. Not uniformity, but character.'}
+              {a.section2BodySuffix}
             </p>
           </section>
 
@@ -53,11 +47,9 @@ export default function AboutPage() {
             <p>
               {a.section3Body}
               <strong className="font-semibold text-clay-700">{a.section3Bold}</strong>
-              {isLt
-                ? ', nešantis kūrimo žymių – nedideli glazūros skirtumai, švelni asimetrija, žmogaus prisilietimo pėdsakas. Tai nėra defektas. Tai '
-                : ', carrying the marks of the making — slight variations in glaze, gentle asymmetry, the trace of human touch. This is not a flaw. This is '}
+              {a.section3BodyPart2}
               <strong className="font-semibold text-clay-700">
-                {isLt ? 'rankų darbo grožis' : 'the beauty of handmade'}
+                {a.section3Bold2}
               </strong>.
             </p>
           </section>
@@ -68,7 +60,7 @@ export default function AboutPage() {
             <p>
               {a.section4Body}
               <strong className="font-semibold text-clay-700">{a.section4Bold}</strong>
-              {isLt ? '. Jie gali šnabždėti.' : '. They can whisper.'}
+              {a.section4BodySuffix}
             </p>
           </section>
 

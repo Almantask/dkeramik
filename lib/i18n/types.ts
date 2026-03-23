@@ -42,13 +42,18 @@ export interface AboutTranslations {
   section2Heading: string;
   section2Body: string;
   section2Bold1: string;
+  section2BodyPart2: string;
   section2Bold2: string;
+  section2BodySuffix: string;
   section3Heading: string;
   section3Body: string;
   section3Bold: string;
+  section3BodyPart2: string;
+  section3Bold2: string;
   section4Heading: string;
   section4Body: string;
   section4Bold: string;
+  section4BodySuffix: string;
   closing: string;
 }
 
