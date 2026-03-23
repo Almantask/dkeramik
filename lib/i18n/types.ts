@@ -18,22 +18,15 @@ export interface HomeTranslations {
 }
 
 export interface AboutTranslations {
-  headline: string;
-  subheadline: string;
-  section1Heading: string;
-  section1Body: string;
-  section1Bold: string;
-  section2Heading: string;
-  section2Body: string;
-  section2Bold1: string;
-  section2Bold2: string;
-  section3Heading: string;
-  section3Body: string;
-  section3Bold: string;
-  section4Heading: string;
-  section4Body: string;
-  section4Bold: string;
-  closing: string;
+  quote: string;
+  greeting: string;
+  story: string;
+  mission: string;
+  journey: string;
+  inspiration: string;
+  hope: string;
+  contactPrompt: string;
+  contactLinkText: string;
 }
 
 export interface PortfolioTranslations {

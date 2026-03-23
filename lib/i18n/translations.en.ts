@@ -20,26 +20,21 @@ export const en: SiteTranslations = {
   },
 
   about: {
-    headline: 'About DKeramik',
-    subheadline: 'A letter from the workshop',
-    section1Heading: 'How it began',
-    section1Body:
-      'I grew up surrounded by the quiet beauty of handmade things. My grandmother\'s kitchen shelves held mismatched bowls, each one shaped by a local potter\'s hands. Some were perfectly smooth, others carried the subtle thumbprint of their maker. They weren\'t precious — they were used daily, filled with everything from morning oatmeal to summer berries.',
-    section1Bold: 'Those bowls taught me something essential: the objects we live with shape how we feel at home.',
-    section2Heading: 'The Beginning',
-    section2Body:
-      'DKeramik was born in a small studio, with clay-stained hands and the dream of creating pieces that carry meaning. Not just beautiful objects, but ',
-    section2Bold1: 'vessels for daily rituals',
-    section2Bold2: 'warmth',
-    section3Heading: 'Philosophy',
-    section3Body:
-      'Every piece I create is made slowly, with intention. The clay speaks as it spins on the wheel, and I listen. Sometimes it wants to become a wide, generous bowl. Sometimes a slender vase. Each piece emerges ',
-    section3Bold: 'unique',
-    section4Heading: 'The Promise',
-    section4Body:
-      'When you bring a DKeramik piece into your home, you\'re not just acquiring a product. You\'re inviting in a small piece of craftsmanship, a quiet daily pleasure, a reminder that ',
-    section4Bold: 'beautiful things don\'t have to shout',
-    closing: 'Homes are created little by little — detail by detail.',
+    quote: 'Homes are created little by little — detail by detail.',
+    greeting: 'Hello, I\'m Donata.',
+    story:
+      'Growing up, I watched my mother fill our home with handmade ceramic pieces from local makers — small boxes, angel figurines, and other objects with their own character and soul. From her, I learned that handmade objects have a special power — they bring not just beauty into everyday life, but also coziness, mood, and meaning.',
+    mission:
+      'Through DKeramik, I aim to continue this idea — to create ceramics that remind us that it\'s the small details that enrich life.',
+    journey:
+      'I came to ceramics after working in an office. There came a day when I realized that the dream of finally working with my hands was growing and expanding in my heart, taking up more and more space in my mind. With immense, love-filled support — came the courage to leave Vilnius, my job, everything I had built over the years. Now I live in Kaunas and continue to discover myself through ceramics.',
+    inspiration:
+      'I\'m inspired by Lithuania, the land I call home. Nature\'s textures, the shifts of different seasons, changing light and shadows, the coziness of fire, water in all its forms: a slowly flowing river, the wide sea, green lakes, and clear springs. I find peace in nature, in its rhythm, its greenery, in plants and birds that color each season differently. This simplicity and depth shapes my creative work.',
+    hope:
+      'I hope that each of my pieces will become more than just an object — a small spark of joy and a cozy part of your home\'s story.',
+    contactPrompt:
+      'If you have questions about a specific piece, are interested in a custom order, or simply want to talk about ceramics and creativity — I look forward to your message at',
+    contactLinkText: 'Contact',
   },
 
   portfolio: {
