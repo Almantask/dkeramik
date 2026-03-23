@@ -23,7 +23,7 @@ describe('Footer', () => {
     renderWithLanguage(<Footer />);
     expect(screen.getByText('Portfolio')).toBeInTheDocument();
     expect(screen.getByText('Kūryba')).toBeInTheDocument();
-    expect(screen.getByText('Dienoraštis')).toBeInTheDocument();
+    expect(screen.getByText('Minčių koštuvas')).toBeInTheDocument();
   });
 
   it('renders social media links', () => {

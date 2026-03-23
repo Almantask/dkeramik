@@ -6,7 +6,7 @@ export const lt: SiteTranslations = {
     about: 'Apie mane',
     portfolio: 'Portfolio',
     craft: 'Kūryba',
-    journal: 'Dienoraštis',
+    journal: 'Minčių koštuvas',
     contact: 'Kontaktai',
   },
 
@@ -120,11 +120,24 @@ export const lt: SiteTranslations = {
   },
 
   journal: {
-    headline: 'Dienoraštis',
-    subheadline: 'Mintys apie kūrimą, sąmoningą gyvenimą ir tylią rankų darbo grožį.',
+    headline: 'Minčių koštuvas',
+    subheadline: 'Mintys apie kūrybą, gyvenimą ir keramikos užkulsiai.',
     readMore: 'Skaityti daugiau →',
-    backToJournal: '← Grįžti į dienoraštį',
+    backToJournal: '← Grįžti į minčių koštuvą',
     entries: [
+      {
+        slug: 'behind-the-glaze',
+        title: 'Už glazūros: kas vyksta dirbtuvėje',
+        date: '2024 m. kovo 23 d.',
+        excerpt:
+          'Keramikos kūrimas – tai ne tik rezultatas. Tai procesas, pilnas netikėtumų, atradimų ir tylios kūrybos džiaugsmo.',
+        body: [
+          'Kiekvieną rytą, kai ateinu į dirbtuvę, pirmas dalykas – prisilietimas prie molio. Tai tarsi pasisveikinimas. Molis yra šaltas, drėgnas, pilnas galimybių.',
+          'Daugelis žmonių mato tik gatavą kūrinį – gražų, glazūruotą, paruoštą. Bet tikroji magija vyksta tarp šių etapų: kai molis lūžta ir reikia pradėti iš naujo, kai glazūra nustebina netikėta spalva, kai krosnies temperatūra nusprendžia viską.',
+          'Šiandien norėjau pasidalinti tuo, kas lieka už uždarų dirbtuvės durų. Tais momentais, kai rankos žino daugiau nei galva. Kai kūrinys pats pasirenka savo formą.',
+          'Keramika moko kantrybės. Ji moko priimti netobulumą kaip dovaną. Ir svarbiausia – ji moko, kad kūryba yra kelionė, ne tikslas.',
+        ],
+      },
       {
         slug: 'home-rituals',
         title: 'Namų ritualai: daiktai, formuojantys mūsų dienas',
@@ -188,7 +201,7 @@ export const lt: SiteTranslations = {
     links: {
       portfolio: 'Portfolio',
       craft: 'Kūryba',
-      journal: 'Dienoraštis',
+      journal: 'Minčių koštuvas',
     },
   },
 
