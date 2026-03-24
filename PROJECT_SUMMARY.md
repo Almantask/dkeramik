@@ -72,11 +72,6 @@
 - Full article layout with metadata
 - Back navigation
 
-#### Contact Page (/contact)
-- Contact information
-- Social media links
-- Brand tagline
-
 ### 6. Content Files
 - ✅ content/about.mdx - About page content
 - ✅ content/craft.mdx - Craft process content

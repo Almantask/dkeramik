@@ -7,7 +7,6 @@ export const lt: SiteTranslations = {
     portfolio: 'Portfolio',
     craft: 'Kūryba',
     journal: 'Dienoraštis',
-    contact: 'Kontaktai',
   },
 
   home: {
@@ -16,7 +15,6 @@ export const lt: SiteTranslations = {
       'Namai kiekvienam iš mūsų reiškia kažką skirtingo. Man jie kuriami iš prisiminimų, tradicijų, šilumos ir mažų detalių, kurios pamažu pripildo erdvę gyvybės.',
     ctaPortfolio: 'Portfolio',
     ctaAbout: 'Apie',
-    ctaContact: 'Susisiek',
   },
 
   about: {
@@ -166,18 +164,6 @@ export const lt: SiteTranslations = {
         ],
       },
     ],
-  },
-
-  contact: {
-    headline: 'Susisiekime',
-    subheadline: 'Maloniai laukiu Tavo žinučių.',
-    intro:
-      'Ar turi klausimų apie konkretų kūrinį, domina individualus užsakymas, ar tiesiog nori pasikalbėti apie keramiką ir kūrybą – rašyk.',
-    emailLabel: 'El. paštas',
-    studioLabel: 'Dirbtuvė',
-    studioValue: 'Tik iš anksto suderinus\nParašyk, norėdamas apsilankyti',
-    socialHeading: 'Socialiniai tinklai',
-    closing: 'Paimk į rankas ir pajusk molio šilumą.',
   },
 
   footer: {

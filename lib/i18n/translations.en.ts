@@ -7,7 +7,6 @@ export const en: SiteTranslations = {
     portfolio: 'Portfolio',
     craft: 'Craft',
     journal: 'Journal',
-    contact: 'Contact',
   },
 
   home: {
@@ -16,7 +15,6 @@ export const en: SiteTranslations = {
       'Home means something different to each of us. For me, it is made of memories, traditions, warmth, and small details that slowly fill a space with life.',
     ctaPortfolio: 'Portfolio',
     ctaAbout: 'About',
-    ctaContact: 'Contact',
   },
 
   about: {
@@ -166,18 +164,6 @@ export const en: SiteTranslations = {
         ],
       },
     ],
-  },
-
-  contact: {
-    headline: 'Get in Touch',
-    subheadline: 'I\'d love to hear from you.',
-    intro:
-      'Whether you\'re curious about a specific piece, interested in custom work, or simply want to connect about the craft of ceramics — please reach out.',
-    emailLabel: 'Email',
-    studioLabel: 'Studio',
-    studioValue: 'By appointment only\nPlease email to schedule a visit',
-    socialHeading: 'Social',
-    closing: 'Take it into your hands and feel the warmth of clay.',
   },
 
   footer: {

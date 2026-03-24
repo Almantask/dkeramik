@@ -30,7 +30,6 @@ dkeramik/
 │   ├── about/                    # About page
 │   ├── collection/               # Product collection
 │   │   └── [slug]/              # Individual product pages
-│   ├── contact/                  # Contact page
 │   ├── craft/                    # Craft process page
 │   ├── journal/                  # Blog/journal
 │   │   └── [slug]/              # Individual journal entries
@@ -139,7 +138,6 @@ clay-900: #2d1f12
 5. **Craft** (`/craft`) - Process and methodology (from MDX)
 6. **Journal** (`/journal`) - Blog/journal article listing
 7. **Journal Entry** (`/journal/[slug]`) - Individual articles (from MDX)
-8. **Contact** (`/contact`) - Contact information and social links
 
 ## 🧪 Testing
 

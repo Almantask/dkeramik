@@ -25,11 +25,10 @@ describe('Home Page', () => {
     ).toBeInTheDocument();
   });
 
-  it('renders three CTA buttons in LT', () => {
+  it('renders two CTA buttons in LT', () => {
     renderWithLanguage(<Home />);
     expect(screen.getByText('Portfolio')).toBeInTheDocument();
     expect(screen.getByText('Apie')).toBeInTheDocument();
-    expect(screen.getByText('Susisiek')).toBeInTheDocument();
   });
 
   it('has a link to the portfolio page', () => {
@@ -42,11 +41,5 @@ describe('Home Page', () => {
     renderWithLanguage(<Home />);
     const link = screen.getByRole('link', { name: /Apie/i });
     expect(link).toHaveAttribute('href', '/about');
-  });
-
-  it('has a link to the contact page', () => {
-    renderWithLanguage(<Home />);
-    const link = screen.getByRole('link', { name: /Susisiek/i });
-    expect(link).toHaveAttribute('href', '/contact');
   });
 });

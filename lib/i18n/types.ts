@@ -6,7 +6,6 @@ export interface NavTranslations {
   portfolio: string;
   craft: string;
   journal: string;
-  contact: string;
 }
 
 export interface HomeTranslations {
@@ -14,7 +13,6 @@ export interface HomeTranslations {
   introText: string;
   ctaPortfolio: string;
   ctaAbout: string;
-  ctaContact: string;
 }
 
 export interface AboutTranslations {
@@ -89,17 +87,6 @@ export interface JournalTranslations {
   entries: JournalEntry[];
 }
 
-export interface ContactTranslations {
-  headline: string;
-  subheadline: string;
-  intro: string;
-  emailLabel: string;
-  studioLabel: string;
-  studioValue: string;
-  socialHeading: string;
-  closing: string;
-}
-
 export interface FooterTranslations {
   tagline: string;
   exploreHeading: string;
@@ -125,7 +112,6 @@ export interface SiteTranslations {
   product: ProductTranslations;
   craft: CraftTranslations;
   journal: JournalTranslations;
-  contact: ContactTranslations;
   footer: FooterTranslations;
   common: CommonTranslations;
 }
