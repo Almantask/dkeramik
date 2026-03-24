@@ -119,6 +119,19 @@ export const en: SiteTranslations = {
     backToJournal: '← Back to Journal',
     entries: [
       {
+        slug: 'behind-the-glaze',
+        title: 'Behind the Glaze: What Happens in the Workshop',
+        date: 'March 23, 2024',
+        excerpt:
+          'Creating ceramics is not just about the result. It is a process full of surprises, discoveries, and the quiet joy of making.',
+        body: [
+          'Every morning, when I arrive at the workshop, the first thing I do is touch the clay. It is like a greeting. The clay is cold, damp, full of possibilities.',
+          'Most people only see the finished piece — beautiful, glazed, ready. But the real magic happens between the stages: when the clay cracks and you must start over, when the glaze surprises you with an unexpected colour, when the kiln temperature decides everything.',
+          'Today I wanted to share what stays behind the closed workshop doors. Those moments when hands know more than the mind. When a piece chooses its own form.',
+          'Ceramics teaches patience. It teaches you to accept imperfection as a gift. And most importantly — it teaches that creation is a journey, not a destination.',
+        ],
+      },
+      {
         slug: 'home-rituals',
         title: 'Home Rituals: The Objects That Shape Our Days',
         date: 'March 15, 2024',

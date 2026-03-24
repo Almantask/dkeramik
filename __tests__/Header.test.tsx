@@ -18,7 +18,7 @@ describe('Header', () => {
     expect(screen.getAllByText('Apie mane').length).toBeGreaterThan(0);
     expect(screen.getAllByText('Portfolio').length).toBeGreaterThan(0);
     expect(screen.getAllByText('Kūryba').length).toBeGreaterThan(0);
-    expect(screen.getAllByText('Dienoraštis').length).toBeGreaterThan(0);
+    expect(screen.getAllByText('Minčių koštuvas').length).toBeGreaterThan(0);
   });
 
   it('has correct navigation link hrefs', () => {
