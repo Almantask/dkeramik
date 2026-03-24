@@ -7,7 +7,6 @@ export const lt: SiteTranslations = {
     portfolio: 'Portfolio',
     craft: 'Kūryba',
     journal: 'Minčių koštuvas',
-    contact: 'Kontaktai',
   },
 
   home: {
@@ -16,30 +15,24 @@ export const lt: SiteTranslations = {
       'Namai kiekvienam iš mūsų reiškia kažką skirtingo. Man jie kuriami iš prisiminimų, tradicijų, šilumos ir mažų detalių, kurios pamažu pripildo erdvę gyvybės.',
     ctaPortfolio: 'Portfolio',
     ctaAbout: 'Apie',
-    ctaContact: 'Susisiek',
   },
 
   about: {
-    headline: 'Apie DKeramik',
-    subheadline: 'Laiškas iš dirbtuvės',
-    section1Heading: 'Kaip viskas prasidėjo',
-    section1Body:
-      'Augau apsupta tylaus rankų darbo grožio. Mano senelės virtuvės lentynose stovėjo nesutampantys dubenėliai – kiekvienas sukurtas vietinio puodžiaus rankomis. Vieni buvo tobulai lygūs, kiti nešė subtilų kūrėjo piršto antspaudą. Jie nebuvo brangūs – jie buvo naudojami kasdien, pripildyti visko – nuo ryto avižinių dribsnių iki vasaros uogų.',
-    section1Bold: 'Tie dubenėliai išmokė mane ko nors esminio: daiktai, su kuriais gyvename, formuoja tai, kaip jaučiamės namuose.',
-    section2Heading: 'Pradžia',
-    section2Body:
-      'DKeramik gimė mažoje dirbtuvėje, moliu išteptomis rankomis ir svajone kurti daiktus, nešančius prasmę. Ne tik gražius objektus, bet ',
-    section2Bold1: 'kasdienių ritualų indus',
-    section2Bold2: 'šilumos',
-    section3Heading: 'Filosofija',
-    section3Body:
-      'Kiekvieną kūrinį kuriu lėtai, su intencija. Molis kalba, kai sukasi ant rato, ir aš klausausi. Kartais jis nori tapti plačiu, dosniu dubenėliu. Kartais – lieknu vazonu. Kiekvienas kūrinys atsiranda ',
-    section3Bold: 'unikalus',
-    section4Heading: 'Pažadas',
-    section4Body:
-      'Kai atsinešate DKeramik kūrinį į savo namus, ne tik įsigyjate produktą. Jūs kviečiate į savo gyvenimą mažą amato gabalėlį, tylų kasdienį malonumą, priminimą, kad ',
-    section4Bold: 'gražūs daiktai neturi šaukti',
-    closing: 'Namai kuriami po truputį – detalė po detalės.',
+    quote: 'Namai kuriami po truputį – detalė po detalės.',
+    greeting: 'Labas, aš Donata.',
+    story:
+      'Augdama mačiau, kaip mama mūsų namus pripildydavo rankų darbo keramikos kūriniais iš vietinių kūrėjų — mažomis dėžutėmis, angelų skulptūrėlėmis ir kitais daiktais, turinčiais savo charakterį ir sielą. Iš jos išmokau, kad rankų darbo daiktai turi ypatingą galią — jie į kasdienybę atneša ne tik grožį, bet ir jaukumą, nuotaiką bei prasmę.',
+    mission:
+      'Per DKeramik siekiu tęsti šią mintį — kurti keramiką, kuri primena, kad būtent mažos detalės praturtina gyvenimą.',
+    journey:
+      'Į keramiką atėjau po darbo ir kasdienybės ofise. Atėjo diena, kai pagalvojau, kad svajonė pagaliau dirbti savo rankomis vis didėja ir plečiasi širdyje, galvoje užimdama vis daugiau vietos. Su dideliu, meilės kupinu palaikymu — atėjo drąsa palikti Vilnių, darbą, viską ką kūriau tiek metų. Dabar gyvenu Kaune ir save toliau pažįstu per keramiką.',
+    inspiration:
+      'Mane įkvepia Lietuva, kraštas, kurį vadinu namais. Gamtos tekstūros, skirtingų metų laikų pokytis, besikeičiantis apšvietimas ir šešėliai, ugnies jaukumas, vanduo visomis savo formomis: lėtai tekanti upė, plati jūra, žali ežerai ir skaidrūs šaltiniai. Ramybę randu gamtoje, jos ritme, žalumoje, augaluose ir paukščiuose, kurie kiekvieną metų laiką nuspalvina vis kitaip. Šis paprastumas ir gylis formuoja mano kūrybą.',
+    hope:
+      'Tikiuosi, kad kiekvienas mano kūrinys taps daugiau nei tik objektu – maža džiaugsmo kibirkštimi ir jaukia Tavo namų istorijos dalimi.',
+    contactPrompt:
+      'Jei turi klausimų apie konkretų kūrinį, domina individualus užsakymas, ar tiesiog nori pasikalbėti apie keramiką ir kūrybą — laukiu Tavo žinutės',
+    contactLinkText: 'Susisiekime',
   },
 
   portfolio: {
@@ -179,18 +172,6 @@ export const lt: SiteTranslations = {
         ],
       },
     ],
-  },
-
-  contact: {
-    headline: 'Susisiekime',
-    subheadline: 'Maloniai laukiu Tavo žinučių.',
-    intro:
-      'Ar turi klausimų apie konkretų kūrinį, domina individualus užsakymas, ar tiesiog nori pasikalbėti apie keramiką ir kūrybą – rašyk.',
-    emailLabel: 'El. paštas',
-    studioLabel: 'Dirbtuvė',
-    studioValue: 'Tik iš anksto suderinus\nParašyk, norėdamas apsilankyti',
-    socialHeading: 'Socialiniai tinklai',
-    closing: 'Paimk į rankas ir pajusk molio šilumą.',
   },
 
   footer: {

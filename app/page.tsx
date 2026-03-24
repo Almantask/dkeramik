@@ -44,9 +44,6 @@ export default function Home() {
           <Link href="/about">
             <Button variant="secondary">{h.ctaAbout}</Button>
           </Link>
-          <Link href="/contact">
-            <Button variant="secondary">{h.ctaContact}</Button>
-          </Link>
         </div>
       </section>
     </div>

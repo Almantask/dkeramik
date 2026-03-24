@@ -19,7 +19,6 @@ describe('Header', () => {
     expect(screen.getAllByText('Portfolio').length).toBeGreaterThan(0);
     expect(screen.getAllByText('Kūryba').length).toBeGreaterThan(0);
     expect(screen.getAllByText('Minčių koštuvas').length).toBeGreaterThan(0);
-    expect(screen.getAllByText('Kontaktai').length).toBeGreaterThan(0);
   });
 
   it('has correct navigation link hrefs', () => {
@@ -31,7 +30,6 @@ describe('Header', () => {
     expect(hrefs).toContain('/portfolio');
     expect(hrefs).toContain('/craft');
     expect(hrefs).toContain('/journal');
-    expect(hrefs).toContain('/contact');
   });
 
   it('shows EN language switcher label when language is LT', () => {
