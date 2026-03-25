@@ -28,6 +28,7 @@ describe('Header', () => {
     expect(hrefs).toContain('/portfolio');
     expect(hrefs).toContain('/about');
     expect(hrefs).toContain('/journal');
+    expect(hrefs).toContain('/contact');
   });
 
   it('shows EN language switcher label when language is LT', () => {

@@ -13,6 +13,7 @@ export default function Header() {
     { href: '/portfolio', label: t.nav.portfolio },
     { href: '/about', label: t.nav.about },
     { href: '/journal', label: t.nav.journal },
+    { href: '/contact', label: t.nav.contact },
   ];
 
   function toggleLanguage() {

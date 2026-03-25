@@ -7,6 +7,7 @@ export const en: SiteTranslations = {
     portfolio: 'Portfolio',
     craft: 'Craft',
     journal: 'Journal',
+    contact: 'Contact',
   },
 
   home: {
@@ -172,6 +173,19 @@ export const en: SiteTranslations = {
         ],
       },
     ],
+  },
+
+  contact: {
+    headline: 'Get in Touch',
+    subheadline: 'Have a question, a custom order idea, or just want to talk about ceramics? I\'d love to hear from you.',
+    nameLabel: 'Name',
+    namePlaceholder: 'Your name',
+    emailLabel: 'Email',
+    emailPlaceholder: 'your@email.com',
+    messageLabel: 'Message',
+    messagePlaceholder: 'Your message...',
+    sendButton: 'Send Message',
+    successMessage: 'Your message has been prepared. Please send it through your email client.',
   },
 
   footer: {

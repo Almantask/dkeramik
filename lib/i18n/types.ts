@@ -6,6 +6,7 @@ export interface NavTranslations {
   portfolio: string;
   craft: string;
   journal: string;
+  contact: string;
 }
 
 export interface HomeTranslations {
@@ -99,6 +100,19 @@ export interface CommonTranslations {
   languageSwitchLabel: string;
 }
 
+export interface ContactTranslations {
+  headline: string;
+  subheadline: string;
+  nameLabel: string;
+  namePlaceholder: string;
+  emailLabel: string;
+  emailPlaceholder: string;
+  messageLabel: string;
+  messagePlaceholder: string;
+  sendButton: string;
+  successMessage: string;
+}
+
 export interface SiteTranslations {
   nav: NavTranslations;
   home: HomeTranslations;
@@ -107,6 +121,7 @@ export interface SiteTranslations {
   product: ProductTranslations;
   craft: CraftTranslations;
   journal: JournalTranslations;
+  contact: ContactTranslations;
   footer: FooterTranslations;
   common: CommonTranslations;
 }
