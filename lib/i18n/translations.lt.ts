@@ -175,19 +175,21 @@ export const lt: SiteTranslations = {
   },
 
   footer: {
-    tagline: 'Paimk į rankas ir pajusk molio šilumą.',
+    tagline: 'Įkvėpta Baltiškos gamtos. 🌿\nIš mano rankų - į Tavas.\n~',
     exploreHeading: 'Naršyti',
-    connectHeading: 'Sekti',
+    contactHeading: 'Susisiek',
+    contactPrompt: 'Turi klausimų ar nori individualaus kūrinio?',
+    contactEmail: 'info@dkeramik.lt',
     copyright: 'DKeramik. Visos teisės saugomos.',
     links: {
       portfolio: 'Portfolio',
-      craft: 'Kūryba',
-      journal: 'Minčių koštuvas',
+      about: 'Apie mane',
+      journal: 'Minčių Koštuvas',
     },
   },
 
   common: {
-    handcraftedWith: 'Kuriama su meile',
+    handcraftedWith: 'Rankų darbo keramika jaukiems namams.',
     languageSwitchLabel: 'EN',
   },
 };
