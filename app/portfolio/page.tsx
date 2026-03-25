@@ -1,21 +1,13 @@
 'use client';
 
-import { useState } from 'react';
 import CeramicBackground from '@/components/ui/CeramicBackground';
 import ProductCard from '@/components/ui/ProductCard';
 import { useLanguage } from '@/lib/i18n';
-import { products, categoryKeys, type CategoryKey } from '@/content/products';
+import { products } from '@/content/products';
 
 export default function PortfolioPage() {
   const { t } = useLanguage();
   const c = t.portfolio;
-
-  const [selectedKey, setSelectedKey] = useState<CategoryKey>('categoryAll');
-
-  const filteredProducts =
-    selectedKey === 'categoryAll'
-      ? products
-      : products.filter((p) => p.categoryKey === selectedKey);
 
   return (
     <div className="relative bg-clay-50 min-h-screen">
@@ -32,33 +24,12 @@ export default function PortfolioPage() {
           </p>
         </div>
 
-        {/* Category filter */}
-        <div className="flex flex-wrap justify-center gap-3 mb-12">
-          {categoryKeys.map((key) => (
-            <button
-              key={key}
-              onClick={() => setSelectedKey(key)}
-              className={`px-5 py-2 text-sm font-nunito transition-colors ${
-                selectedKey === key
-                  ? 'bg-clay-500 text-clay-50'
-                  : 'bg-clay-100 text-clay-600 hover:bg-clay-200'
-              }`}
-            >
-              {c[key as keyof typeof c] as string}
-            </button>
+        {/* Gallery grid — no prices shown */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+          {products.map((product) => (
+            <ProductCard key={product.id} product={product} />
           ))}
         </div>
-
-        {/* Gallery grid — no prices shown */}
-        {filteredProducts.length === 0 ? (
-          <p className="text-center text-clay-500 py-16">{c.emptyState}</p>
-        ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filteredProducts.map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
-          </div>
-        )}
       </div>
     </div>
   );

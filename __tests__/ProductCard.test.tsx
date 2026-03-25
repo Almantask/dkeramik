@@ -25,9 +25,9 @@ describe('ProductCard', () => {
     expect(screen.getByText('Bandymo dubenėlis')).toBeInTheDocument();
   });
 
-  it('renders category label in LT by default', () => {
-    renderWithLanguage(<ProductCard product={mockProduct} />);
-    expect(screen.getByText('Dubenėliai')).toBeInTheDocument();
+  it('does NOT render a category label', () => {
+    const { container } = renderWithLanguage(<ProductCard product={mockProduct} />);
+    expect(container.textContent).not.toContain('Dubenėliai');
   });
 
   it('does NOT render a price', () => {
@@ -46,5 +46,16 @@ describe('ProductCard', () => {
   it('renders image container', () => {
     const { container } = renderWithLanguage(<ProductCard product={mockProduct} />);
     expect(container.querySelector('.bg-clay-200')).toBeInTheDocument();
+  });
+
+  it('title overlay is hidden by default and shown on hover', () => {
+    const { container } = renderWithLanguage(<ProductCard product={mockProduct} />);
+    // The overlay and title containers should have opacity-0 class (hidden by default)
+    const overlays = container.querySelectorAll('.opacity-0');
+    expect(overlays.length).toBeGreaterThanOrEqual(2);
+    // They should have group-hover:opacity-100 for hover reveal
+    overlays.forEach((el) => {
+      expect(el.className).toContain('group-hover:opacity-100');
+    });
   });
 });

@@ -88,14 +88,14 @@ export default function ProductDetail({ slug }: ProductDetailProps) {
         {/* Gallery */}
         {product.gallery.length > 0 && (
           <div className="mt-12">
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {product.gallery.map((img, i) => (
                 <div
                   key={i}
                   className="bg-clay-100 aspect-square flex items-center justify-center"
                 >
                   <div
-                    className="w-3/4 h-3/4 flex items-center justify-center"
+                    className="w-full h-full flex items-center justify-center"
                     dangerouslySetInnerHTML={{ __html: img }}
                   />
                 </div>

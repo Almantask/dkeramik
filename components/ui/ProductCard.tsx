@@ -9,10 +9,7 @@ interface ProductCardProps {
 }
 
 export default function ProductCard({ product }: ProductCardProps) {
-  const { language, t } = useLanguage();
-
-  const categoryLabel =
-    t.portfolio[product.categoryKey as keyof typeof t.portfolio] as string;
+  const { language } = useLanguage();
 
   return (
     <Link href={`/portfolio/${product.id}`} className="group">
@@ -21,12 +18,11 @@ export default function ProductCard({ product }: ProductCardProps) {
           className="w-full h-full flex items-center justify-center bg-clay-200"
           dangerouslySetInnerHTML={{ __html: product.image }}
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-clay-700/60 via-transparent to-transparent" />
-        <div className="absolute bottom-0 left-0 right-0 p-4">
-          <h3 className="font-playfair text-lg text-clay-50 mb-1 group-hover:text-white transition-colors">
+        <div className="absolute inset-0 bg-gradient-to-t from-clay-700/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+        <div className="absolute bottom-0 left-0 right-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          <h3 className="font-playfair text-lg text-clay-50">
             {product.name[language]}
           </h3>
-          <p className="text-clay-200 text-sm">{categoryLabel}</p>
         </div>
       </div>
     </Link>
