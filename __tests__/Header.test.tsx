@@ -15,9 +15,8 @@ describe('Header', () => {
   it('renders LT navigation links by default', () => {
     renderWithLanguage(<Header />);
     expect(screen.getAllByText('Pradžia').length).toBeGreaterThan(0);
-    expect(screen.getAllByText('Apie mane').length).toBeGreaterThan(0);
     expect(screen.getAllByText('Portfolio').length).toBeGreaterThan(0);
-    expect(screen.getAllByText('Kūryba').length).toBeGreaterThan(0);
+    expect(screen.getAllByText('Apie mane').length).toBeGreaterThan(0);
     expect(screen.getAllByText('Minčių koštuvas').length).toBeGreaterThan(0);
   });
 
@@ -26,9 +25,8 @@ describe('Header', () => {
     const links = screen.getAllByRole('link');
     const hrefs = links.map((link) => link.getAttribute('href'));
     expect(hrefs).toContain('/');
-    expect(hrefs).toContain('/about');
     expect(hrefs).toContain('/portfolio');
-    expect(hrefs).toContain('/craft');
+    expect(hrefs).toContain('/about');
     expect(hrefs).toContain('/journal');
   });
 
