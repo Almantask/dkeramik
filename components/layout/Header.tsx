@@ -10,9 +10,8 @@ export default function Header() {
 
   const navLinks = [
     { href: '/', label: t.nav.home },
-    { href: '/about', label: t.nav.about },
     { href: '/portfolio', label: t.nav.portfolio },
-    { href: '/craft', label: t.nav.craft },
+    { href: '/about', label: t.nav.about },
     { href: '/journal', label: t.nav.journal },
   ];
 
@@ -27,9 +26,37 @@ export default function Header() {
           {/* Logo */}
           <Link
             href="/"
-            className="font-playfair text-2xl text-clay-600 font-semibold tracking-wide"
+            className="flex items-center gap-2 group"
           >
-            DKeramik
+            <span className="inline-flex items-center justify-center w-9 h-9 border-2 border-clay-400 rounded-md group-hover:border-clay-500 transition-colors">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                className="text-clay-500 group-hover:text-clay-600 transition-colors"
+                aria-hidden="true"
+              >
+                <path
+                  d="M12 3C8 3 5 5.5 5 9c0 2 .8 3.5 2 4.5V20a1 1 0 001 1h8a1 1 0 001-1v-6.5c1.2-1 2-2.5 2-4.5 0-3.5-3-6-7-6z"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                <path
+                  d="M9 21v-3h6v3"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </span>
+            <span className="font-playfair text-2xl text-clay-600 font-semibold tracking-wide">
+              DKeramik
+            </span>
           </Link>
 
           {/* Desktop navigation */}
