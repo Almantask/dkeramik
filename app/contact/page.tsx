@@ -12,7 +12,7 @@ export default function ContactPage() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
-  const [submitted, setSubmitted] = useState(false);
+  const [mailtoOpened, setMailtoOpened] = useState(false);
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -22,7 +22,7 @@ export default function ContactPage() {
       `Name: ${name}\nEmail: ${email}\n\n${message}`,
     );
     window.location.href = `mailto:donata.vengalyte@gmail.com?subject=${subject}&body=${body}`;
-    setSubmitted(true);
+    setMailtoOpened(true);
   }
 
   return (
@@ -38,7 +38,7 @@ export default function ContactPage() {
           {c.subheadline}
         </p>
 
-        {submitted && (
+        {mailtoOpened && (
           <div className="mb-8 p-4 bg-clay-100 border border-clay-200 text-clay-700 text-sm rounded-sm">
             {c.successMessage}
           </div>
