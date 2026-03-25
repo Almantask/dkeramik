@@ -7,6 +7,7 @@ export const lt: SiteTranslations = {
     portfolio: 'Portfolio',
     craft: 'Kūryba',
     journal: 'Minčių koštuvas',
+    contact: 'Susisiekime',
   },
 
   home: {
@@ -172,6 +173,19 @@ export const lt: SiteTranslations = {
         ],
       },
     ],
+  },
+
+  contact: {
+    headline: 'Susisiekime',
+    subheadline: 'Turi klausimų, idėjų individualiam užsakymui, ar tiesiog nori pasikalbėti apie keramiką? Laukiu Tavo žinutės.',
+    nameLabel: 'Vardas',
+    namePlaceholder: 'Tavo vardas',
+    emailLabel: 'El. paštas',
+    emailPlaceholder: 'tavo@elpaštas.lt',
+    messageLabel: 'Žinutė',
+    messagePlaceholder: 'Tavo žinutė...',
+    sendButton: 'Siųsti žinutę',
+    successMessage: 'Tavo žinutė paruošta. Prašome išsiųsti ją per el. pašto programą.',
   },
 
   footer: {

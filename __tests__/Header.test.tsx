@@ -30,6 +30,7 @@ describe('Header', () => {
     expect(hrefs).toContain('/portfolio');
     expect(hrefs).toContain('/craft');
     expect(hrefs).toContain('/journal');
+    expect(hrefs).toContain('/contact');
   });
 
   it('shows EN language switcher label when language is LT', () => {

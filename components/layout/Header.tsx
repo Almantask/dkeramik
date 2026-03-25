@@ -14,6 +14,7 @@ export default function Header() {
     { href: '/portfolio', label: t.nav.portfolio },
     { href: '/craft', label: t.nav.craft },
     { href: '/journal', label: t.nav.journal },
+    { href: '/contact', label: t.nav.contact },
   ];
 
   function toggleLanguage() {
