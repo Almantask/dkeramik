@@ -175,19 +175,21 @@ export const en: SiteTranslations = {
   },
 
   footer: {
-    tagline: 'Take it into your hands and feel the warmth of clay.',
+    tagline: 'Inspired by Baltic nature. 🌿\nFrom my hands — to Yours.\n~',
     exploreHeading: 'Explore',
-    connectHeading: 'Connect',
+    contactHeading: 'Contact',
+    contactPrompt: 'Have questions or want a custom piece?',
+    contactEmail: 'info@dkeramik.lt',
     copyright: 'DKeramik. All rights reserved.',
     links: {
       portfolio: 'Portfolio',
-      craft: 'Our Craft',
+      about: 'About Me',
       journal: 'Journal',
     },
   },
 
   common: {
-    handcraftedWith: 'Handcrafted with care',
+    handcraftedWith: 'Handmade ceramics for cozy homes.',
     languageSwitchLabel: 'LT',
   },
 };

@@ -83,11 +83,13 @@ export interface JournalTranslations {
 export interface FooterTranslations {
   tagline: string;
   exploreHeading: string;
-  connectHeading: string;
+  contactHeading: string;
+  contactPrompt: string;
+  contactEmail: string;
   copyright: string;
   links: {
     portfolio: string;
-    craft: string;
+    about: string;
     journal: string;
   };
 }

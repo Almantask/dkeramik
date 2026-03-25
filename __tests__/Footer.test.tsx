@@ -15,23 +15,22 @@ describe('Footer', () => {
   it('renders the LT tagline by default', () => {
     renderWithLanguage(<Footer />);
     expect(
-      screen.getByText(/Paimk į rankas ir pajusk molio šilumą/i),
+      screen.getByText(/Įkvėpta Baltiškos gamtos/i),
     ).toBeInTheDocument();
   });
 
   it('renders navigation links in LT by default', () => {
     renderWithLanguage(<Footer />);
     expect(screen.getByText('Portfolio')).toBeInTheDocument();
-    expect(screen.getByText('Kūryba')).toBeInTheDocument();
-    expect(screen.getByText('Minčių koštuvas')).toBeInTheDocument();
+    expect(screen.getByText('Apie mane')).toBeInTheDocument();
+    expect(screen.getByText('Minčių Koštuvas')).toBeInTheDocument();
   });
 
-  it('renders social media links', () => {
+  it('renders contact email link', () => {
     renderWithLanguage(<Footer />);
-    const socialLinks = screen
-      .getAllByRole('link')
-      .filter((link) => link.getAttribute('target') === '_blank');
-    expect(socialLinks.length).toBeGreaterThanOrEqual(2);
+    const emailLink = screen.getByText('info@dkeramik.lt');
+    expect(emailLink).toBeInTheDocument();
+    expect(emailLink.closest('a')).toHaveAttribute('href', 'mailto:info@dkeramik.lt');
   });
 
   it('displays copyright year', () => {
