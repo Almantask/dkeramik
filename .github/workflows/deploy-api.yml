@@ -1,8 +1,10 @@
 # Cloud Run API — europe-central2, scale to zero
 #
-# GitHub variables:
+# GitHub secrets:
 #   FRONTEND_ORIGIN   e.g. https://almantask.github.io/dkeramik
 #   PUBLIC_API_URL    Cloud Run HTTPS URL (https://dkeramik-api-409106094209.europe-central2.run.app)
+#
+# GitHub variables:
 #   PAYSERA_TEST      "true" until live bank links
 #
 # Authentication:
@@ -81,13 +83,13 @@ jobs:
           docker build -f backend/Dockerfile -t "$IMAGE" .
           docker push "$IMAGE"
           echo "IMAGE=$IMAGE" >> "$GITHUB_ENV"
-      - name: Require Cloud Run URL vars
+      - name: Require Cloud Run URL secrets
         env:
-          FRONTEND_ORIGIN: ${{ vars.FRONTEND_ORIGIN }}
-          PUBLIC_API_URL: ${{ vars.PUBLIC_API_URL }}
+          FRONTEND_ORIGIN: ${{ secrets.FRONTEND_ORIGIN }}
+          PUBLIC_API_URL: ${{ secrets.PUBLIC_API_URL }}
         run: |
           if [ -z "$FRONTEND_ORIGIN" ] || [ -z "$PUBLIC_API_URL" ]; then
-            echo "Set repository variables FRONTEND_ORIGIN and PUBLIC_API_URL."
+            echo "Set repository secrets FRONTEND_ORIGIN and PUBLIC_API_URL."
             exit 1
           fi
       - name: Deploy Cloud Run
@@ -107,5 +109,5 @@ jobs:
             --max-instances 2 \
             --memory 512Mi \
             --cpu 1 \
-            --set-env-vars "STORE=firestore,GCP_PROJECT_ID=${PROJECT_ID},GCS_BUCKET=dkeramik-fullstack-invoices,PAYMENT_PROVIDER=paysera,PAYSERA_TEST=${{ vars.PAYSERA_TEST }},FRONTEND_ORIGIN=${{ vars.FRONTEND_ORIGIN }},PUBLIC_API_URL=${{ vars.PUBLIC_API_URL }},NOTIFY_EMAIL=info@dkeramik.lt,ALLOW_TEST_RESET=false" \
+            --set-env-vars "STORE=firestore,GCP_PROJECT_ID=${PROJECT_ID},GCS_BUCKET=dkeramik-fullstack-invoices,PAYMENT_PROVIDER=paysera,PAYSERA_TEST=${{ vars.PAYSERA_TEST }},FRONTEND_ORIGIN=${{ secrets.FRONTEND_ORIGIN }},PUBLIC_API_URL=${{ secrets.PUBLIC_API_URL }},NOTIFY_EMAIL=info@dkeramik.lt,ALLOW_TEST_RESET=false" \
             --set-secrets "$SECRETS"
