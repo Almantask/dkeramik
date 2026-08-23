@@ -2,6 +2,10 @@
 
 A beautiful, static Next.js 14 website showcasing handcrafted ceramic pieces. Built with TypeScript, Tailwind CSS, and MDX for content management.
 
+**Website:** [https://almantask.github.io/dkeramik/](https://almantask.github.io/dkeramik/)
+
+Release notes: [CHANGELOG.md](CHANGELOG.md)
+
 ## 🎨 Features
 
 - **Next.js 14 App Router** with TypeScript
@@ -166,7 +170,7 @@ All tests use Jest and React Testing Library.
 
 ## 📦 Deployment
 
-The public site is a static export on **GitHub Pages**. Checkout talks to **Cloud Run** (`dkeramik-api`).
+The public site is a static export on **GitHub Pages**: [https://almantask.github.io/dkeramik/](https://almantask.github.io/dkeramik/). Checkout talks to **Cloud Run** (`dkeramik-api`).
 
 ### GitHub Actions
 
