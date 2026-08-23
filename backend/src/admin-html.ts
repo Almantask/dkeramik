@@ -7,13 +7,18 @@ function esc(value: string): string {
 
 const css = `
   body{font-family:Nunito,system-ui,sans-serif;background:#fdf8f5;color:#6b4c30;margin:0}
-  main{max-width:960px;margin:0 auto;padding:2rem}
+  main{max-width:1100px;margin:0 auto;padding:2rem}
   a,button{font:inherit}
   table{width:100%;border-collapse:collapse;background:#fff}
-  th,td{border-bottom:1px solid #e8d5c0;padding:.6rem;text-align:left;font-size:.9rem}
-  .btn{background:#a67c52;color:#fdf8f5;border:0;padding:.45rem .8rem;cursor:pointer}
+  th,td{border-bottom:1px solid #e8d5c0;padding:.6rem;text-align:left;font-size:.9rem;vertical-align:top}
+  .btn{display:inline-block;background:#a67c52;color:#fdf8f5;border:0;padding:.45rem .8rem;cursor:pointer;white-space:nowrap;line-height:1.2}
+  .table-wrap{overflow-x:auto}
+  .actions,.row-form{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center}
+  .actions{min-width:13rem}
+  .actions form,.row-form{margin:0}
   input{padding:.4rem;border:1px solid #d4b896;background:#fff}
-  nav a{margin-right:1rem;color:#8b6340}
+  nav{display:flex;flex-wrap:wrap;gap:.75rem 1rem;align-items:center}
+  nav a{color:#8b6340}
   a.item-link{color:#8b6340;text-decoration:underline}
   a.item-link:hover{color:#a67c52}
 `;
@@ -64,14 +69,16 @@ export function ordersPage(orders: OrderRecord[], frontendOrigin = ''): string {
           <td>${centsToEur(o.amountCents).toFixed(2)} EUR</td>
           <td>${esc(o.paidVia ?? '—')}</td>
           <td>
+            <div class="actions">
             ${
               o.status === 'awaiting_payment'
-                ? `<form method="post" action="/admin/orders/${esc(o.id)}/paid" style="display:inline"><button class="btn">Mark paid</button></form>
-            <form method="post" action="/admin/orders/${esc(o.id)}/cancel" style="display:inline"><button class="btn">Cancel</button></form>`
+                ? `<form method="post" action="/admin/orders/${esc(o.id)}/paid"><button class="btn">Mark paid</button></form>
+            <form method="post" action="/admin/orders/${esc(o.id)}/cancel"><button class="btn">Cancel</button></form>`
                 : ''
             }
-            <form method="post" action="/admin/orders/${esc(o.id)}/resend" style="display:inline"><button class="btn">Resend</button></form>
+            <form method="post" action="/admin/orders/${esc(o.id)}/resend"><button class="btn">Resend</button></form>
             <a href="/admin/orders/${esc(o.id)}/invoice.pdf">PDF</a>
+            </div>
           </td>
         </tr>`;
       },
@@ -79,7 +86,7 @@ export function ordersPage(orders: OrderRecord[], frontendOrigin = ''): string {
     .join('');
   return shell(
     'Orders',
-    `<table><thead><tr><th>Invoice</th><th>Status</th><th>Items</th><th>Buyer</th><th>Total</th><th>Paid via</th><th></th></tr></thead><tbody>${rows}</tbody></table>`,
+    `<div class="table-wrap"><table><thead><tr><th>Invoice</th><th>Status</th><th>Items</th><th>Buyer</th><th>Total</th><th>Paid via</th><th></th></tr></thead><tbody>${rows}</tbody></table></div>`,
   );
 }
 
@@ -101,7 +108,7 @@ export function inventoryPage(items: InventoryRecord[], frontendOrigin = ''): st
           </td>
           <td>${esc(i.sku)}</td>
           <td>
-            <form method="post" action="/admin/inventory/${esc(i.productId)}">
+            <form class="row-form" method="post" action="/admin/inventory/${esc(i.productId)}">
               <input name="priceCents" type="number" value="${i.priceCents}" title="Price in cents">
               <input name="stock" type="number" value="${i.stock}" title="Stock quantity">
               <label><input type="checkbox" name="forSale" ${i.forSale ? 'checked' : ''}> for sale</label>
@@ -114,7 +121,7 @@ export function inventoryPage(items: InventoryRecord[], frontendOrigin = ''): st
     .join('');
   return shell(
     'Inventory',
-    `<table><thead><tr><th>Product</th><th>SKU</th><th>Edit</th></tr></thead><tbody>${rows}</tbody></table>`,
+    `<div class="table-wrap"><table><thead><tr><th>Product</th><th>SKU</th><th>Edit</th></tr></thead><tbody>${rows}</tbody></table></div>`,
   );
 }
 
