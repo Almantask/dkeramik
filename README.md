@@ -182,12 +182,12 @@ The public site is a static export on **GitHub Pages**: [https://almantask.githu
 
 | Variable | Used by | Example |
 | --- | --- | --- |
-| `NEXT_PUBLIC_API_URL` | Pages build | Cloud Run HTTPS URL |
 | `CUSTOM_DOMAIN` | Pages (optional) | `true` to drop `/dkeramik` basePath |
 | `PAYSERA_TEST` | Cloud Run (optional) | `true` until live bank links |
 
 ### Secrets
 
+- GitHub: `NEXT_PUBLIC_API_URL` (Cloud Run HTTPS URL baked into the Pages shop client).
 - GitHub: `FRONTEND_ORIGIN` (Cloud Run CORS, e.g. `https://<user>.github.io`), `PUBLIC_API_URL` (Cloud Run HTTPS URL).
 - GitHub: `GCP_SA_KEY` (service account JSON for Artifact Registry + Cloud Run).
 - Secret Manager in `dkeramik-fullstack`:

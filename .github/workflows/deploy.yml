@@ -1,7 +1,9 @@
 # GitHub Pages — static Next.js export
 #
-# Repository variables:
+# Repository secrets:
 #   NEXT_PUBLIC_API_URL  Cloud Run URL baked into the shop client (required)
+#
+# Repository variables:
 #   CUSTOM_DOMAIN        "true" to drop /dkeramik basePath
 #
 # next.config.mjs reads GITHUB_PAGES=true for the /dkeramik subpath.
@@ -43,10 +45,10 @@ jobs:
       - run: npm test -- --watchAll=false
       - name: Require shop API URL
         env:
-          NEXT_PUBLIC_API_URL: ${{ vars.NEXT_PUBLIC_API_URL }}
+          NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL }}
         run: |
           if [ -z "$NEXT_PUBLIC_API_URL" ]; then
-            echo "Set repository variable NEXT_PUBLIC_API_URL to the Cloud Run HTTPS URL."
+            echo "Set repository secret NEXT_PUBLIC_API_URL to the Cloud Run HTTPS URL."
             exit 1
           fi
       - name: Build static site
@@ -54,7 +56,7 @@ jobs:
         env:
           GITHUB_PAGES: 'true'
           CUSTOM_DOMAIN: ${{ vars.CUSTOM_DOMAIN || 'false' }}
-          NEXT_PUBLIC_API_URL: ${{ vars.NEXT_PUBLIC_API_URL }}
+          NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL }}
       - uses: actions/upload-pages-artifact@v3
         with:
           path: ./out
