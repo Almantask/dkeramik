@@ -3,7 +3,7 @@ import { hmacSha256Hex, timingSafeEqual } from './crypto.js';
 import type { OrderRecord } from './domain.js';
 
 export interface PaymentProvider {
-  createPayment(order: OrderRecord): Promise<{ payUrl: string; paymentId: string }>;
+  createPayment(order: OrderRecord): Promise<{ payUrl: string; paymentId: string } | null>;
   verifyWebhook(rawBody: string, signature: string | undefined): boolean;
 }
 
@@ -11,9 +11,35 @@ export function createPaymentProvider(publicApiUrl: string): PaymentProvider {
   const provider = process.env.PAYMENT_PROVIDER ?? 'mock';
   const webhookSecret = process.env.WEBHOOK_SECRET ?? 'change-me-webhook';
 
+  if (provider === 'none' || provider === 'disabled') {
+    return {
+      async createPayment() {
+        return null;
+      },
+      verifyWebhook() {
+        return false;
+      },
+    };
+  }
+
   if (provider === 'paysera') {
-    const projectId = process.env.PAYSERA_PROJECT_ID ?? '';
-    const password = process.env.PAYSERA_PASSWORD ?? '';
+    const projectId = (process.env.PAYSERA_PROJECT_ID ?? '').trim();
+    const password = (process.env.PAYSERA_PASSWORD ?? '').trim();
+
+    if (!projectId || !password) {
+      console.warn(
+        'Paysera payment provider is active but PAYSERA_PROJECT_ID or PAYSERA_PASSWORD is not set. Online payments disabled.',
+      );
+      return {
+        async createPayment() {
+          return null;
+        },
+        verifyWebhook() {
+          return false;
+        },
+      };
+    }
+
     return {
       async createPayment(order) {
         const params = new URLSearchParams({

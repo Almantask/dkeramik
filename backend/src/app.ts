@@ -154,11 +154,13 @@ export function createApp(deps: AppDeps) {
     await deps.store.savePdf(order.invoiceNumber, pdf);
     try {
       const payment = await deps.payments.createPayment(order);
-      order =
-        (await deps.store.updateOrder(order.id, {
-          payUrl: payment.payUrl,
-          payseraPaymentId: payment.paymentId,
-        })) ?? order;
+      if (payment?.payUrl) {
+        order =
+          (await deps.store.updateOrder(order.id, {
+            payUrl: payment.payUrl,
+            payseraPaymentId: payment.paymentId,
+          })) ?? order;
+      }
     } catch (err) {
       console.error('payment create failed', err);
     }
@@ -290,7 +292,7 @@ export function createApp(deps: AppDeps) {
   });
 
   app.get('/admin', (c) => c.redirect('/admin/orders'));
-  app.get('/admin/orders', async (c) => c.html(ordersPage(await deps.store.listOrders())));
+  app.get('/admin/orders', async (c) => c.html(ordersPage(await deps.store.listOrders(), deps.frontendOrigin)));
   app.post('/admin/orders/:id/paid', async (c) => {
     const order = await deps.store.getOrder(c.req.param('id'));
     if (!order) return c.body('not found', 404);
@@ -316,7 +318,7 @@ export function createApp(deps: AppDeps) {
     if (!pdf) return c.body('not found', 404);
     return new Response(new Uint8Array(pdf), { headers: { 'Content-Type': 'application/pdf' } });
   });
-  app.get('/admin/inventory', async (c) => c.html(inventoryPage(await deps.store.listInventory())));
+  app.get('/admin/inventory', async (c) => c.html(inventoryPage(await deps.store.listInventory(), deps.frontendOrigin)));
   app.post('/admin/inventory/:id', async (c) => {
     const existing = await deps.store.getInventory(c.req.param('id'));
     if (!existing) return c.body('not found', 404);
