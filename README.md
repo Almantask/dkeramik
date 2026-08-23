@@ -4,6 +4,8 @@ A beautiful, static Next.js 14 website showcasing handcrafted ceramic pieces. Bu
 
 **Website:** [https://almantask.github.io/dkeramik/](https://almantask.github.io/dkeramik/)
 
+**Admin:** [https://dkeramik-api-409106094209.europe-central2.run.app/admin/login](https://dkeramik-api-409106094209.europe-central2.run.app/admin/login)
+
 Release notes: [CHANGELOG.md](CHANGELOG.md)
 
 ## 🎨 Features
