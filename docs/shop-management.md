@@ -198,10 +198,10 @@ The shop automatically falls back to direct bank transfer (SEPA) mode. Customers
 * **Database**: Google Cloud Firestore (stores orders, inventory records, and shop settings).
 * **Invoice Storage**: Google Cloud Storage bucket `dkeramik-fullstack-invoices`.
 
-### Secrets & Environment Variables (GCP Secret Manager)
-* `ADMIN_PASSWORD`: Password for `/admin/login`.
-* `SESSION_SECRET`: Cookie session signing secret.
-* `WEBHOOK_SECRET`: Shared secret for internal webhooks.
+### Secrets & Environment Variables
+* GitHub Actions secret `ADMIN_PASSWORD`: Password for `/admin/login` (applied on each API deploy).
+* GCP Secret Manager `SESSION_SECRET`: Cookie session signing secret.
+* GCP Secret Manager `WEBHOOK_SECRET`: Shared secret for internal webhooks.
 * `PAYSERA_PROJECT_ID` & `PAYSERA_PASSWORD`: Paysera payment gateway credentials (if omitted, Paysera links are disabled and store uses manual SEPA mode).
 * Paysera callback URL: `https://<api-domain>/api/webhooks/paysera`.
 

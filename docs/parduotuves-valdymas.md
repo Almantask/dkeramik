@@ -199,7 +199,7 @@ Parduotuvė automatiškai persijungia į saugų tiesioginio bankinio pavedimo (S
 * **Sąskaitų saugykla**: Google Cloud Storage (`dkeramik-fullstack-invoices`).
 
 ### Svarbūs nustatymai ir Secret Manager
-* `ADMIN_PASSWORD`: Slaptažodis prisijungimui prie `/admin/login`.
+* GitHub Actions secret `ADMIN_PASSWORD`: Slaptažodis prisijungimui prie `/admin/login` (taikomas kiekvieno API deploy metu).
 * `SESSION_SECRET`: Sesijų šifravimo raktas.
 * `WEBHOOK_SECRET`: Vidinio webhook ryšio raktas.
 * `PAYSERA_PROJECT_ID` ir `PAYSERA_PASSWORD`: Paysera integracija (jei tuščia, Paysera automatiškai išjungiama ir naudojamas tik SEPA režimas).

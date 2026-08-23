@@ -189,9 +189,10 @@ The public site is a static export on **GitHub Pages**: [https://almantask.githu
 
 - GitHub: `NEXT_PUBLIC_API_URL` (Cloud Run HTTPS URL baked into the Pages shop client).
 - GitHub: `FRONTEND_ORIGIN` (Cloud Run CORS, e.g. `https://<user>.github.io`), `PUBLIC_API_URL` (Cloud Run HTTPS URL).
+- GitHub: `ADMIN_PASSWORD` (admin panel login; applied to Cloud Run on each API deploy).
 - GitHub: `GCP_SA_KEY` (service account JSON for Artifact Registry + Cloud Run).
 - Secret Manager in `dkeramik-fullstack`:
-  - Required: `ADMIN_PASSWORD`, `SESSION_SECRET`, `WEBHOOK_SECRET`.
+  - Required: `SESSION_SECRET`, `WEBHOOK_SECRET`.
   - Optional (Paysera): `PAYSERA_PROJECT_ID`, `PAYSERA_PASSWORD` (if unset or empty, Paysera online payment links are disabled and orders use manual SEPA bank transfer).
 
 Local: `npm run build` writes `out/`. API: `cd backend && npm run dev`.
