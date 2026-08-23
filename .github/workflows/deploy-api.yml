@@ -14,7 +14,7 @@
 # Secret Manager (project dkeramik-fullstack):
 #   Required: SESSION_SECRET, WEBHOOK_SECRET
 #   Optional: PAYSERA_PROJECT_ID, PAYSERA_PASSWORD (disabled if unset)
-#   Optional: SMTP_HOST, SMTP_USER, SMTP_PASS, SMTP_FROM, SMTP_PORT as env after first deploy
+#   Optional: SMTP_HOST, SMTP_USER, SMTP_PASS, SMTP_FROM (mounted when those secrets exist)
 
 name: Deploy API to Cloud Run
 
@@ -124,6 +124,7 @@ jobs:
               "FRONTEND_ORIGIN": os.environ["FRONTEND_ORIGIN"],
               "PUBLIC_API_URL": os.environ["PUBLIC_API_URL"],
               "NOTIFY_EMAIL": "info@dkeramik.lt",
+              "SMTP_PORT": "587",
               "ALLOW_TEST_RESET": "false",
               "ADMIN_PASSWORD": os.environ["ADMIN_PASSWORD"],
           }
@@ -136,6 +137,14 @@ jobs:
           if gcloud secrets describe PAYSERA_PROJECT_ID --project="$PROJECT_ID" >/dev/null 2>&1 && \
              gcloud secrets describe PAYSERA_PASSWORD --project="$PROJECT_ID" >/dev/null 2>&1; then
             SECRETS="${SECRETS},PAYSERA_PROJECT_ID=PAYSERA_PROJECT_ID:latest,PAYSERA_PASSWORD=PAYSERA_PASSWORD:latest"
+          fi
+          if gcloud secrets describe SMTP_HOST --project="$PROJECT_ID" >/dev/null 2>&1 && \
+             gcloud secrets describe SMTP_USER --project="$PROJECT_ID" >/dev/null 2>&1 && \
+             gcloud secrets describe SMTP_PASS --project="$PROJECT_ID" >/dev/null 2>&1; then
+            SECRETS="${SECRETS},SMTP_HOST=SMTP_HOST:latest,SMTP_USER=SMTP_USER:latest,SMTP_PASS=SMTP_PASS:latest"
+            if gcloud secrets describe SMTP_FROM --project="$PROJECT_ID" >/dev/null 2>&1; then
+              SECRETS="${SECRETS},SMTP_FROM=SMTP_FROM:latest"
+            fi
           fi
 
           gcloud run deploy "$SERVICE" \

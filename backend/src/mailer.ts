@@ -11,30 +11,42 @@ export interface Mailer {
   sendPaidEmails(order: OrderRecord, notifyEmail: string): Promise<void>;
 }
 
+function smtpHost(): string {
+  return (process.env.SMTP_HOST ?? '').trim();
+}
+
+function logOnlyMailer(): Mailer {
+  return {
+    async sendOrderEmails(order) {
+      console.log(
+        `[mail] invoice ${order.invoiceNumber} to ${order.buyer.email} (${centsToEur(order.amountCents)} EUR)`,
+      );
+    },
+    async sendPaidEmails(order) {
+      console.log(`[mail] paid ${order.invoiceNumber} to ${order.buyer.email}`);
+    },
+  };
+}
+
 export function createMailer(): Mailer {
-  const host = process.env.SMTP_HOST;
+  const host = smtpHost();
   if (!host) {
-    return {
-      async sendOrderEmails(order) {
-        console.log(
-          `[mail] invoice ${order.invoiceNumber} to ${order.buyer.email} (${centsToEur(order.amountCents)} EUR)`,
-        );
-      },
-      async sendPaidEmails(order) {
-        console.log(`[mail] paid ${order.invoiceNumber} to ${order.buyer.email}`);
-      },
-    };
+    console.warn('[mail] SMTP_HOST is not set; invoices will be logged, not emailed');
+    return logOnlyMailer();
   }
 
+  const port = Number(process.env.SMTP_PORT ?? 587);
   const transporter = nodemailer.createTransport({
     host,
-    port: Number(process.env.SMTP_PORT ?? 587),
-    secure: false,
+    port,
+    secure: port === 465,
+    requireTLS: port === 587,
     auth: process.env.SMTP_USER
       ? { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS }
       : undefined,
   });
   const from = process.env.SMTP_FROM ?? 'DKeramik <info@dkeramik.lt>';
+  console.log(`[mail] SMTP ${host}:${port}`);
 
   return {
     async sendOrderEmails(order, pdf, payUrl, notifyEmail) {

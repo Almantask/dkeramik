@@ -236,6 +236,7 @@ export const en: SiteTranslations = {
     errorGeneric: 'Could not place the order. Try again or email me.',
     mailtoFallback: 'Email this order instead',
     shippingTotal: 'Shipping',
+    requiredHint: 'Required fields are marked with *.',
   },
 
   confirmation: {

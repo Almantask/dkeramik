@@ -1,10 +1,13 @@
 import { serve } from '@hono/node-server';
 import { createApp } from './app.js';
 import { FirestoreStore } from './firestore-store.js';
+import { loadEnv } from './load-env.js';
 import { createMailer } from './mailer.js';
 import { MemoryStore } from './memory-store.js';
 import { createPaymentProvider } from './paysera.js';
 import type { Store } from './store.js';
+
+loadEnv();
 
 async function createStore(): Promise<Store> {
   if (process.env.STORE === 'firestore') {

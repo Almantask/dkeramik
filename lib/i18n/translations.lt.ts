@@ -236,6 +236,7 @@ export const lt: SiteTranslations = {
     errorGeneric: 'Nepavyko pateikti užsakymo. Bandykite dar kartą arba rašykite el. paštu.',
     mailtoFallback: 'Siųsti užsakymą el. paštu',
     shippingTotal: 'Siuntimas',
+    requiredHint: 'Privalomi laukai pažymėti *.',
   },
 
   confirmation: {

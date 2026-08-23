@@ -323,6 +323,31 @@ export function createApp(deps: AppDeps) {
     return new Response(new Uint8Array(pdf), { headers: { 'Content-Type': 'application/pdf' } });
   });
   app.get('/admin/inventory', async (c) => c.html(inventoryPage(await deps.store.listInventory(), deps.frontendOrigin)));
+  app.post('/admin/inventory', async (c) => {
+    const body = await c.req.parseBody({ all: true });
+    const formString = (value: unknown): string | undefined => {
+      const first = Array.isArray(value) ? value[0] : value;
+      return typeof first === 'string' ? first : undefined;
+    };
+    const ids = [
+      ...new Set(
+        Object.keys(body)
+          .filter((key) => key.startsWith('priceCents_'))
+          .map((key) => key.slice('priceCents_'.length)),
+      ),
+    ];
+    for (const id of ids) {
+      const existing = await deps.store.getInventory(id);
+      if (!existing) continue;
+      const price = formString(body[`priceCents_${id}`]);
+      const stock = formString(body[`stock_${id}`]);
+      existing.priceCents = Number(price ?? existing.priceCents);
+      existing.stock = Number(stock ?? existing.stock);
+      existing.forSale = formString(body[`forSale_${id}`]) === 'on';
+      await deps.store.upsertInventory(existing);
+    }
+    return c.redirect('/admin/inventory');
+  });
   app.post('/admin/inventory/:id', async (c) => {
     const existing = await deps.store.getInventory(c.req.param('id'));
     if (!existing) return c.body('not found', 404);

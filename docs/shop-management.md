@@ -203,6 +203,7 @@ The shop automatically falls back to direct bank transfer (SEPA) mode. Customers
 * GCP Secret Manager `SESSION_SECRET`: Cookie session signing secret.
 * GCP Secret Manager `WEBHOOK_SECRET`: Shared secret for internal webhooks.
 * `PAYSERA_PROJECT_ID` & `PAYSERA_PASSWORD`: Paysera payment gateway credentials (if omitted, Paysera links are disabled and store uses manual SEPA mode).
+* GCP Secret Manager `SMTP_HOST`, `SMTP_USER`, `SMTP_PASS`, `SMTP_FROM`: SMTP credentials for invoice email. If `SMTP_HOST` is unset, the API logs invoices instead of sending mail.
 * Paysera callback URL: `https://<api-domain>/api/webhooks/paysera`.
 
 ### Checking Cloud Run Logs

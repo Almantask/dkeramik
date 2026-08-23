@@ -13,10 +13,12 @@ const css = `
   table{width:100%;border-collapse:collapse;background:#fff}
   th,td{border-bottom:1px solid #e8d5c0;padding:.6rem;text-align:left;font-size:.9rem;vertical-align:top}
   .btn{display:inline-block;background:#a67c52;color:#fdf8f5;border:0;padding:.45rem .8rem;cursor:pointer;white-space:nowrap;line-height:1.2}
+  .btn:disabled{opacity:.45;cursor:not-allowed}
   .table-wrap{overflow-x:auto}
   .actions,.row-form{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center}
   .actions{min-width:13rem}
   .actions form,.row-form{margin:0}
+  .inventory-toolbar{margin:0 0 1.25rem;min-width:0}
   input{padding:.4rem;border:1px solid #d4b896;background:#fff}
   nav{display:flex;flex-wrap:wrap;gap:.75rem 1rem;align-items:center}
   nav a{color:#8b6340}
@@ -110,12 +112,11 @@ export function inventoryPage(items: InventoryRecord[], frontendOrigin = ''): st
           </td>
           <td>${esc(i.sku)}</td>
           <td>
-            <form class="row-form" method="post" action="/admin/inventory/${esc(i.productId)}">
-              <input name="priceCents" type="number" value="${i.priceCents}" title="Price in cents">
-              <input name="stock" type="number" value="${i.stock}" title="Stock quantity">
-              <label><input type="checkbox" name="forSale" ${i.forSale ? 'checked' : ''}> for sale</label>
-              <button class="btn" type="submit">Save</button>
-            </form>
+            <div class="row-form" data-row>
+              <input name="priceCents_${esc(i.productId)}" type="number" value="${i.priceCents}" data-field="price" data-original="${i.priceCents}" title="Price in cents">
+              <input name="stock_${esc(i.productId)}" type="number" value="${i.stock}" data-field="stock" data-original="${i.stock}" title="Stock quantity">
+              <label><input type="checkbox" name="forSale_${esc(i.productId)}" data-field="forSale" data-original="${i.forSale ? '1' : '0'}" ${i.forSale ? 'checked' : ''}> for sale</label>
+            </div>
           </td>
         </tr>`;
       },
@@ -123,7 +124,36 @@ export function inventoryPage(items: InventoryRecord[], frontendOrigin = ''): st
     .join('');
   return shell(
     'Inventory',
-    `<div class="table-wrap"><table><thead><tr><th>Product</th><th>SKU</th><th>Edit</th></tr></thead><tbody>${rows}</tbody></table></div>`,
+    `<form id="inventory-form" method="post" action="/admin/inventory">
+      <p class="actions inventory-toolbar">
+        <button id="save-changes" class="btn" type="submit" disabled>Save changes</button>
+      </p>
+      <div class="table-wrap"><table><thead><tr><th>Product</th><th>SKU</th><th>Edit</th></tr></thead><tbody>${rows}</tbody></table></div>
+    </form>
+    <script>
+      (function () {
+        var form = document.getElementById('inventory-form');
+        var button = document.getElementById('save-changes');
+        if (!form || !button) return;
+        function rowDirty(row) {
+          var price = row.querySelector('[data-field="price"]');
+          var stock = row.querySelector('[data-field="stock"]');
+          return (price && price.value !== price.getAttribute('data-original')) ||
+            (stock && stock.value !== stock.getAttribute('data-original'));
+        }
+        function sync() {
+          var rows = form.querySelectorAll('[data-row]');
+          var dirty = false;
+          for (var i = 0; i < rows.length; i++) {
+            if (rowDirty(rows[i])) { dirty = true; break; }
+          }
+          button.disabled = !dirty;
+        }
+        form.addEventListener('input', sync);
+        form.addEventListener('change', sync);
+        sync();
+      })();
+    </script>`,
   );
 }
 

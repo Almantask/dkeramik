@@ -22,5 +22,6 @@ gcloud secrets create SMTP_HOST --data-file=- <<<"${SMTP_HOST:-}" || true
 gcloud secrets create SMTP_USER --data-file=- <<<"${SMTP_USER:-}" || true
 gcloud secrets create SMTP_PASS --data-file=- <<<"${SMTP_PASS:-}" || true
 gcloud secrets create SMTP_FROM --data-file=- <<<"${SMTP_FROM:-DKeramik <info@dkeramik.lt>}" || true
+gcloud secrets create SMTP_PORT --data-file=- <<<"${SMTP_PORT:-587}" || true
 
 echo "Project $PROJECT_ID ready. Build and deploy with .github/workflows/deploy-api.yml"

@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { FormEvent, useEffect, useMemo, useState } from 'react';
+import { FormEvent, type ReactNode, useEffect, useMemo, useState } from 'react';
 import Button from '@/components/ui/Button';
 import { useCart } from '@/components/shop/CartProvider';
 import { getProductById } from '@/content/products';
@@ -15,6 +15,22 @@ import {
   type LiveInventory,
   type ShopSettings,
 } from '@/lib/shop-api';
+
+function RequiredField({
+  label,
+  children,
+}: {
+  label: string;
+  children: ReactNode;
+}) {
+  return (
+    <label className="block">
+      {label}{' '}
+      <span aria-hidden="true">*</span>
+      {children}
+    </label>
+  );
+}
 
 export default function CheckoutPage() {
   const { language, t } = useLanguage();
@@ -125,8 +141,8 @@ export default function CheckoutPage() {
           </p>
         ) : (
           <form onSubmit={onSubmit} className="space-y-6">
-            <label className="block">
-              {t.checkout.name}
+            <p className="text-sm text-clay-500">{t.checkout.requiredHint}</p>
+            <RequiredField label={t.checkout.name}>
               <input
                 required
                 name="name"
@@ -134,9 +150,8 @@ export default function CheckoutPage() {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
               />
-            </label>
-            <label className="block">
-              {t.checkout.email}
+            </RequiredField>
+            <RequiredField label={t.checkout.email}>
               <input
                 required
                 type="email"
@@ -145,9 +160,8 @@ export default function CheckoutPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
-            </label>
-            <label className="block">
-              {t.checkout.phone}
+            </RequiredField>
+            <RequiredField label={t.checkout.phone}>
               <input
                 required
                 name="phone"
@@ -155,7 +169,7 @@ export default function CheckoutPage() {
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
               />
-            </label>
+            </RequiredField>
             <fieldset>
               <legend>{t.checkout.delivery}</legend>
               <label className="block mt-2">
@@ -181,8 +195,7 @@ export default function CheckoutPage() {
             </fieldset>
             {delivery === 'shipping' && (
               <>
-                <label className="block">
-                  {t.checkout.address}
+                <RequiredField label={t.checkout.address}>
                   <input
                     required
                     name="address"
@@ -190,9 +203,8 @@ export default function CheckoutPage() {
                     value={address}
                     onChange={(e) => setAddress(e.target.value)}
                   />
-                </label>
-                <label className="block">
-                  {t.checkout.city}
+                </RequiredField>
+                <RequiredField label={t.checkout.city}>
                   <input
                     required
                     name="city"
@@ -200,9 +212,8 @@ export default function CheckoutPage() {
                     value={city}
                     onChange={(e) => setCity(e.target.value)}
                   />
-                </label>
-                <label className="block">
-                  {t.checkout.postalCode}
+                </RequiredField>
+                <RequiredField label={t.checkout.postalCode}>
                   <input
                     required
                     name="postalCode"
@@ -210,7 +221,7 @@ export default function CheckoutPage() {
                     value={postalCode}
                     onChange={(e) => setPostalCode(e.target.value)}
                   />
-                </label>
+                </RequiredField>
               </>
             )}
             <p className="text-sm text-clay-600">{t.checkout.international}</p>

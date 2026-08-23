@@ -13,5 +13,6 @@ ENV PORT=8080
 COPY backend/package.json backend/package-lock.json ./
 RUN npm ci --omit=dev
 COPY --from=build /src/dist ./dist
+COPY backend/fonts ./fonts
 EXPOSE 8080
 CMD ["node", "dist/index.js"]

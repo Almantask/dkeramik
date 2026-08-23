@@ -165,6 +165,7 @@ export interface CheckoutTranslations {
   errorGeneric: string;
   mailtoFallback: string;
   shippingTotal: string;
+  requiredHint: string;
 }
 
 export interface ConfirmationTranslations {

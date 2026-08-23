@@ -77,6 +77,31 @@ describe('Checkout', () => {
     }) as jest.Mock;
   });
 
+  it('marks name, email and phone as mandatory', async () => {
+    renderCheckout();
+    await screen.findByRole('button', { name: /pateikti užsakymą/i });
+    expect(screen.getByText(/privalomi laukai pažymėti \*/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/vardas/i)).toBeRequired();
+    expect(screen.getByLabelText(/el\. paštas/i)).toBeRequired();
+    expect(screen.getByLabelText(/telefonas/i)).toBeRequired();
+    expect(screen.getByLabelText(/vardas/i).closest('label')).toHaveTextContent(/\*/);
+    expect(screen.getByLabelText(/el\. paštas/i).closest('label')).toHaveTextContent(/\*/);
+    expect(screen.getByLabelText(/telefonas/i).closest('label')).toHaveTextContent(/\*/);
+  });
+
+  it('marks address fields as mandatory when shipping is selected', async () => {
+    const user = userEvent.setup();
+    renderCheckout();
+    await screen.findByRole('button', { name: /pateikti užsakymą/i });
+    await user.click(screen.getByRole('radio', { name: /siuntimas lietuvoje/i }));
+    expect(screen.getByLabelText(/adresas/i)).toBeRequired();
+    expect(screen.getByLabelText(/miestas/i)).toBeRequired();
+    expect(screen.getByLabelText(/pašto kodas/i)).toBeRequired();
+    expect(screen.getByLabelText(/adresas/i).closest('label')).toHaveTextContent(/\*/);
+    expect(screen.getByLabelText(/miestas/i).closest('label')).toHaveTextContent(/\*/);
+    expect(screen.getByLabelText(/pašto kodas/i).closest('label')).toHaveTextContent(/\*/);
+  });
+
   it('posts an order and goes to confirmation', async () => {
     const user = userEvent.setup();
     renderCheckout();

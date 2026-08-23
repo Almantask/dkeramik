@@ -100,6 +100,7 @@ Live stock and checkout talk to `NEXT_PUBLIC_API_URL` (local default `http://loc
 ```bash
 # API (memory store, mock Paysera)
 cd backend && cp .env.example .env && npm install && npm run dev
+# Fill SMTP_HOST / SMTP_USER / SMTP_PASS in backend/.env to email invoices
 
 # Site
 cp .env.example .env.local

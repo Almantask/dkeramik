@@ -1,5 +1,6 @@
 import { describe, expect, it, beforeEach } from 'vitest';
 import { createApp } from './app.js';
+import { DEFAULT_INVENTORY_SEED } from './catalog.js';
 import { signWebhook } from './paysera.js';
 import { MemoryStore } from './memory-store.js';
 import { createPaymentProvider } from './paysera.js';
@@ -401,39 +402,95 @@ describe('shop API', () => {
     expect(html).toContain('http://localhost:3000/portfolio/sculptural-vessel');
   });
 
-  it('prefixes GitHub Pages product links with /dkeramik', async () => {
-    const pagesApp = testApp(store, 'https://almantask.github.io');
+  it('renders one disabled Save changes button on inventory instead of per-row saves', async () => {
+    const cookie = await loginCookie(app);
+    const res = await app.request('/admin/inventory', {
+      headers: { cookie },
+    });
+    expect(res.status).toBe(200);
+    const html = await res.text();
+    expect(html).toContain('id="save-changes"');
+    expect(html).toContain('Save changes');
+    expect(html).toMatch(/id="save-changes"[^>]*\bdisabled\b/);
+    expect(html).not.toContain('>Save</button>');
+    expect(html).toContain('action="/admin/inventory"');
+    expect(html).not.toContain('action="/admin/inventory/morning-coffee-mug"');
+    expect(html).toContain('data-original="3200"');
+    expect(html).toContain('data-original="3"');
+  });
+
+  it('saves multiple inventory rows in one request', async () => {
+    const cookie = await loginCookie(app);
+    const body = new URLSearchParams();
+    body.append('priceCents_morning-coffee-mug', '3300');
+    body.append('stock_morning-coffee-mug', '5');
+    body.append('forSale_morning-coffee-mug', 'on');
+    body.append('priceCents_sculptural-vessel', '11000');
+    body.append('stock_sculptural-vessel', '1');
+
+    const res = await app.request('/admin/inventory', {
+      method: 'POST',
+      headers: {
+        cookie,
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: body.toString(),
+    });
+    expect(res.status).toBe(302);
+
+    const mug = await store.getInventory('morning-coffee-mug');
+    expect(mug?.priceCents).toBe(3300);
+    expect(mug?.stock).toBe(5);
+    expect(mug?.forSale).toBe(true);
+
+    const vessel = await store.getInventory('sculptural-vessel');
+    expect(vessel?.priceCents).toBe(11000);
+    expect(vessel?.stock).toBe(1);
+    expect(vessel?.forSale).toBe(false);
+
+    const bowl = await store.getInventory('rustic-dinner-bowl');
+    expect(bowl?.priceCents).toBe(4500);
+    expect(bowl?.stock).toBe(2);
+  });
+
+  it('prefixes every GitHub Pages inventory and order product link with /dkeramik', async () => {
+    const origin = 'https://almantask.github.io';
+    const site = `${origin}/dkeramik`;
+    const pagesApp = testApp(store, origin);
     const cookie = await loginCookie(pagesApp);
     const inventory = await pagesApp.request('/admin/inventory', {
       headers: { cookie },
     });
     const inventoryHtml = await inventory.text();
-    expect(inventoryHtml).toContain(
-      'https://almantask.github.io/dkeramik/shop/rustic-dinner-bowl',
-    );
-    expect(inventoryHtml).not.toContain('https://almantask.github.io/shop/');
-    expect(inventoryHtml).not.toContain('https://almantask.github.io/portfolio/');
+    for (const item of DEFAULT_INVENTORY_SEED) {
+      const path = item.forSale ? `/shop/${item.productId}` : `/portfolio/${item.productId}`;
+      expect(inventoryHtml).toContain(`${site}${path}`);
+      expect(inventoryHtml).not.toContain(`${origin}${path}`);
+    }
 
-    await pagesApp.request('/api/orders', {
+    const orderItems = DEFAULT_INVENTORY_SEED.filter((item) => item.forSale).map((item) => ({
+      productId: item.productId,
+      qty: 1,
+    }));
+    const created = await pagesApp.request('/api/orders', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        items: [{ productId: 'morning-coffee-mug', qty: 1 }],
+        items: orderItems,
         buyer,
         delivery: 'pickup',
         language: 'en',
       }),
     });
+    expect(created.status).toBe(201);
     const orders = await pagesApp.request('/admin/orders', {
       headers: { cookie },
     });
     const ordersHtml = await orders.text();
-    expect(ordersHtml).toContain(
-      'https://almantask.github.io/dkeramik/portfolio/morning-coffee-mug',
-    );
-    expect(ordersHtml).not.toContain(
-      'https://almantask.github.io/portfolio/morning-coffee-mug"',
-    );
+    for (const item of orderItems) {
+      expect(ordersHtml).toContain(`${site}/portfolio/${item.productId}`);
+      expect(ordersHtml).not.toContain(`${origin}/portfolio/${item.productId}"`);
+    }
   });
 
   it('renders product links in admin orders that open in a new tab', async () => {
