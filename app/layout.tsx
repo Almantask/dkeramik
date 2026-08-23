@@ -45,6 +45,7 @@ import './globals.css';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import { LanguageProvider } from '@/lib/i18n';
+import { CartProvider } from '@/components/shop/CartProvider';
 
 export const metadata: Metadata = {
   title: 'DKeramik — rankų darbo keramika Tavo namams',
@@ -59,9 +60,11 @@ export default function RootLayout({
     <html lang="lt">
       <body className="font-nunito antialiased">
         <LanguageProvider>
-          <Header />
-          <main>{children}</main>
-          <Footer />
+          <CartProvider>
+            <Header />
+            <main>{children}</main>
+            <Footer />
+          </CartProvider>
         </LanguageProvider>
       </body>
     </html>

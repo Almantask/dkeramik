@@ -10,7 +10,8 @@ const customJestConfig = {
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/$1',
   },
-  testMatch: ['**/__tests__/**/*.[jt]s?(x)', '**/?(*.)+(spec|test).[jt]s?(x)'],
+  testMatch: ['<rootDir>/__tests__/**/*.[jt]s?(x)'],
+  testPathIgnorePatterns: ['/node_modules/', '/.next/', '/out/', '/backend/', '/e2e/'],
 }
 
 module.exports = createJestConfig(customJestConfig)

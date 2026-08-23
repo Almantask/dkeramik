@@ -22,8 +22,13 @@ describe('Footer', () => {
   it('renders navigation links in LT by default', () => {
     renderWithLanguage(<Footer />);
     expect(screen.getByText('Portfolio')).toBeInTheDocument();
+    expect(screen.getByText('Parduotuvė')).toBeInTheDocument();
     expect(screen.getByText('Apie mane')).toBeInTheDocument();
     expect(screen.getByText('Minčių Koštuvas')).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Parduotuvė' })).toHaveAttribute('href', '/shop');
+    expect(screen.getByRole('link', { name: 'Sąlygos' })).toHaveAttribute('href', '/legal/terms');
+    expect(screen.getByRole('link', { name: 'Grąžinimai' })).toHaveAttribute('href', '/legal/returns');
+    expect(screen.getByRole('link', { name: 'Privatumas' })).toHaveAttribute('href', '/legal/privacy');
   });
 
   it('renders contact email link', () => {

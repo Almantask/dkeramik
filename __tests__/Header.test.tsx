@@ -1,9 +1,14 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import Header from '@/components/layout/Header';
 import { LanguageProvider } from '@/lib/i18n';
+import { CartProvider } from '@/components/shop/CartProvider';
 
 function renderWithLanguage(ui: React.ReactElement) {
-  return render(<LanguageProvider>{ui}</LanguageProvider>);
+  return render(
+    <LanguageProvider>
+      <CartProvider>{ui}</CartProvider>
+    </LanguageProvider>,
+  );
 }
 
 describe('Header', () => {
@@ -25,6 +30,8 @@ describe('Header', () => {
     const links = screen.getAllByRole('link');
     const hrefs = links.map((link) => link.getAttribute('href'));
     expect(hrefs).toContain('/');
+    expect(hrefs).toContain('/shop');
+    expect(hrefs).toContain('/cart');
     expect(hrefs).toContain('/portfolio');
     expect(hrefs).toContain('/about');
     expect(hrefs).toContain('/journal');

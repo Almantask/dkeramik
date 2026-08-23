@@ -3,17 +3,21 @@
 import Link from 'next/link';
 import { useState } from 'react';
 import { useLanguage } from '@/lib/i18n';
+import { useCart } from '@/components/shop/CartProvider';
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { language, t, setLanguage } = useLanguage();
+  const { count } = useCart();
 
   const navLinks = [
     { href: '/', label: t.nav.home },
+    { href: '/shop', label: t.nav.shop },
     { href: '/portfolio', label: t.nav.portfolio },
     { href: '/about', label: t.nav.about },
     { href: '/journal', label: t.nav.journal },
     { href: '/contact', label: t.nav.contact },
+    { href: '/cart', label: count > 0 ? `${t.nav.cart} (${count})` : t.nav.cart },
   ];
 
   function toggleLanguage() {

@@ -1,0 +1,7 @@
+node_modules
+backend/node_modules
+backend/dist
+.next
+out
+e2e
+.git

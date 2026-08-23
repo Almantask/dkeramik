@@ -13,6 +13,8 @@ const mockProduct: Product = {
   dimensions: '20 cm × 7 cm',
   material: { lt: 'Molis', en: 'Clay' },
   care: { lt: 'Plauti rankomis', en: 'Hand wash' },
+  forSale: true,
+  sku: 'DK-TEST-001',
 };
 
 function renderWithLanguage(ui: React.ReactElement) {

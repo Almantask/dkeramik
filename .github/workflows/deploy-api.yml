@@ -1,0 +1,104 @@
+# Cloud Run API — europe-central2, scale to zero
+#
+# GitHub variables:
+#   FRONTEND_ORIGIN   e.g. https://<user>.github.io
+#   PUBLIC_API_URL    Cloud Run HTTPS URL (same value used as NEXT_PUBLIC_API_URL)
+#   PAYSERA_TEST      "true" until live bank links
+#
+# GitHub secrets:
+#   GCP_SA_KEY        service account JSON (Artifact Registry + Cloud Run Admin)
+#
+# Secret Manager (project dkeramik-fullstack), names must exist:
+#   ADMIN_PASSWORD, SESSION_SECRET, WEBHOOK_SECRET,
+#   PAYSERA_PROJECT_ID, PAYSERA_PASSWORD
+# Optional: SMTP_HOST, SMTP_USER, SMTP_PASS, SMTP_FROM, SMTP_PORT as env after first deploy
+
+name: Deploy API to Cloud Run
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'backend/**'
+      - 'shared/**'
+      - '.github/workflows/deploy-api.yml'
+  workflow_dispatch:
+
+env:
+  PROJECT_ID: dkeramik-fullstack
+  REGION: europe-central2
+  SERVICE: dkeramik-api
+  AR_REPO: dkeramik
+
+concurrency:
+  group: deploy-api
+  cancel-in-progress: false
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          cache: npm
+          cache-dependency-path: backend/package-lock.json
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm test
+
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+      - uses: google-github-actions/setup-gcloud@v2
+      - name: Ensure Artifact Registry repository
+        run: |
+          gcloud config set project "$PROJECT_ID"
+          gcloud services enable run.googleapis.com artifactregistry.googleapis.com secretmanager.googleapis.com --quiet
+          if ! gcloud artifacts repositories describe "$AR_REPO" --location="$REGION" >/dev/null 2>&1; then
+            gcloud artifacts repositories create "$AR_REPO" \
+              --repository-format=docker \
+              --location="$REGION" \
+              --description="DKeramik Cloud Run images"
+          fi
+      - name: Build and push image
+        run: |
+          gcloud auth configure-docker "${REGION}-docker.pkg.dev" --quiet
+          IMAGE="${REGION}-docker.pkg.dev/${PROJECT_ID}/${AR_REPO}/${SERVICE}:${GITHUB_SHA}"
+          docker build -f backend/Dockerfile -t "$IMAGE" .
+          docker push "$IMAGE"
+          echo "IMAGE=$IMAGE" >> "$GITHUB_ENV"
+      - name: Require Cloud Run URL vars
+        env:
+          FRONTEND_ORIGIN: ${{ vars.FRONTEND_ORIGIN }}
+          PUBLIC_API_URL: ${{ vars.PUBLIC_API_URL }}
+        run: |
+          if [ -z "$FRONTEND_ORIGIN" ] || [ -z "$PUBLIC_API_URL" ]; then
+            echo "Set repository variables FRONTEND_ORIGIN and PUBLIC_API_URL."
+            exit 1
+          fi
+      - name: Deploy Cloud Run
+        run: |
+          gcloud run deploy "$SERVICE" \
+            --image "$IMAGE" \
+            --region "$REGION" \
+            --project "$PROJECT_ID" \
+            --allow-unauthenticated \
+            --min-instances 0 \
+            --max-instances 2 \
+            --memory 512Mi \
+            --cpu 1 \
+            --set-env-vars "STORE=firestore,GCP_PROJECT_ID=${PROJECT_ID},GCS_BUCKET=dkeramik-fullstack-invoices,PAYMENT_PROVIDER=paysera,PAYSERA_TEST=${{ vars.PAYSERA_TEST }},FRONTEND_ORIGIN=${{ vars.FRONTEND_ORIGIN }},PUBLIC_API_URL=${{ vars.PUBLIC_API_URL }},NOTIFY_EMAIL=info@dkeramik.lt,ALLOW_TEST_RESET=false" \
+            --set-secrets "ADMIN_PASSWORD=ADMIN_PASSWORD:latest,SESSION_SECRET=SESSION_SECRET:latest,WEBHOOK_SECRET=WEBHOOK_SECRET:latest,PAYSERA_PROJECT_ID=PAYSERA_PROJECT_ID:latest,PAYSERA_PASSWORD=PAYSERA_PASSWORD:latest"
