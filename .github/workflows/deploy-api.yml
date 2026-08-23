@@ -94,6 +94,15 @@ jobs:
             echo "Set repository secrets FRONTEND_ORIGIN, PUBLIC_API_URL, and ADMIN_PASSWORD."
             exit 1
           fi
+      - name: Clear secret-typed ADMIN_PASSWORD
+        run: |
+          if gcloud run services describe "$SERVICE" --region="$REGION" --project="$PROJECT_ID" >/dev/null 2>&1; then
+            gcloud run services update "$SERVICE" \
+              --region="$REGION" \
+              --project="$PROJECT_ID" \
+              --remove-secrets=ADMIN_PASSWORD \
+              --quiet || true
+          fi
       - name: Deploy Cloud Run
         env:
           FRONTEND_ORIGIN: ${{ secrets.FRONTEND_ORIGIN }}
