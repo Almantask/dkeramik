@@ -14,6 +14,7 @@ import type { Mailer } from './mailer.js';
 import type { PaymentProvider } from './paysera.js';
 import { signWebhook } from './paysera.js';
 import { buildInvoicePdf } from './pdf.js';
+import { corsAllowOrigin, publicPageUrl } from './site-url.js';
 import type { Store } from './store.js';
 
 export interface AppDeps {
@@ -84,7 +85,7 @@ export function createApp(deps: AppDeps) {
   app.use(
     '/api/*',
     cors({
-      origin: deps.frontendOrigin,
+      origin: corsAllowOrigin(deps.frontendOrigin),
       allowMethods: ['GET', 'POST', 'OPTIONS'],
       allowHeaders: ['Content-Type', 'X-Paysera-Signature'],
     }),
@@ -261,7 +262,10 @@ export function createApp(deps: AppDeps) {
     });
     await handlePaysera(raw, signWebhook(raw, deps.webhookSecret));
     return c.redirect(
-      `${deps.frontendOrigin}/checkout/confirmation?orderId=${order.id}&token=${order.token}`,
+      publicPageUrl(
+        deps.frontendOrigin,
+        `/checkout/confirmation?orderId=${order.id}&token=${order.token}`,
+      ),
     );
   });
 

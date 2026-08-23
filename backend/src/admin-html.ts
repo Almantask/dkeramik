@@ -1,5 +1,6 @@
 import { PRODUCT_NAMES } from './catalog.js';
 import { centsToEur, type InventoryRecord, type OrderRecord, type ShopSettings } from './domain.js';
+import { publicPageUrl } from './site-url.js';
 
 function esc(value: string): string {
   return value.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
@@ -50,13 +51,15 @@ function shell(title: string, body: string): string {
 }
 
 export function ordersPage(orders: OrderRecord[], frontendOrigin = ''): string {
-  const base = frontendOrigin ? frontendOrigin.replace(/\/$/, '') : '';
   const rows = orders
     .map(
       (o) => {
         const itemsHtml = o.items
           .map((item) => {
-            const href = `${base}/portfolio/${encodeURIComponent(item.productId)}`;
+            const href = publicPageUrl(
+              frontendOrigin,
+              `/portfolio/${encodeURIComponent(item.productId)}`,
+            );
             const itemName = item.nameLt || item.nameEn || item.productId;
             return `<div><a class="item-link" href="${esc(href)}" target="_blank" rel="noopener noreferrer" title="Open product in new tab">${esc(itemName)} (${esc(item.productId)})</a> <small>×${item.qty}</small></div>`;
           })
@@ -91,14 +94,13 @@ export function ordersPage(orders: OrderRecord[], frontendOrigin = ''): string {
 }
 
 export function inventoryPage(items: InventoryRecord[], frontendOrigin = ''): string {
-  const base = frontendOrigin ? frontendOrigin.replace(/\/$/, '') : '';
   const rows = items
     .map(
       (i) => {
         const names = PRODUCT_NAMES[i.productId];
         const displayName = names ? `${names.lt} / ${names.en}` : i.productId;
         const path = i.forSale ? `/shop/${encodeURIComponent(i.productId)}` : `/portfolio/${encodeURIComponent(i.productId)}`;
-        const href = `${base}${path}`;
+        const href = publicPageUrl(frontendOrigin, path);
         return `<tr>
           <td>
             <a class="item-link" href="${esc(href)}" target="_blank" rel="noopener noreferrer" title="Open product page in new tab">

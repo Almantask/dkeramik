@@ -6,7 +6,7 @@ import { createPaymentProvider } from './paysera.js';
 
 const webhookSecret = 'test-webhook';
 
-function testApp(store: MemoryStore) {
+function testApp(store: MemoryStore, frontendOrigin = 'http://localhost:3000') {
   return createApp({
     store,
     payments: createPaymentProvider('http://localhost:8787'),
@@ -15,7 +15,7 @@ function testApp(store: MemoryStore) {
       async sendPaidEmails() {},
     },
     publicApiUrl: 'http://localhost:8787',
-    frontendOrigin: 'http://localhost:3000',
+    frontendOrigin,
     adminPassword: 'test-admin',
     sessionSecret: 'test-session',
     webhookSecret,
@@ -399,6 +399,41 @@ describe('shop API', () => {
     expect(html).toContain('rel="noopener noreferrer"');
     expect(html).toContain('http://localhost:3000/shop/rustic-dinner-bowl');
     expect(html).toContain('http://localhost:3000/portfolio/sculptural-vessel');
+  });
+
+  it('prefixes GitHub Pages product links with /dkeramik', async () => {
+    const pagesApp = testApp(store, 'https://almantask.github.io');
+    const cookie = await loginCookie(pagesApp);
+    const inventory = await pagesApp.request('/admin/inventory', {
+      headers: { cookie },
+    });
+    const inventoryHtml = await inventory.text();
+    expect(inventoryHtml).toContain(
+      'https://almantask.github.io/dkeramik/shop/rustic-dinner-bowl',
+    );
+    expect(inventoryHtml).not.toContain('https://almantask.github.io/shop/');
+    expect(inventoryHtml).not.toContain('https://almantask.github.io/portfolio/');
+
+    await pagesApp.request('/api/orders', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        items: [{ productId: 'morning-coffee-mug', qty: 1 }],
+        buyer,
+        delivery: 'pickup',
+        language: 'en',
+      }),
+    });
+    const orders = await pagesApp.request('/admin/orders', {
+      headers: { cookie },
+    });
+    const ordersHtml = await orders.text();
+    expect(ordersHtml).toContain(
+      'https://almantask.github.io/dkeramik/portfolio/morning-coffee-mug',
+    );
+    expect(ordersHtml).not.toContain(
+      'https://almantask.github.io/portfolio/morning-coffee-mug"',
+    );
   });
 
   it('renders product links in admin orders that open in a new tab', async () => {

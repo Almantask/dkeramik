@@ -190,7 +190,7 @@ The public site is a static export on **GitHub Pages**: [https://almantask.githu
 ### Secrets
 
 - GitHub: `NEXT_PUBLIC_API_URL` (Cloud Run HTTPS URL baked into the Pages shop client).
-- GitHub: `FRONTEND_ORIGIN` (Cloud Run CORS, e.g. `https://<user>.github.io`), `PUBLIC_API_URL` (Cloud Run HTTPS URL).
+- GitHub: `FRONTEND_ORIGIN` (shop URL and CORS, e.g. `https://<user>.github.io/dkeramik`; a bare `https://<user>.github.io` still gets `/dkeramik` on product links), `PUBLIC_API_URL` (Cloud Run HTTPS URL).
 - GitHub: `ADMIN_PASSWORD` (admin panel login; applied to Cloud Run on each API deploy).
 - GitHub: `GCP_SA_KEY` (service account JSON for Artifact Registry + Cloud Run).
 - Secret Manager in `dkeramik-fullstack`:
