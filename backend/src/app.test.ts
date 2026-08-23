@@ -297,6 +297,96 @@ describe('shop API', () => {
     const res = await app.request('/admin/orders');
     expect(res.status).toBe(302);
   });
+
+  it('disables Paysera payments and webhooks when secrets are missing', async () => {
+    process.env.PAYMENT_PROVIDER = 'paysera';
+    delete process.env.PAYSERA_PROJECT_ID;
+    delete process.env.PAYSERA_PASSWORD;
+    const customApp = testApp(store);
+
+    const res = await customApp.request('/api/orders', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        items: [{ productId: 'morning-coffee-mug', qty: 1 }],
+        buyer,
+        delivery: 'pickup',
+        language: 'en',
+      }),
+    });
+    expect(res.status).toBe(201);
+    const body = await res.json();
+    expect(body.payUrl).toBeNull();
+
+    const raw = JSON.stringify({ callback_id: 'cb-disabled', merchant_order_id: body.orderId, amount: body.amountCents });
+    const webhookRes = await customApp.request('/api/webhooks/paysera', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-Paysera-Signature': signWebhook(raw, webhookSecret) },
+      body: raw,
+    });
+    expect(webhookRes.status).toBe(401);
+  });
+
+  it('disables Paysera payments when secrets are empty strings', async () => {
+    process.env.PAYMENT_PROVIDER = 'paysera';
+    process.env.PAYSERA_PROJECT_ID = '   ';
+    process.env.PAYSERA_PASSWORD = '';
+    const customApp = testApp(store);
+
+    const res = await customApp.request('/api/orders', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        items: [{ productId: 'morning-coffee-mug', qty: 1 }],
+        buyer,
+        delivery: 'pickup',
+        language: 'en',
+      }),
+    });
+    expect(res.status).toBe(201);
+    const body = await res.json();
+    expect(body.payUrl).toBeNull();
+  });
+
+  it('generates Paysera payUrl when Paysera provider and secrets are configured', async () => {
+    process.env.PAYMENT_PROVIDER = 'paysera';
+    process.env.PAYSERA_PROJECT_ID = '123456';
+    process.env.PAYSERA_PASSWORD = 'secret-password';
+    const customApp = testApp(store);
+
+    const res = await customApp.request('/api/orders', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        items: [{ productId: 'morning-coffee-mug', qty: 1 }],
+        buyer,
+        delivery: 'pickup',
+        language: 'en',
+      }),
+    });
+    expect(res.status).toBe(201);
+    const body = await res.json();
+    expect(body.payUrl).toContain('https://www.paysera.com/pay/?data=');
+  });
+
+  it('disables online payment when PAYMENT_PROVIDER is set to none or disabled', async () => {
+    process.env.PAYMENT_PROVIDER = 'none';
+    const customApp = testApp(store);
+
+    const res = await customApp.request('/api/orders', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        items: [{ productId: 'morning-coffee-mug', qty: 1 }],
+        buyer,
+        delivery: 'pickup',
+        language: 'en',
+      }),
+    });
+    expect(res.status).toBe(201);
+    const body = await res.json();
+    expect(body.payUrl).toBeNull();
+  });
 });
 
 async function loginCookie(app: ReturnType<typeof testApp>): Promise<string> {

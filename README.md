@@ -187,7 +187,9 @@ The public site is a static export on **GitHub Pages**. Checkout talks to **Clou
 ### Secrets
 
 - GitHub: `GCP_SA_KEY` (service account JSON for Artifact Registry + Cloud Run).
-- Secret Manager in `dkeramik-fullstack`: `ADMIN_PASSWORD`, `SESSION_SECRET`, `WEBHOOK_SECRET`, `PAYSERA_PROJECT_ID`, `PAYSERA_PASSWORD`.
+- Secret Manager in `dkeramik-fullstack`:
+  - Required: `ADMIN_PASSWORD`, `SESSION_SECRET`, `WEBHOOK_SECRET`.
+  - Optional (Paysera): `PAYSERA_PROJECT_ID`, `PAYSERA_PASSWORD` (if unset or empty, Paysera online payment links are disabled and orders use manual SEPA bank transfer).
 
 Local: `npm run build` writes `out/`. API: `cd backend && npm run dev`.
 

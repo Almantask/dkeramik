@@ -26,6 +26,7 @@ Portfolio kaina ir pirkimo mygtukas nerodomi.
 - Parašas HMAC, suma ≥ sąskaita, EUR, `callback_id` idempotencija.
 - Neprimokėta — laukia, later. Permokėta — paid + later.
 - Rankinis SEPA: IBAN + paskirtis = sąskaitos numeris.
+- **Išjungta, jei nėra nustatyti slaptažodžiai**: Jei `PAYSERA_PROJECT_ID` arba `PAYSERA_PASSWORD` nėra nustatyti Secret Manager ar aplinkoje, Paysera mokėjimai automatiškai išjungiami, o parduotuvė veikia įprastu bankinio pavedimo (SEPA) režimu.
 
 Neatsitiko auto-match: `gcloud run logs read --project=dkeramik-fullstack --region=europe-central2` ir Paysera callback žurnalas.
 

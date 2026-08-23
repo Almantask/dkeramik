@@ -154,11 +154,13 @@ export function createApp(deps: AppDeps) {
     await deps.store.savePdf(order.invoiceNumber, pdf);
     try {
       const payment = await deps.payments.createPayment(order);
-      order =
-        (await deps.store.updateOrder(order.id, {
-          payUrl: payment.payUrl,
-          payseraPaymentId: payment.paymentId,
-        })) ?? order;
+      if (payment?.payUrl) {
+        order =
+          (await deps.store.updateOrder(order.id, {
+            payUrl: payment.payUrl,
+            payseraPaymentId: payment.paymentId,
+          })) ?? order;
+      }
     } catch (err) {
       console.error('payment create failed', err);
     }

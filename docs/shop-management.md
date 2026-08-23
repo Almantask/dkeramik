@@ -26,6 +26,7 @@ Portfolio pages never show price or a buy button.
 - Matching: HMAC signature, amount ≥ invoice total in cents, EUR, idempotent `callback_id`.
 - Underpay: stays `awaiting_payment`, flagged underpaid. Overpay: marked paid, flagged overpaid.
 - Manual SEPA: IBAN + payment purpose = invoice number (`DK-YYYY-0001`) on the PDF.
+- **Disabled when secrets are unset**: If `PAYSERA_PROJECT_ID` or `PAYSERA_PASSWORD` are not configured in Secret Manager / environment, Paysera payment links are automatically disabled and the shop operates in manual SEPA transfer mode.
 
 If a payment did not auto-match: Cloud Run logs (`gcloud run logs read --project=dkeramik-fullstack --region=europe-central2`) and Paysera project callbacks. Do not double-mark paid.
 
