@@ -29,6 +29,14 @@ export default function Footer() {
             <ul className="space-y-2">
               <li>
                 <Link
+                  href="/shop"
+                  className="text-clay-600 hover:text-clay-500 text-sm transition-colors"
+                >
+                  {t.footer.links.shop}
+                </Link>
+              </li>
+              <li>
+                <Link
                   href="/portfolio"
                   className="text-clay-600 hover:text-clay-500 text-sm transition-colors"
                 >
@@ -49,6 +57,30 @@ export default function Footer() {
                   className="text-clay-600 hover:text-clay-500 text-sm transition-colors"
                 >
                   {t.footer.links.journal}
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/legal/terms"
+                  className="text-clay-600 hover:text-clay-500 text-sm transition-colors"
+                >
+                  {t.footer.links.terms}
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/legal/returns"
+                  className="text-clay-600 hover:text-clay-500 text-sm transition-colors"
+                >
+                  {t.footer.links.returns}
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/legal/privacy"
+                  className="text-clay-600 hover:text-clay-500 text-sm transition-colors"
+                >
+                  {t.footer.links.privacy}
                 </Link>
               </li>
             </ul>

@@ -87,13 +87,27 @@ npm run build
 
 Open [http://localhost:3000](http://localhost:3000) to view the site in development mode.
 
-### Testing
+# Shop (Cloud Run + GitHub Pages)
 
-All components and pages have comprehensive tests:
+Live stock and checkout talk to `NEXT_PUBLIC_API_URL` (local default `http://localhost:8787`).
 
 ```bash
-npm test              # Run all tests
-npm run test:watch    # Run tests in watch mode
+# API (memory store, mock Paysera)
+cd backend && cp .env.example .env && npm install && npm run dev
+
+# Site
+cp .env.example .env.local
+npm run dev
+```
+
+Owner guides: [docs/shop-management.md](docs/shop-management.md) · [docs/parduotuves-valdymas.md](docs/parduotuves-valdymas.md)
+
+```bash
+npm test                 # Jest (Pages)
+npm run test:backend     # Vitest API
+npm run test:e2e         # Playwright shop + API
+npm run typecheck        # Frontend tsc
+npm run typecheck:backend
 ```
 
 ### Building
@@ -152,14 +166,30 @@ All tests use Jest and React Testing Library.
 
 ## 📦 Deployment
 
-The site is built as a static export and can be deployed to:
+The public site is a static export on **GitHub Pages**. Checkout talks to **Cloud Run** (`dkeramik-api`).
 
-- **Vercel** (recommended for Next.js)
-- **Netlify**
-- **GitHub Pages**
-- Any static hosting service
+### GitHub Actions
 
-Simply run `npm run build` and deploy the contents of the `out/` directory.
+- **CI** (`.github/workflows/ci.yml`) — on pull requests and `main`: frontend typecheck/Jest/build, backend typecheck/Vitest, Playwright.
+- **Pages** (`.github/workflows/deploy.yml`) — static `out/` to GitHub Pages.
+- **API** (`.github/workflows/deploy-api.yml`) — Docker image to Artifact Registry, Cloud Run in `europe-central2`, min instances 0.
+
+### Repository variables
+
+| Variable | Used by | Example |
+| --- | --- | --- |
+| `NEXT_PUBLIC_API_URL` | Pages build | Cloud Run HTTPS URL |
+| `PUBLIC_API_URL` | Cloud Run | same Cloud Run HTTPS URL |
+| `FRONTEND_ORIGIN` | Cloud Run CORS | `https://<user>.github.io` |
+| `CUSTOM_DOMAIN` | Pages (optional) | `true` to drop `/dkeramik` basePath |
+| `PAYSERA_TEST` | Cloud Run (optional) | `true` until live bank links |
+
+### Secrets
+
+- GitHub: `GCP_SA_KEY` (service account JSON for Artifact Registry + Cloud Run).
+- Secret Manager in `dkeramik-fullstack`: `ADMIN_PASSWORD`, `SESSION_SECRET`, `WEBHOOK_SECRET`, `PAYSERA_PROJECT_ID`, `PAYSERA_PASSWORD`.
+
+Local: `npm run build` writes `out/`. API: `cd backend && npm run dev`.
 
 ## 🛠️ Technologies
 

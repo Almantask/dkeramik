@@ -15,6 +15,10 @@ export interface Product {
   dimensions: string;
   material: BilingualText;
   care: BilingualText;
+  /** Whether this piece can appear in the shop (stock/price still come from the API). */
+  forSale: boolean;
+  sku: string;
+  shippingWeightGrams?: number;
 }
 
 // ─── Inline SVG placeholders (clay-palette coloured) ────────────────────────
@@ -131,6 +135,9 @@ export const products: Product[] = [
       lt: 'Galima plauti indaplovėje, tačiau rankinis plovimas išsaugo grožį ilgiau',
       en: 'Dishwasher safe, though hand washing preserves the beauty longer',
     },
+    forSale: true,
+    sku: 'DK-BOWL-001',
+    shippingWeightGrams: 800,
   },
   {
     id: 'morning-coffee-mug',
@@ -151,6 +158,9 @@ export const products: Product[] = [
       lt: 'Galima naudoti mikrobangų krosnelėje ir indaplovėje',
       en: 'Microwave and dishwasher safe',
     },
+    forSale: true,
+    sku: 'DK-CUP-001',
+    shippingWeightGrams: 400,
   },
   {
     id: 'petite-bud-vase',
@@ -171,6 +181,9 @@ export const products: Product[] = [
       lt: 'Rekomenduojamas rankinis plovimas',
       en: 'Hand wash recommended',
     },
+    forSale: true,
+    sku: 'DK-VASE-001',
+    shippingWeightGrams: 350,
   },
   {
     id: 'sculptural-vessel',
@@ -191,6 +204,9 @@ export const products: Product[] = [
       lt: 'Valyti minkštu skudurėliu',
       en: 'Wipe clean with soft cloth',
     },
+    forSale: false,
+    sku: 'DK-VASE-002',
+    shippingWeightGrams: 1200,
   },
   {
     id: 'nesting-bowls-set',
@@ -211,6 +227,9 @@ export const products: Product[] = [
       lt: 'Galima naudoti indaplovėje ir orkaitėje',
       en: 'Dishwasher and oven safe',
     },
+    forSale: true,
+    sku: 'DK-BOWL-002',
+    shippingWeightGrams: 1600,
   },
   {
     id: 'tea-cup-pair',
@@ -231,6 +250,9 @@ export const products: Product[] = [
       lt: 'Rankinis plovimas išsaugo subtilias detales',
       en: 'Hand wash to preserve delicate details',
     },
+    forSale: true,
+    sku: 'DK-CUP-002',
+    shippingWeightGrams: 500,
   },
   {
     id: 'speckled-planter',
@@ -251,6 +273,9 @@ export const products: Product[] = [
       lt: 'Tinka naudoti viduje ir lauke',
       en: 'Suitable for indoor and outdoor use',
     },
+    forSale: true,
+    sku: 'DK-DECOR-001',
+    shippingWeightGrams: 700,
   },
   {
     id: 'candle-holder-trio',
@@ -271,6 +296,9 @@ export const products: Product[] = [
       lt: 'Valyti drėgnu skudurėliu',
       en: 'Wipe clean with damp cloth',
     },
+    forSale: true,
+    sku: 'DK-DECOR-002',
+    shippingWeightGrams: 600,
   },
 ];
 
@@ -292,4 +320,8 @@ export function getProductById(id: string): Product | undefined {
 export function getProductsByCategoryKey(key: CategoryKey): Product[] {
   if (key === 'categoryAll') return products;
   return products.filter((p) => p.categoryKey === key);
+}
+
+export function getShopProducts(): Product[] {
+  return products.filter((p) => p.forSale);
 }

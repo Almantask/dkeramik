@@ -1,78 +1,70 @@
-# ═══════════════════════════════════════════════════════════════════════════════
-# GitHub Pages — Deploy workflow
+# GitHub Pages — static Next.js export
 #
-# Triggers: every push to `main` and manual workflow_dispatch
+# Repository variables:
+#   NEXT_PUBLIC_API_URL  Cloud Run URL baked into the shop client (required)
+#   CUSTOM_DOMAIN        "true" to drop /dkeramik basePath
 #
-# Custom domain:
-#   1. Register a domain and point it at GitHub Pages (CNAME / A-record).
-#   2. Create public/CNAME containing your domain (e.g. www.example.com).
-#   3. Set CUSTOM_DOMAIN=true in the "Build static site" step below.
-#      This sets basePath to '' so the site lives at the domain root.
-# ═══════════════════════════════════════════════════════════════════════════════
+# next.config.mjs reads GITHUB_PAGES=true for the /dkeramik subpath.
 
 name: Deploy to GitHub Pages
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
+    paths-ignore:
+      - 'backend/**'
+      - '.github/workflows/deploy-api.yml'
+      - '.github/workflows/ci.yml'
+      - 'docs/**'
+      - '**.md'
   workflow_dispatch:
 
-# Grant GITHUB_TOKEN the permissions required for Pages deployment
 permissions:
   contents: read
   pages: write
   id-token: write
 
-# Allow only one concurrent deployment; do not cancel in-progress runs
 concurrency:
   group: pages
   cancel-in-progress: false
 
 jobs:
-  # ── Build ────────────────────────────────────────────────────────────────────
   build:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Run tests
-        run: npm test -- --ci --passWithNoTests
-
+          node-version-file: '.nvmrc'
+          cache: npm
+          cache-dependency-path: package-lock.json
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm test -- --watchAll=false
+      - name: Require shop API URL
+        env:
+          NEXT_PUBLIC_API_URL: ${{ vars.NEXT_PUBLIC_API_URL }}
+        run: |
+          if [ -z "$NEXT_PUBLIC_API_URL" ]; then
+            echo "Set repository variable NEXT_PUBLIC_API_URL to the Cloud Run HTTPS URL."
+            exit 1
+          fi
       - name: Build static site
         run: npm run build
         env:
-          # GITHUB_PAGES=true enables the /dkeramik basePath in next.config.mjs.
           GITHUB_PAGES: 'true'
-          # Set CUSTOM_DOMAIN=true when serving from a custom domain so that
-          # the basePath prefix is omitted (site lives at the domain root).
-          CUSTOM_DOMAIN: 'false'
-
-      - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v3
+          CUSTOM_DOMAIN: ${{ vars.CUSTOM_DOMAIN || 'false' }}
+          NEXT_PUBLIC_API_URL: ${{ vars.NEXT_PUBLIC_API_URL }}
+      - uses: actions/upload-pages-artifact@v3
         with:
           path: ./out
 
-  # ── Deploy ───────────────────────────────────────────────────────────────────
   deploy:
     needs: build
     runs-on: ubuntu-latest
-
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-
     steps:
       - name: Deploy to GitHub Pages
         id: deployment

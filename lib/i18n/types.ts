@@ -4,6 +4,8 @@ export interface NavTranslations {
   home: string;
   about: string;
   portfolio: string;
+  shop: string;
+  cart: string;
   craft: string;
   journal: string;
   contact: string;
@@ -90,8 +92,12 @@ export interface FooterTranslations {
   copyright: string;
   links: {
     portfolio: string;
+    shop: string;
     about: string;
     journal: string;
+    terms: string;
+    returns: string;
+    privacy: string;
   };
 }
 
@@ -113,12 +119,89 @@ export interface ContactTranslations {
   successMessage: string;
 }
 
+export interface ShopTranslations {
+  title: string;
+  intro: string;
+  price: string;
+  stock: string;
+  inStock: string;
+  soldOut: string;
+  addToCart: string;
+  addedToCart: string;
+  viewCart: string;
+  backToShop: string;
+  apiUnavailable: string;
+  notForSale: string;
+}
+
+export interface CartTranslations {
+  title: string;
+  empty: string;
+  quantity: string;
+  remove: string;
+  subtotal: string;
+  checkout: string;
+  continueShopping: string;
+  stockCap: string;
+}
+
+export interface CheckoutTranslations {
+  title: string;
+  name: string;
+  email: string;
+  phone: string;
+  delivery: string;
+  pickup: string;
+  pickupHint: string;
+  shipping: string;
+  shippingHint: string;
+  international: string;
+  address: string;
+  city: string;
+  postalCode: string;
+  submit: string;
+  submitting: string;
+  errorStock: string;
+  errorGeneric: string;
+  mailtoFallback: string;
+  shippingTotal: string;
+}
+
+export interface ConfirmationTranslations {
+  title: string;
+  pending: string;
+  paid: string;
+  invoice: string;
+  amount: string;
+  payCta: string;
+  iban: string;
+  purpose: string;
+  rights: string;
+  downloadInvoice: string;
+  loading: string;
+  notFound: string;
+}
+
+export interface LegalTranslations {
+  termsTitle: string;
+  termsBody: string[];
+  returnsTitle: string;
+  returnsBody: string[];
+  privacyTitle: string;
+  privacyBody: string[];
+}
+
 export interface SiteTranslations {
   nav: NavTranslations;
   home: HomeTranslations;
   about: AboutTranslations;
   portfolio: PortfolioTranslations;
   product: ProductTranslations;
+  shop: ShopTranslations;
+  cart: CartTranslations;
+  checkout: CheckoutTranslations;
+  confirmation: ConfirmationTranslations;
+  legal: LegalTranslations;
   craft: CraftTranslations;
   journal: JournalTranslations;
   contact: ContactTranslations;

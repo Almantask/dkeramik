@@ -1,0 +1,17 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    ports:
+      - '8787:8080'
+    environment:
+      PORT: '8080'
+      STORE: memory
+      PAYMENT_PROVIDER: mock
+      ALLOW_TEST_RESET: 'true'
+      FRONTEND_ORIGIN: http://localhost:3000
+      PUBLIC_API_URL: http://localhost:8787
+      ADMIN_PASSWORD: change-me
+      SESSION_SECRET: change-me-session
+      WEBHOOK_SECRET: change-me-webhook
