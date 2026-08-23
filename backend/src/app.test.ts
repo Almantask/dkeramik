@@ -387,6 +387,41 @@ describe('shop API', () => {
     const body = await res.json();
     expect(body.payUrl).toBeNull();
   });
+
+  it('renders product links in admin inventory that open in a new tab', async () => {
+    const cookie = await loginCookie(app);
+    const res = await app.request('/admin/inventory', {
+      headers: { cookie },
+    });
+    expect(res.status).toBe(200);
+    const html = await res.text();
+    expect(html).toContain('target="_blank"');
+    expect(html).toContain('rel="noopener noreferrer"');
+    expect(html).toContain('http://localhost:3000/shop/rustic-dinner-bowl');
+    expect(html).toContain('http://localhost:3000/portfolio/sculptural-vessel');
+  });
+
+  it('renders product links in admin orders that open in a new tab', async () => {
+    await app.request('/api/orders', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        items: [{ productId: 'morning-coffee-mug', qty: 1 }],
+        buyer,
+        delivery: 'pickup',
+        language: 'en',
+      }),
+    });
+    const cookie = await loginCookie(app);
+    const res = await app.request('/admin/orders', {
+      headers: { cookie },
+    });
+    expect(res.status).toBe(200);
+    const html = await res.text();
+    expect(html).toContain('target="_blank"');
+    expect(html).toContain('rel="noopener noreferrer"');
+    expect(html).toContain('http://localhost:3000/portfolio/morning-coffee-mug');
+  });
 });
 
 async function loginCookie(app: ReturnType<typeof testApp>): Promise<string> {
