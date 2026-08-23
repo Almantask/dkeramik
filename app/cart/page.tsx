@@ -46,30 +46,40 @@ export default function CartPage() {
         ) : (
           <ul className="space-y-6">
             {rows.map((row) => (
-              <li key={row.product.id} className="border-b border-clay-200 pb-4">
-                <h2 className="font-playfair text-lg">{row.product.name[language]}</h2>
-                <p>{formatEur(row.priceCents, language)}</p>
-                <label className="block mt-2 text-sm">
-                  {t.cart.quantity}
-                  <input
-                    className="ml-2 border border-clay-300 px-2 py-1 w-16"
-                    type="number"
-                    min={1}
-                    max={Math.max(row.stock, 1)}
-                    value={row.qty}
-                    aria-label={`${t.cart.quantity} ${row.product.name[language]}`}
-                    onChange={(e) =>
-                      cart.setQty(row.product.id, Number(e.target.value), row.stock)
-                    }
+              <li key={row.product.id} className="border-b border-clay-200 pb-4 flex items-start gap-4">
+                <Link href={`/shop/${row.product.id}`} className="shrink-0">
+                  <div
+                    className="w-16 h-16 rounded bg-clay-100"
+                    dangerouslySetInnerHTML={{ __html: row.product.image }}
                   />
-                </label>
-                <button
-                  type="button"
-                  className="text-sm underline mt-2"
-                  onClick={() => cart.remove(row.product.id)}
-                >
-                  {t.cart.remove}
-                </button>
+                </Link>
+                <div className="flex-1 min-w-0">
+                  <Link href={`/shop/${row.product.id}`} className="hover:underline">
+                    <h2 className="font-playfair text-lg">{row.product.name[language]}</h2>
+                  </Link>
+                  <p>{formatEur(row.priceCents, language)}</p>
+                  <label className="block mt-2 text-sm">
+                    {t.cart.quantity}
+                    <input
+                      className="ml-2 border border-clay-300 px-2 py-1 w-16"
+                      type="number"
+                      min={1}
+                      max={Math.max(row.stock, 1)}
+                      value={row.qty}
+                      aria-label={`${t.cart.quantity} ${row.product.name[language]}`}
+                      onChange={(e) =>
+                        cart.setQty(row.product.id, Number(e.target.value), row.stock)
+                      }
+                    />
+                  </label>
+                  <button
+                    type="button"
+                    className="text-sm underline mt-2"
+                    onClick={() => cart.remove(row.product.id)}
+                  >
+                    {t.cart.remove}
+                  </button>
+                </div>
               </li>
             ))}
           </ul>
