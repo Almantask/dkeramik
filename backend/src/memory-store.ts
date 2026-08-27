@@ -1,4 +1,5 @@
 import { DEFAULT_INVENTORY_SEED, PRODUCT_NAMES } from './catalog.js';
+import { mergeOrderItems } from './order-input.js';
 import {
   DEFAULT_SETTINGS,
   type InventoryRecord,
@@ -76,12 +77,11 @@ export class MemoryStore implements Store {
 
   async createOrderAtomic(input: CreateOrderAtomicInput): Promise<CreateOrderResult> {
     return this.mutex.runExclusive(async () => {
+      const merged = mergeOrderItems(input.items);
+      if (!merged.ok) return { ok: false, error: merged.error };
       const lines: OrderRecord['items'] = [];
 
-      for (const line of input.items) {
-        if (!Number.isInteger(line.qty) || line.qty < 1) {
-          return { ok: false, error: 'invalid_qty' };
-        }
+      for (const line of merged.items) {
         const inv = this.inventory.get(line.productId);
         if (!inv) return { ok: false, error: 'unknown_product' };
         if (!inv.forSale) return { ok: false, error: 'not_for_sale' };
@@ -152,13 +152,33 @@ export class MemoryStore implements Store {
 
   async markPaidAtomic(
     id: string,
-    opts: { amountCents: number; via: PaidVia; paymentId?: string },
+    opts: { amountCents: number; via: PaidVia; paymentId?: string; callbackId?: string },
   ): Promise<MarkPaidResult> {
     return this.mutex.runExclusive(async () => {
+      if (opts.callbackId && this.webhooks.has(opts.callbackId)) {
+        const existing = this.orders.get(id);
+        if (!existing) return { ok: false, error: 'not_found' };
+        return {
+          ok: true,
+          order: clone(existing),
+          alreadyPaid: existing.status === 'paid',
+          duplicate: true,
+        };
+      }
       const order = this.orders.get(id);
       if (!order) return { ok: false, error: 'not_found' };
+      if (
+        !Number.isFinite(opts.amountCents) ||
+        !Number.isInteger(opts.amountCents) ||
+        opts.amountCents < 0
+      ) {
+        return { ok: false, error: 'invalid_amount' };
+      }
       if (order.status === 'cancelled') return { ok: false, error: 'cancelled' };
-      if (order.status === 'paid') return { ok: true, order: clone(order), alreadyPaid: true };
+      if (order.status === 'paid') {
+        if (opts.callbackId) this.webhooks.add(opts.callbackId);
+        return { ok: true, order: clone(order), alreadyPaid: true };
+      }
       if (opts.amountCents < order.amountCents) {
         order.underpaid = true;
         order.updatedAt = new Date().toISOString();
@@ -170,6 +190,7 @@ export class MemoryStore implements Store {
       order.overpaid = opts.amountCents > order.amountCents;
       if (opts.paymentId) order.payseraPaymentId = opts.paymentId;
       order.updatedAt = new Date().toISOString();
+      if (opts.callbackId) this.webhooks.add(opts.callbackId);
       return { ok: true, order: clone(order), alreadyPaid: false };
     });
   }
@@ -212,5 +233,18 @@ export class MemoryStore implements Store {
 
   async putWebhook(id: string): Promise<void> {
     this.webhooks.add(id);
+  }
+
+  async expireUnpaid(maxAgeMs: number): Promise<number> {
+    const cutoff = Date.now() - maxAgeMs;
+    const ids = [...this.orders.values()]
+      .filter((order) => order.status === 'awaiting_payment' && Date.parse(order.createdAt) < cutoff)
+      .map((order) => order.id);
+    let expired = 0;
+    for (const id of ids) {
+      const result = await this.cancelAtomic(id);
+      if (result.ok) expired += 1;
+    }
+    return expired;
   }
 }

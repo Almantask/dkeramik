@@ -22,6 +22,8 @@ function testApp(store: MemoryStore, frontendOrigin = 'http://localhost:3000') {
     webhookSecret,
     notifyEmail: 'shop@example.com',
     allowTestReset: true,
+    allowMockPay: true,
+    secureCookies: false,
   });
 }
 
@@ -41,6 +43,12 @@ describe('shop API', () => {
     store = new MemoryStore();
     await store.seedIfEmpty();
     app = testApp(store);
+  });
+
+  it('accepts an empty test reset', async () => {
+    const res = await app.request('/api/test/reset', { method: 'POST' });
+    expect(res.status).toBe(200);
+    expect(await res.json()).toEqual({ ok: true });
   });
 
   it('lists inventory with prices and stock', async () => {
@@ -67,6 +75,7 @@ describe('shop API', () => {
     const body = await res.json();
     expect(body.invoiceNumber).toMatch(/^DK-\d{4}-0001$/);
     expect(body.payUrl).toContain('/mock-pay/');
+    expect(body.payUrl).toContain(`token=${body.token}`);
     const inv = await store.getInventory('morning-coffee-mug');
     expect(inv?.stock).toBe(2);
   });
@@ -254,10 +263,11 @@ describe('shop API', () => {
       }),
     });
     const order = await created.json();
-    const cookie = await loginCookie(app);
+    const { cookie, csrf } = await adminAuth(app);
     const cancel = await app.request(`/admin/orders/${order.orderId}/cancel`, {
       method: 'POST',
-      headers: { cookie },
+      headers: { cookie, 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: `_csrf=${csrf}`,
     });
     expect(cancel.status).toBe(302);
     expect((await store.getInventory('rustic-dinner-bowl'))?.stock).toBe(2);
@@ -288,8 +298,12 @@ describe('shop API', () => {
       }),
     });
     const order = await created.json();
-    const cookie = await loginCookie(app);
-    await app.request(`/admin/orders/${order.orderId}/paid`, { method: 'POST', headers: { cookie } });
+    const { cookie, csrf } = await adminAuth(app);
+    await app.request(`/admin/orders/${order.orderId}/paid`, {
+      method: 'POST',
+      headers: { cookie, 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: `_csrf=${csrf}`,
+    });
     expect((await store.getOrder(order.orderId))?.status).toBe('paid');
     expect((await store.getOrder(order.orderId))?.paidVia).toBe('manual');
   });
@@ -420,8 +434,9 @@ describe('shop API', () => {
   });
 
   it('saves multiple inventory rows in one request', async () => {
-    const cookie = await loginCookie(app);
+    const { cookie, csrf } = await adminAuth(app);
     const body = new URLSearchParams();
+    body.append('_csrf', csrf);
     body.append('priceCents_morning-coffee-mug', '3300');
     body.append('stock_morning-coffee-mug', '5');
     body.append('forSale_morning-coffee-mug', 'on');
@@ -514,6 +529,203 @@ describe('shop API', () => {
     expect(html).toContain('rel="noopener noreferrer"');
     expect(html).toContain('http://localhost:3000/portfolio/morning-coffee-mug');
   });
+
+  it('rejects duplicate line items that would oversell', async () => {
+    const res = await app.request('/api/orders', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        items: [
+          { productId: 'petite-bud-vase', qty: 1 },
+          { productId: 'petite-bud-vase', qty: 1 },
+        ],
+        buyer,
+        delivery: 'pickup',
+        language: 'en',
+      }),
+    });
+    expect(res.status).toBe(409);
+    const inv = await store.getInventory('petite-bud-vase');
+    expect(inv?.stock).toBe(1);
+  });
+
+  it('rejects invalid buyer email and shipping without an address', async () => {
+    const badEmail = await app.request('/api/orders', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        items: [{ productId: 'morning-coffee-mug', qty: 1 }],
+        buyer: { ...buyer, email: 'not-an-email' },
+        delivery: 'pickup',
+        language: 'en',
+      }),
+    });
+    expect(badEmail.status).toBe(400);
+    const shipping = await app.request('/api/orders', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        items: [{ productId: 'morning-coffee-mug', qty: 1 }],
+        buyer,
+        delivery: 'shipping',
+        language: 'en',
+      }),
+    });
+    expect(shipping.status).toBe(400);
+  });
+
+  it('accepts an order token via header', async () => {
+    const created = await app.request('/api/orders', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        items: [{ productId: 'speckled-planter', qty: 1 }],
+        buyer,
+        delivery: 'pickup',
+        language: 'en',
+      }),
+    });
+    const order = await created.json();
+    const res = await app.request(`/api/orders/${order.orderId}`, {
+      headers: { 'X-Order-Token': order.token },
+    });
+    expect(res.status).toBe(200);
+    expect(res.headers.get('referrer-policy')).toBe('no-referrer');
+  });
+
+  it('rejects a webhook with a non-finite amount', async () => {
+    const created = await app.request('/api/orders', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        items: [{ productId: 'candle-holder-trio', qty: 1 }],
+        buyer,
+        delivery: 'pickup',
+        language: 'en',
+      }),
+    });
+    const order = await created.json();
+    const raw = JSON.stringify({
+      callback_id: 'cb-nan',
+      merchant_order_id: order.orderId,
+      payment_id: 'ps-nan',
+    });
+    const res = await app.request('/api/webhooks/paysera', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-Paysera-Signature': signWebhook(raw, webhookSecret) },
+      body: raw,
+    });
+    expect(res.status).toBe(400);
+    expect((await store.getOrder(order.orderId))?.status).toBe('awaiting_payment');
+  });
+
+  it('does not expose mock-pay when it is disabled', async () => {
+    const locked = createApp({
+      store,
+      payments: createPaymentProvider('http://localhost:8787'),
+      mailer: { async sendOrderEmails() {}, async sendPaidEmails() {} },
+      publicApiUrl: 'http://localhost:8787',
+      frontendOrigin: 'http://localhost:3000',
+      adminPassword: 'test-admin',
+      sessionSecret: 'test-session',
+      webhookSecret,
+      notifyEmail: 'shop@example.com',
+      allowTestReset: true,
+      allowMockPay: false,
+      secureCookies: false,
+    });
+    const created = await app.request('/api/orders', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        items: [{ productId: 'tea-cup-pair', qty: 1 }],
+        buyer,
+        delivery: 'pickup',
+        language: 'en',
+      }),
+    });
+    const order = await created.json();
+    const get = await locked.request(`/mock-pay/${order.orderId}?token=${order.token}`);
+    expect(get.status).toBe(404);
+    const post = await locked.request(`/mock-pay/${order.orderId}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: `token=${order.token}`,
+    });
+    expect(post.status).toBe(404);
+    expect((await store.getOrder(order.orderId))?.status).toBe('awaiting_payment');
+  });
+
+  it('requires the order token for mock-pay', async () => {
+    const created = await app.request('/api/orders', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        items: [{ productId: 'nesting-bowls-set', qty: 1 }],
+        buyer,
+        delivery: 'pickup',
+        language: 'en',
+      }),
+    });
+    const order = await created.json();
+    const denied = await app.request(`/mock-pay/${order.orderId}`, { method: 'POST' });
+    expect(denied.status).toBe(404);
+    const ok = await app.request(`/mock-pay/${order.orderId}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: `token=${order.token}`,
+    });
+    expect(ok.status).toBe(302);
+    expect((await store.getOrder(order.orderId))?.status).toBe('paid');
+  });
+
+  it('rejects admin mutations without a CSRF token', async () => {
+    const created = await app.request('/api/orders', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        items: [{ productId: 'morning-coffee-mug', qty: 1 }],
+        buyer,
+        delivery: 'pickup',
+        language: 'en',
+      }),
+    });
+    const order = await created.json();
+    const cookie = await loginCookie(app);
+    const res = await app.request(`/admin/orders/${order.orderId}/paid`, {
+      method: 'POST',
+      headers: { cookie, 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: '',
+    });
+    expect(res.status).toBe(403);
+    expect((await store.getOrder(order.orderId))?.status).toBe('awaiting_payment');
+  });
+
+  it('expires stale unpaid orders and restocks', async () => {
+    const created = await app.request('/api/orders', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        items: [{ productId: 'morning-coffee-mug', qty: 1 }],
+        buyer,
+        delivery: 'pickup',
+        language: 'en',
+      }),
+    });
+    const order = await created.json();
+    await store.updateOrder(order.orderId, {
+      createdAt: new Date(Date.now() - 8 * 24 * 60 * 60 * 1000).toISOString(),
+    });
+    expect(await store.expireUnpaid(7 * 24 * 60 * 60 * 1000)).toBe(1);
+    expect((await store.getOrder(order.orderId))?.status).toBe('cancelled');
+    expect((await store.getInventory('morning-coffee-mug'))?.stock).toBe(3);
+  });
+
+  it('sets framing and CSP headers', async () => {
+    const res = await app.request('/api/health');
+    expect(res.headers.get('x-frame-options')).toBe('DENY');
+    expect(res.headers.get('content-security-policy')).toContain("frame-ancestors 'none'");
+  });
 });
 
 async function loginCookie(app: ReturnType<typeof testApp>): Promise<string> {
@@ -524,4 +736,12 @@ async function loginCookie(app: ReturnType<typeof testApp>): Promise<string> {
   });
   const setCookie = res.headers.get('set-cookie') ?? '';
   return setCookie.split(';')[0];
+}
+
+async function adminAuth(app: ReturnType<typeof testApp>): Promise<{ cookie: string; csrf: string }> {
+  const cookie = await loginCookie(app);
+  const page = await app.request('/admin/orders', { headers: { cookie } });
+  const html = await page.text();
+  const csrf = html.match(/name="_csrf" value="([^"]+)"/)?.[1] ?? '';
+  return { cookie, csrf };
 }

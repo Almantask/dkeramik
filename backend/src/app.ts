@@ -1,4 +1,5 @@
-import { Hono } from 'hono';
+import { Hono, type Context } from 'hono';
+import { bodyLimit } from 'hono/body-limit';
 import { cors } from 'hono/cors';
 import { deleteCookie, getCookie, setCookie } from 'hono/cookie';
 import {
@@ -9,11 +10,12 @@ import {
   settingsPage,
 } from './admin-html.js';
 import { hmacSha256Hex, randomId, randomToken, timingSafeEqual } from './crypto.js';
-import { centsToEur, type BuyerInput, type DeliveryMethod, type ShopLanguage } from './domain.js';
+import { centsToEur } from './domain.js';
 import type { Mailer } from './mailer.js';
+import { parseCentsAmount, parseOrderBody, webhookCallbackId } from './order-input.js';
 import type { PaymentProvider } from './paysera.js';
-import { signWebhook } from './paysera.js';
 import { buildInvoicePdf } from './pdf.js';
+import { MemoryRateLimiter } from './rate-limit.js';
 import { corsAllowOrigin, publicPageUrl } from './site-url.js';
 import type { Store } from './store.js';
 
@@ -28,7 +30,16 @@ export interface AppDeps {
   webhookSecret: string;
   notifyEmail: string;
   allowTestReset: boolean;
+  allowMockPay: boolean;
+  secureCookies: boolean;
 }
+
+const SESSION_MS = 12 * 60 * 60 * 1000;
+const ORDER_JSON_MAX = 64 * 1024;
+const UNPAID_TTL_MS = 7 * 24 * 60 * 60 * 1000;
+const HTML_CSP =
+  "default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline'; img-src 'self' https: data:; form-action 'self'; frame-ancestors 'none'; base-uri 'none'";
+const API_CSP = "default-src 'none'; frame-ancestors 'none'; base-uri 'none'";
 
 function publicOrder(
   order: {
@@ -67,27 +78,103 @@ function publicOrder(
   };
 }
 
+function adminCookieName(secure: boolean): string {
+  return secure ? '__Host-admin' : 'admin';
+}
+
 function makeSession(secret: string, password: string): string {
-  const exp = String(Date.now() + 12 * 60 * 60 * 1000);
-  return `${exp}.${hmacSha256Hex(`${exp}:${password}`, secret)}`;
+  const exp = String(Date.now() + SESSION_MS);
+  const sid = randomToken(16);
+  return `${exp}.${sid}.${hmacSha256Hex(`${exp}:${sid}:${password}`, secret)}`;
 }
 
 function sessionOk(cookie: string | undefined, secret: string, password: string): boolean {
-  if (!cookie?.includes('.')) return false;
-  const [exp, sig] = cookie.split('.');
-  if (Number(exp) < Date.now()) return false;
-  return timingSafeEqual(hmacSha256Hex(`${exp}:${password}`, secret), sig);
+  if (!cookie) return false;
+  const parts = cookie.split('.');
+  if (parts.length !== 3) return false;
+  const [exp, sid, sig] = parts;
+  if (!/^\d+$/.test(exp) || Number(exp) < Date.now()) return false;
+  if (!/^[0-9a-f]+$/.test(sid) || !/^[0-9a-f]+$/.test(sig)) return false;
+  return timingSafeEqual(hmacSha256Hex(`${exp}:${sid}:${password}`, secret), sig);
+}
+
+function readAdminCookie(c: Context, secure: boolean): string | undefined {
+  return getCookie(c, adminCookieName(secure)) ?? getCookie(c, 'admin');
+}
+
+function passwordOk(given: string, expected: string, secret: string): boolean {
+  return timingSafeEqual(hmacSha256Hex(`pw:${given}`, secret), hmacSha256Hex(`pw:${expected}`, secret));
+}
+
+function clientIp(c: { req: { header: (name: string) => string | undefined } }): string {
+  const forwarded = c.req.header('x-forwarded-for');
+  if (forwarded) return forwarded.split(',')[0]!.trim() || 'unknown';
+  return c.req.header('cf-connecting-ip') ?? 'unknown';
+}
+
+function readOrderToken(c: {
+  req: { header: (name: string) => string | undefined; query: (name: string) => string | undefined };
+}): string | undefined {
+  const header = c.req.header('X-Order-Token') ?? c.req.header('x-order-token');
+  if (header?.trim()) return header.trim();
+  const query = c.req.query('token');
+  return query?.trim() || undefined;
+}
+
+function tokenMatches(expected: string, given: string | undefined): boolean {
+  if (!given) return false;
+  return timingSafeEqual(expected, given);
+}
+
+function csrfFromCookie(cookie: string | undefined, secret: string, password: string): string | null {
+  if (!cookie || !sessionOk(cookie, secret, password)) return null;
+  const [exp, sid] = cookie.split('.');
+  if (!exp || !sid) return null;
+  return hmacSha256Hex(`csrf:${exp}:${sid}:${password}`, secret);
 }
 
 export function createApp(deps: AppDeps) {
   const app = new Hono();
+  const loginLimiter = new MemoryRateLimiter({ max: 10, windowMs: 15 * 60 * 1000 });
+  const orderLimiter = new MemoryRateLimiter({ max: 120, windowMs: 15 * 60 * 1000 });
+  const webhookLimiter = new MemoryRateLimiter({ max: 120, windowMs: 60 * 1000 });
+  let lastExpireAt = 0;
+
+  async function maybeExpireUnpaid() {
+    const now = Date.now();
+    if (now - lastExpireAt < 60_000) return;
+    lastExpireAt = now;
+    try {
+      await deps.store.expireUnpaid(UNPAID_TTL_MS);
+    } catch (err) {
+      console.error('expire unpaid failed', err);
+    }
+  }
+
+  app.use('*', async (c, next) => {
+    await next();
+    c.header('Referrer-Policy', 'no-referrer');
+    c.header('X-Content-Type-Options', 'nosniff');
+    c.header('X-Frame-Options', 'DENY');
+    c.header('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
+    const contentType = c.res.headers.get('content-type') ?? '';
+    c.header('Content-Security-Policy', contentType.includes('text/html') ? HTML_CSP : API_CSP);
+  });
+
+  app.use(
+    '*',
+    bodyLimit({
+      maxSize: ORDER_JSON_MAX,
+      onError: (c) => c.json({ error: 'payload_too_large' }, 413),
+    }),
+  );
 
   app.use(
     '/api/*',
     cors({
       origin: corsAllowOrigin(deps.frontendOrigin),
       allowMethods: ['GET', 'POST', 'OPTIONS'],
-      allowHeaders: ['Content-Type', 'X-Paysera-Signature'],
+      allowHeaders: ['Content-Type', 'X-Paysera-Signature', 'X-Order-Token'],
     }),
   );
 
@@ -101,6 +188,7 @@ export function createApp(deps: AppDeps) {
   }
 
   app.get('/api/products', async (c) => {
+    await maybeExpireUnpaid();
     const items = await deps.store.listInventory();
     return c.json({
       products: items.map((item) => ({
@@ -126,22 +214,29 @@ export function createApp(deps: AppDeps) {
   });
 
   app.post('/api/orders', async (c) => {
-    const body = await c.req.json<{
-      items?: Array<{ productId: string; qty: number }>;
-      buyer?: BuyerInput;
-      delivery?: DeliveryMethod;
-      language?: ShopLanguage;
-    }>();
-    if (!body.items?.length || !body.buyer?.email || !body.buyer?.name) {
+    if (!orderLimiter.allow(`ip:${clientIp(c)}`)) {
+      return c.json({ error: 'rate_limited' }, 429);
+    }
+    let raw: unknown;
+    try {
+      raw = await c.req.json();
+    } catch {
       return c.json({ error: 'invalid_body' }, 400);
+    }
+    const parsed = parseOrderBody(raw);
+    if (!parsed.ok) {
+      return c.json({ error: parsed.error }, 400);
+    }
+    if (!orderLimiter.allow(`email:${parsed.buyer.email.toLowerCase()}`)) {
+      return c.json({ error: 'rate_limited' }, 429);
     }
     const created = await deps.store.createOrderAtomic({
       orderId: randomId('ord'),
       token: randomToken(),
-      items: body.items,
-      buyer: body.buyer,
-      delivery: body.delivery === 'shipping' ? 'shipping' : 'pickup',
-      language: body.language === 'en' ? 'en' : 'lt',
+      items: parsed.items,
+      buyer: parsed.buyer,
+      delivery: parsed.delivery,
+      language: parsed.language,
     });
     if (!created.ok) {
       return c.json(
@@ -175,20 +270,27 @@ export function createApp(deps: AppDeps) {
 
   app.get('/api/orders/:id', async (c) => {
     const order = await deps.store.getOrder(c.req.param('id'));
-    if (!order || order.token !== c.req.query('token')) return c.json({ error: 'not_found' }, 404);
+    if (!order || !tokenMatches(order.token, readOrderToken(c))) {
+      return c.json({ error: 'not_found' }, 404);
+    }
     const settings = await deps.store.getSettings();
-    return c.json(publicOrder(order, settings.iban));
+    return c.json(publicOrder(order, settings.iban), 200, {
+      'Cache-Control': 'private, no-store',
+    });
   });
 
   app.get('/api/orders/:id/invoice.pdf', async (c) => {
     const order = await deps.store.getOrder(c.req.param('id'));
-    if (!order || order.token !== c.req.query('token')) return c.body('unauthorized', 401);
+    if (!order || !tokenMatches(order.token, readOrderToken(c))) return c.body('unauthorized', 401);
     const pdf = await deps.store.getPdf(order.invoiceNumber);
     if (!pdf) return c.body('not found', 404);
     return new Response(new Uint8Array(pdf), {
       headers: {
         'Content-Type': 'application/pdf',
         'Content-Disposition': `inline; filename="${order.invoiceNumber}.pdf"`,
+        'Cache-Control': 'private, no-store',
+        'Referrer-Policy': 'no-referrer',
+        'X-Content-Type-Options': 'nosniff',
       },
     });
   });
@@ -197,23 +299,31 @@ export function createApp(deps: AppDeps) {
     if (!deps.payments.verifyWebhook(raw, signature)) {
       return { status: 401 as const, body: { error: 'invalid_signature' } };
     }
-    const payload = JSON.parse(raw) as {
+    let payload: {
       callback_id?: string;
       merchant_order_id?: string;
-      amount?: number;
+      amount?: unknown;
       payment_id?: string;
     };
-    const callbackId = payload.callback_id ?? payload.payment_id;
-    if (!callbackId) return { status: 400 as const, body: { error: 'missing_callback_id' } };
-    if (await deps.store.hasWebhook(callbackId)) {
-      return { status: 200 as const, body: { ok: true, duplicate: true } };
+    try {
+      payload = JSON.parse(raw) as typeof payload;
+    } catch {
+      return { status: 400 as const, body: { error: 'invalid_json' } };
     }
-    await deps.store.putWebhook(callbackId);
-    if (!payload.merchant_order_id) return { status: 400 as const, body: { error: 'missing_order' } };
+    const callbackId = webhookCallbackId(payload.callback_id ?? payload.payment_id);
+    if (!callbackId) return { status: 400 as const, body: { error: 'missing_callback_id' } };
+    if (!payload.merchant_order_id || typeof payload.merchant_order_id !== 'string') {
+      return { status: 400 as const, body: { error: 'missing_order' } };
+    }
+    const amountCents = parseCentsAmount(payload.amount);
+    if (amountCents === null) {
+      return { status: 400 as const, body: { error: 'invalid_amount' } };
+    }
     const result = await deps.store.markPaidAtomic(payload.merchant_order_id, {
-      amountCents: Number(payload.amount),
+      amountCents,
       via: 'paysera',
-      paymentId: payload.payment_id,
+      paymentId: typeof payload.payment_id === 'string' ? payload.payment_id : undefined,
+      callbackId,
     });
     if (!result.ok) {
       if (result.error === 'underpaid') {
@@ -222,7 +332,13 @@ export function createApp(deps: AppDeps) {
       if (result.error === 'cancelled') {
         return { status: 409 as const, body: { error: 'cancelled' } };
       }
+      if (result.error === 'invalid_amount') {
+        return { status: 400 as const, body: { error: 'invalid_amount' } };
+      }
       return { status: 404 as const, body: { error: result.error } };
+    }
+    if (result.duplicate) {
+      return { status: 200 as const, body: { ok: true, duplicate: true } };
     }
     if (!result.alreadyPaid) {
       try {
@@ -235,6 +351,9 @@ export function createApp(deps: AppDeps) {
   }
 
   app.post('/api/webhooks/paysera', async (c) => {
+    if (!webhookLimiter.allow(clientIp(c))) {
+      return c.json({ error: 'rate_limited' }, 429);
+    }
     const raw = await c.req.text();
     const result = await handlePaysera(
       raw,
@@ -243,60 +362,86 @@ export function createApp(deps: AppDeps) {
     return c.json(result.body, result.status);
   });
 
-  app.get('/mock-pay/:id', async (c) => {
-    const order = await deps.store.getOrder(c.req.param('id'));
-    if (!order) return c.body('not found', 404);
-    return c.html(mockPayPage(order));
-  });
-
-  app.post('/mock-pay/:id', async (c) => {
-    const order = await deps.store.getOrder(c.req.param('id'));
-    if (!order) return c.body('not found', 404);
-    const raw = JSON.stringify({
-      callback_id: `mock-${order.id}-${Date.now()}`,
-      merchant_order_id: order.id,
-      status: 'paid',
-      amount: order.amountCents,
-      currency: 'EUR',
-      payment_id: `mockpay_${order.id}`,
+  if (deps.allowMockPay) {
+    app.get('/mock-pay/:id', async (c) => {
+      const order = await deps.store.getOrder(c.req.param('id'));
+      if (!order || !tokenMatches(order.token, c.req.query('token'))) return c.body('not found', 404);
+      return c.html(mockPayPage(order));
     });
-    await handlePaysera(raw, signWebhook(raw, deps.webhookSecret));
-    return c.redirect(
-      publicPageUrl(
-        deps.frontendOrigin,
-        `/checkout/confirmation?orderId=${order.id}&token=${order.token}`,
-      ),
-    );
-  });
+
+    app.post('/mock-pay/:id', async (c) => {
+      const order = await deps.store.getOrder(c.req.param('id'));
+      if (!order) return c.body('not found', 404);
+      const body = await c.req.parseBody();
+      const token = String(body.token ?? c.req.query('token') ?? '');
+      if (!tokenMatches(order.token, token)) return c.body('not found', 404);
+      await deps.store.markPaidAtomic(order.id, {
+        amountCents: order.amountCents,
+        via: 'paysera',
+        paymentId: `mockpay_${order.id}`,
+      });
+      return c.redirect(
+        publicPageUrl(
+          deps.frontendOrigin,
+          `/checkout/confirmation#orderId=${encodeURIComponent(order.id)}&token=${encodeURIComponent(order.token)}`,
+        ),
+      );
+    });
+  }
 
   app.get('/admin/login', (c) => c.html(loginPage()));
   app.post('/admin/login', async (c) => {
+    if (!loginLimiter.allow(clientIp(c))) {
+      return c.html(loginPage('Too many attempts. Try again later.'), 429);
+    }
     const body = await c.req.parseBody();
-    if (String(body.password ?? '') !== deps.adminPassword) {
+    const given = String(body.password ?? '');
+    if (!passwordOk(given, deps.adminPassword, deps.sessionSecret)) {
       return c.html(loginPage('Invalid password'), 401);
     }
-    setCookie(c, 'admin', makeSession(deps.sessionSecret, deps.adminPassword), {
+    setCookie(c, adminCookieName(deps.secureCookies), makeSession(deps.sessionSecret, deps.adminPassword), {
       httpOnly: true,
       path: '/',
       sameSite: 'Lax',
+      secure: deps.secureCookies,
+      maxAge: SESSION_MS / 1000,
     });
     return c.redirect('/admin/orders');
   });
   app.post('/admin/logout', (c) => {
+    deleteCookie(c, adminCookieName(deps.secureCookies), { path: '/' });
     deleteCookie(c, 'admin', { path: '/' });
     return c.redirect('/admin/login');
   });
 
   app.use('/admin/*', async (c, next) => {
     if (c.req.path === '/admin/login') return next();
-    if (!sessionOk(getCookie(c, 'admin'), deps.sessionSecret, deps.adminPassword)) {
+    const cookie = readAdminCookie(c, deps.secureCookies);
+    if (!sessionOk(cookie, deps.sessionSecret, deps.adminPassword)) {
       return c.redirect('/admin/login');
+    }
+    if (c.req.method === 'POST') {
+      const expected = csrfFromCookie(cookie, deps.sessionSecret, deps.adminPassword);
+      let given = '';
+      try {
+        const form = await c.req.raw.clone().formData();
+        given = String(form.get('_csrf') ?? '');
+      } catch {
+        given = '';
+      }
+      if (!expected || !given || !timingSafeEqual(expected, given)) {
+        return c.body('forbidden', 403);
+      }
     }
     await next();
   });
 
   app.get('/admin', (c) => c.redirect('/admin/orders'));
-  app.get('/admin/orders', async (c) => c.html(ordersPage(await deps.store.listOrders(), deps.frontendOrigin)));
+  app.get('/admin/orders', async (c) => {
+    await maybeExpireUnpaid();
+    const csrf = csrfFromCookie(readAdminCookie(c, deps.secureCookies), deps.sessionSecret, deps.adminPassword) ?? '';
+    return c.html(ordersPage(await deps.store.listOrders(), deps.frontendOrigin, csrf));
+  });
   app.post('/admin/orders/:id/paid', async (c) => {
     const order = await deps.store.getOrder(c.req.param('id'));
     if (!order) return c.body('not found', 404);
@@ -322,7 +467,10 @@ export function createApp(deps: AppDeps) {
     if (!pdf) return c.body('not found', 404);
     return new Response(new Uint8Array(pdf), { headers: { 'Content-Type': 'application/pdf' } });
   });
-  app.get('/admin/inventory', async (c) => c.html(inventoryPage(await deps.store.listInventory(), deps.frontendOrigin)));
+  app.get('/admin/inventory', async (c) => {
+    const csrf = csrfFromCookie(readAdminCookie(c, deps.secureCookies), deps.sessionSecret, deps.adminPassword) ?? '';
+    return c.html(inventoryPage(await deps.store.listInventory(), deps.frontendOrigin, csrf));
+  });
   app.post('/admin/inventory', async (c) => {
     const body = await c.req.parseBody({ all: true });
     const formString = (value: unknown): string | undefined => {
@@ -358,7 +506,10 @@ export function createApp(deps: AppDeps) {
     await deps.store.upsertInventory(existing);
     return c.redirect('/admin/inventory');
   });
-  app.get('/admin/settings', async (c) => c.html(settingsPage(await deps.store.getSettings())));
+  app.get('/admin/settings', async (c) => {
+    const csrf = csrfFromCookie(readAdminCookie(c, deps.secureCookies), deps.sessionSecret, deps.adminPassword) ?? '';
+    return c.html(settingsPage(await deps.store.getSettings(), csrf));
+  });
   app.post('/admin/settings', async (c) => {
     const body = await c.req.parseBody();
     const current = await deps.store.getSettings();

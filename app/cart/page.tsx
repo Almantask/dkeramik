@@ -8,6 +8,7 @@ import { getProductById } from '@/content/products';
 import { formatEur } from '@/lib/format-money';
 import { useLanguage } from '@/lib/i18n';
 import { fetchInventory, type LiveInventory } from '@/lib/shop-api';
+import ProductImage from '@/components/ui/ProductImage';
 
 export default function CartPage() {
   const { language, t } = useLanguage();
@@ -48,10 +49,9 @@ export default function CartPage() {
             {rows.map((row) => (
               <li key={row.product.id} className="border-b border-clay-200 pb-4 flex items-start gap-4">
                 <Link href={`/shop/${row.product.id}`} className="shrink-0">
-                  <div
-                    className="w-16 h-16 rounded bg-clay-100"
-                    dangerouslySetInnerHTML={{ __html: row.product.image }}
-                  />
+                  <div className="w-16 h-16 rounded bg-clay-100 overflow-hidden">
+                    <ProductImage svg={row.product.image} alt={row.product.name[language]} />
+                  </div>
                 </Link>
                 <div className="flex-1 min-w-0">
                   <Link href={`/shop/${row.product.id}`} className="hover:underline">

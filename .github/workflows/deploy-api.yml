@@ -3,7 +3,7 @@
 # GitHub secrets:
 #   FRONTEND_ORIGIN   e.g. https://almantask.github.io/dkeramik
 #   PUBLIC_API_URL    Cloud Run HTTPS URL (https://dkeramik-api-409106094209.europe-central2.run.app)
-#   ADMIN_PASSWORD    Admin panel login for /admin/login (required; applied on each API deploy)
+#   ADMIN_PASSWORD    Admin panel login (synced to Secret Manager on deploy)
 #
 # GitHub variables:
 #   PAYSERA_TEST      "true" until live bank links
@@ -12,7 +12,7 @@
 #   Google Workload Identity Federation (WIF) via github-actions-sa
 #
 # Secret Manager (project dkeramik-fullstack):
-#   Required: SESSION_SECRET, WEBHOOK_SECRET
+#   Required: ADMIN_PASSWORD, SESSION_SECRET, WEBHOOK_SECRET
 #   Optional: PAYSERA_PROJECT_ID, PAYSERA_PASSWORD (disabled if unset)
 #   Optional: SMTP_HOST, SMTP_USER, SMTP_PASS, SMTP_FROM (mounted when those secrets exist)
 
@@ -94,20 +94,38 @@ jobs:
             echo "Set repository secrets FRONTEND_ORIGIN, PUBLIC_API_URL, and ADMIN_PASSWORD."
             exit 1
           fi
-      - name: Clear secret-typed ADMIN_PASSWORD
+      - name: Upsert ADMIN_PASSWORD in Secret Manager
+        env:
+          ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
         run: |
-          if gcloud run services describe "$SERVICE" --region="$REGION" --project="$PROJECT_ID" >/dev/null 2>&1; then
-            gcloud run services update "$SERVICE" \
-              --region="$REGION" \
-              --project="$PROJECT_ID" \
-              --remove-secrets=ADMIN_PASSWORD \
-              --quiet || true
+          printf '%s' "$ADMIN_PASSWORD" > /tmp/admin-password
+          if gcloud secrets describe ADMIN_PASSWORD --project="$PROJECT_ID" >/dev/null 2>&1; then
+            if gcloud secrets versions access latest --secret=ADMIN_PASSWORD --project="$PROJECT_ID" > /tmp/admin-password-current 2>/dev/null \
+              && cmp -s /tmp/admin-password /tmp/admin-password-current; then
+              echo "ADMIN_PASSWORD secret unchanged"
+            else
+              gcloud secrets versions add ADMIN_PASSWORD --data-file=/tmp/admin-password --project="$PROJECT_ID"
+            fi
+          else
+            gcloud secrets create ADMIN_PASSWORD --data-file=/tmp/admin-password --project="$PROJECT_ID"
           fi
+          PROJECT_NUMBER="$(gcloud projects describe "$PROJECT_ID" --format='value(projectNumber)')"
+          gcloud secrets add-iam-policy-binding ADMIN_PASSWORD \
+            --project="$PROJECT_ID" \
+            --member="serviceAccount:${PROJECT_NUMBER}-compute@developer.gserviceaccount.com" \
+            --role="roles/secretmanager.secretAccessor" \
+            --quiet
+          rm -f /tmp/admin-password /tmp/admin-password-current
+      - name: Restrict invoice bucket public access
+        run: |
+          gcloud storage buckets update "gs://dkeramik-fullstack-invoices" \
+            --project="$PROJECT_ID" \
+            --uniform-bucket-level-access \
+            --public-access-prevention=enforced
       - name: Deploy Cloud Run
         env:
           FRONTEND_ORIGIN: ${{ secrets.FRONTEND_ORIGIN }}
           PUBLIC_API_URL: ${{ secrets.PUBLIC_API_URL }}
-          ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
           PAYSERA_TEST: ${{ vars.PAYSERA_TEST }}
         run: |
           python3 - <<'PY'
@@ -126,14 +144,13 @@ jobs:
               "NOTIFY_EMAIL": "info@dkeramik.lt",
               "SMTP_PORT": "587",
               "ALLOW_TEST_RESET": "false",
-              "ADMIN_PASSWORD": os.environ["ADMIN_PASSWORD"],
           }
           Path("/tmp/cloud-run-env.yaml").write_text(
               "".join(f"{key}: {json.dumps(value)}\n" for key, value in env.items())
           )
           PY
 
-          SECRETS="SESSION_SECRET=SESSION_SECRET:latest,WEBHOOK_SECRET=WEBHOOK_SECRET:latest"
+          SECRETS="ADMIN_PASSWORD=ADMIN_PASSWORD:latest,SESSION_SECRET=SESSION_SECRET:latest,WEBHOOK_SECRET=WEBHOOK_SECRET:latest"
           if gcloud secrets describe PAYSERA_PROJECT_ID --project="$PROJECT_ID" >/dev/null 2>&1 && \
              gcloud secrets describe PAYSERA_PASSWORD --project="$PROJECT_ID" >/dev/null 2>&1; then
             SECRETS="${SECRETS},PAYSERA_PROJECT_ID=PAYSERA_PROJECT_ID:latest,PAYSERA_PASSWORD=PAYSERA_PASSWORD:latest"
@@ -147,14 +164,19 @@ jobs:
             fi
           fi
 
-          gcloud run deploy "$SERVICE" \
-            --image "$IMAGE" \
-            --region "$REGION" \
-            --project "$PROJECT_ID" \
-            --allow-unauthenticated \
-            --min-instances 0 \
-            --max-instances 2 \
-            --memory 512Mi \
-            --cpu 1 \
-            --env-vars-file=/tmp/cloud-run-env.yaml \
+          DEPLOY_ARGS=(
+            --image "$IMAGE"
+            --region "$REGION"
+            --project "$PROJECT_ID"
+            --allow-unauthenticated
+            --min-instances 0
+            --max-instances 2
+            --memory 512Mi
+            --cpu 1
+            --env-vars-file=/tmp/cloud-run-env.yaml
             --set-secrets "$SECRETS"
+          )
+          if gcloud run services describe "$SERVICE" --region="$REGION" --project="$PROJECT_ID" >/dev/null 2>&1; then
+            DEPLOY_ARGS+=(--remove-env-vars=ADMIN_PASSWORD)
+          fi
+          gcloud run deploy "$SERVICE" "${DEPLOY_ARGS[@]}"

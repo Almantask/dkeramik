@@ -1,10 +1,7 @@
 import { PRODUCT_NAMES } from './catalog.js';
 import { centsToEur, type InventoryRecord, type OrderRecord, type ShopSettings } from './domain.js';
+import { escapeHtml as esc } from './html.js';
 import { publicPageUrl } from './site-url.js';
-
-function esc(value: string): string {
-  return value.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-}
 
 const css = `
   body{font-family:Nunito,system-ui,sans-serif;background:#fdf8f5;color:#6b4c30;margin:0}
@@ -38,21 +35,25 @@ export function loginPage(error?: string): string {
   </main></body></html>`;
 }
 
-function shell(title: string, body: string): string {
+function csrfField(csrf: string): string {
+  return `<input type="hidden" name="_csrf" value="${esc(csrf)}">`;
+}
+
+function shell(title: string, body: string, csrf: string): string {
   return `<!doctype html><html><head><meta charset="utf-8"><title>${esc(title)}</title><style>${css}</style></head>
   <body><main>
     <nav>
       <a href="/admin/orders">Orders</a>
       <a href="/admin/inventory">Inventory</a>
       <a href="/admin/settings">Settings</a>
-      <form method="post" action="/admin/logout" style="display:inline"><button class="btn" type="submit">Log out</button></form>
+      <form method="post" action="/admin/logout" style="display:inline">${csrfField(csrf)}<button class="btn" type="submit">Log out</button></form>
     </nav>
     <h1>${esc(title)}</h1>
     ${body}
   </main></body></html>`;
 }
 
-export function ordersPage(orders: OrderRecord[], frontendOrigin = ''): string {
+export function ordersPage(orders: OrderRecord[], frontendOrigin = '', csrf = ''): string {
   const rows = orders
     .map(
       (o) => {
@@ -77,11 +78,11 @@ export function ordersPage(orders: OrderRecord[], frontendOrigin = ''): string {
             <div class="actions">
             ${
               o.status === 'awaiting_payment'
-                ? `<form method="post" action="/admin/orders/${esc(o.id)}/paid"><button class="btn">Mark paid</button></form>
-            <form method="post" action="/admin/orders/${esc(o.id)}/cancel"><button class="btn">Cancel</button></form>`
+                ? `<form method="post" action="/admin/orders/${esc(o.id)}/paid">${csrfField(csrf)}<button class="btn">Mark paid</button></form>
+            <form method="post" action="/admin/orders/${esc(o.id)}/cancel">${csrfField(csrf)}<button class="btn">Cancel</button></form>`
                 : ''
             }
-            <form method="post" action="/admin/orders/${esc(o.id)}/resend"><button class="btn">Resend</button></form>
+            <form method="post" action="/admin/orders/${esc(o.id)}/resend">${csrfField(csrf)}<button class="btn">Resend</button></form>
             <a href="/admin/orders/${esc(o.id)}/invoice.pdf">PDF</a>
             </div>
           </td>
@@ -92,10 +93,11 @@ export function ordersPage(orders: OrderRecord[], frontendOrigin = ''): string {
   return shell(
     'Orders',
     `<div class="table-wrap"><table><thead><tr><th>Invoice</th><th>Status</th><th>Items</th><th>Buyer</th><th>Total</th><th>Paid via</th><th></th></tr></thead><tbody>${rows}</tbody></table></div>`,
+    csrf,
   );
 }
 
-export function inventoryPage(items: InventoryRecord[], frontendOrigin = ''): string {
+export function inventoryPage(items: InventoryRecord[], frontendOrigin = '', csrf = ''): string {
   const rows = items
     .map(
       (i) => {
@@ -125,6 +127,7 @@ export function inventoryPage(items: InventoryRecord[], frontendOrigin = ''): st
   return shell(
     'Inventory',
     `<form id="inventory-form" method="post" action="/admin/inventory">
+      ${csrfField(csrf)}
       <p class="actions inventory-toolbar">
         <button id="save-changes" class="btn" type="submit" disabled>Save changes</button>
       </p>
@@ -154,13 +157,15 @@ export function inventoryPage(items: InventoryRecord[], frontendOrigin = ''): st
         sync();
       })();
     </script>`,
+    csrf,
   );
 }
 
-export function settingsPage(settings: ShopSettings): string {
+export function settingsPage(settings: ShopSettings, csrf = ''): string {
   return shell(
     'Settings',
     `<form method="post" action="/admin/settings">
+      ${csrfField(csrf)}
       <p><label>IBAN<br><input name="iban" value="${esc(settings.iban)}" size="40"></label></p>
       <p><label>Seller name<br><input name="sellerName" value="${esc(settings.sellerName)}" size="40"></label></p>
       <p><label>Seller address<br><input name="sellerAddress" value="${esc(settings.sellerAddress)}" size="40"></label></p>
@@ -168,6 +173,7 @@ export function settingsPage(settings: ShopSettings): string {
       <p><label>LT shipping cents<br><input name="shippingLtCents" type="number" value="${settings.shippingLtCents}"></label></p>
       <p><button class="btn" type="submit">Save</button></p>
     </form>`,
+    csrf,
   );
 }
 
@@ -177,6 +183,7 @@ export function mockPayPage(order: OrderRecord): string {
     <h1>Mock Paysera</h1>
     <p>${esc(order.invoiceNumber)} — ${centsToEur(order.amountCents).toFixed(2)} EUR</p>
     <form method="post" action="/mock-pay/${esc(order.id)}">
+      <input type="hidden" name="token" value="${esc(order.token)}">
       <button class="btn" type="submit">Pay now</button>
     </form>
   </main></body></html>`;

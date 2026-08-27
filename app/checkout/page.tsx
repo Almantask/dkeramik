@@ -122,7 +122,7 @@ export default function CheckoutPage() {
     }
     cart.clear();
     router.push(
-      `/checkout/confirmation?orderId=${encodeURIComponent(result.order.orderId)}&token=${encodeURIComponent(result.order.token)}`,
+      `/checkout/confirmation#orderId=${encodeURIComponent(result.order.orderId)}&token=${encodeURIComponent(result.order.token)}`,
     );
   }
 

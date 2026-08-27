@@ -7,19 +7,28 @@ export interface PaymentProvider {
   verifyWebhook(rawBody: string, signature: string | undefined): boolean;
 }
 
+function disabledProvider(): PaymentProvider {
+  return {
+    async createPayment() {
+      return null;
+    },
+    verifyWebhook() {
+      return false;
+    },
+  };
+}
+
 export function createPaymentProvider(publicApiUrl: string): PaymentProvider {
   const provider = process.env.PAYMENT_PROVIDER ?? 'mock';
   const webhookSecret = process.env.WEBHOOK_SECRET ?? 'change-me-webhook';
 
   if (provider === 'none' || provider === 'disabled') {
-    return {
-      async createPayment() {
-        return null;
-      },
-      verifyWebhook() {
-        return false;
-      },
-    };
+    return disabledProvider();
+  }
+
+  if (provider === 'mock' && process.env.STORE === 'firestore') {
+    console.warn('Mock payments are disabled when STORE=firestore.');
+    return disabledProvider();
   }
 
   if (provider === 'paysera') {
@@ -30,14 +39,7 @@ export function createPaymentProvider(publicApiUrl: string): PaymentProvider {
       console.warn(
         'Paysera payment provider is active but PAYSERA_PROJECT_ID or PAYSERA_PASSWORD is not set. Online payments disabled.',
       );
-      return {
-        async createPayment() {
-          return null;
-        },
-        verifyWebhook() {
-          return false;
-        },
-      };
+      return disabledProvider();
     }
 
     return {
@@ -74,7 +76,7 @@ export function createPaymentProvider(publicApiUrl: string): PaymentProvider {
   return {
     async createPayment(order) {
       return {
-        payUrl: `${publicApiUrl.replace(/\/$/, '')}/mock-pay/${order.id}`,
+        payUrl: `${publicApiUrl.replace(/\/$/, '')}/mock-pay/${encodeURIComponent(order.id)}?token=${encodeURIComponent(order.token)}`,
         paymentId: `mock_${order.id}`,
       };
     },

@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { useLanguage } from '@/lib/i18n';
 import { getProductById } from '@/content/products';
+import ProductImage from '@/components/ui/ProductImage';
 
 interface ProductDetailProps {
   slug: string;
@@ -33,10 +34,9 @@ export default function ProductDetail({ slug }: ProductDetailProps) {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mt-6">
           {/* Image */}
           <div className="bg-clay-100 aspect-square flex items-center justify-center">
-            <div
-              className="w-3/4 h-3/4 flex items-center justify-center"
-              dangerouslySetInnerHTML={{ __html: product.image }}
-            />
+            <div className="w-3/4 h-3/4 flex items-center justify-center">
+              <ProductImage svg={product.image} alt={product.name[language]} />
+            </div>
           </div>
 
           {/* Details — no price shown (gallery, not shop) */}
@@ -94,10 +94,9 @@ export default function ProductDetail({ slug }: ProductDetailProps) {
                   key={i}
                   className="bg-clay-100 aspect-square flex items-center justify-center"
                 >
-                  <div
-                    className="w-full h-full flex items-center justify-center"
-                    dangerouslySetInnerHTML={{ __html: img }}
-                  />
+                  <div className="w-full h-full flex items-center justify-center">
+                    <ProductImage svg={img} alt={`${product.name[language]} ${i + 1}`} />
+                  </div>
                 </div>
               ))}
             </div>

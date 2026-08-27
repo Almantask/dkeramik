@@ -11,7 +11,7 @@ Deploy and ops follow-up after the first public shop release.
 
 ### Added
 
-- Admin panel link in the README: [https://dkeramik-api-409106094209.europe-central2.run.app/admin/login](https://dkeramik-api-409106094209.europe-central2.run.app/admin/login)
+- Admin panel is linked from the private shop-management guide, not the public README.
 
 ## 0.1.0 — 2026-08-23
 

@@ -1,31 +1,64 @@
 'use client';
 
-import { Suspense, useEffect, useState } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { useEffect, useState, type MouseEvent } from 'react';
 import { useLanguage } from '@/lib/i18n';
 import { formatEur } from '@/lib/format-money';
-import { fetchOrder, invoicePdfUrl, type PublicOrder } from '@/lib/shop-api';
+import { fetchInvoicePdf, fetchOrder, type PublicOrder } from '@/lib/shop-api';
+
+function readCredentials(): { orderId: string; token: string } {
+  if (typeof window === 'undefined') return { orderId: '', token: '' };
+  const hash = new URLSearchParams(window.location.hash.replace(/^#/, ''));
+  const search = new URLSearchParams(window.location.search);
+  return {
+    orderId: hash.get('orderId') || search.get('orderId') || '',
+    token: hash.get('token') || search.get('token') || '',
+  };
+}
 
 function ConfirmationInner() {
   const { language, t } = useLanguage();
-  const params = useSearchParams();
-  const orderId = params.get('orderId') ?? '';
-  const token = params.get('token') ?? '';
+  const [creds, setCreds] = useState<{ orderId: string; token: string } | null>(null);
   const [order, setOrder] = useState<PublicOrder | null>(null);
   const [error, setError] = useState(false);
 
   useEffect(() => {
-    if (!orderId || !token) {
+    const next = readCredentials();
+    if (next.orderId && next.token && window.location.search.includes('token=')) {
+      window.history.replaceState(
+        null,
+        '',
+        `${window.location.pathname}#orderId=${encodeURIComponent(next.orderId)}&token=${encodeURIComponent(next.token)}`,
+      );
+    }
+    setCreds(next);
+  }, []);
+
+  useEffect(() => {
+    if (!creds) return;
+    if (!creds.orderId || !creds.token) {
       setError(true);
       return;
     }
-    fetchOrder(orderId, token)
+    fetchOrder(creds.orderId, creds.token)
       .then(setOrder)
       .catch(() => setError(true));
-  }, [orderId, token]);
+  }, [creds]);
+
+  async function onDownloadInvoice(event: MouseEvent<HTMLAnchorElement>) {
+    event.preventDefault();
+    if (!order || !creds?.token) return;
+    const blob = await fetchInvoicePdf(order.orderId, creds.token);
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.rel = 'noopener';
+    link.download = `${order.invoiceNumber}.pdf`;
+    link.click();
+    URL.revokeObjectURL(url);
+  }
 
   if (error) return <p>{t.confirmation.notFound}</p>;
-  if (!order) return <p>{t.confirmation.loading}</p>;
+  if (!creds || !order) return <p>{t.confirmation.loading}</p>;
 
   const paid = order.status === 'paid';
 
@@ -53,13 +86,13 @@ function ConfirmationInner() {
       </div>
       {!paid && order.payUrl && (
         <p className="mt-6">
-          <a className="underline" href={order.payUrl}>
+          <a className="underline" href={order.payUrl} referrerPolicy="no-referrer" rel="noopener noreferrer">
             {t.confirmation.payCta}
           </a>
         </p>
       )}
       <p className="mt-4">
-        <a className="underline" href={invoicePdfUrl(order.orderId, token)}>
+        <a className="underline" href="#invoice" onClick={onDownloadInvoice}>
           {t.confirmation.downloadInvoice}
         </a>
       </p>
@@ -69,13 +102,10 @@ function ConfirmationInner() {
 }
 
 export default function ConfirmationPage() {
-  const { t } = useLanguage();
   return (
     <div className="min-h-screen bg-clay-50">
       <div className="max-w-2xl mx-auto px-4 py-16">
-        <Suspense fallback={<p>{t.confirmation.loading}</p>}>
-          <ConfirmationInner />
-        </Suspense>
+        <ConfirmationInner />
       </div>
     </div>
   );

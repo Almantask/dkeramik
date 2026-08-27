@@ -1,6 +1,7 @@
 import { Firestore, type DocumentReference } from '@google-cloud/firestore';
 import { Storage } from '@google-cloud/storage';
 import { DEFAULT_INVENTORY_SEED, PRODUCT_NAMES } from './catalog.js';
+import { mergeOrderItems } from './order-input.js';
 import {
   DEFAULT_SETTINGS,
   type InventoryRecord,
@@ -82,13 +83,12 @@ export class FirestoreStore implements Store {
         seq = data.year === year ? data.seq : 0;
       }
 
+      const merged = mergeOrderItems(input.items);
+      if (!merged.ok) return { ok: false, error: merged.error };
       const lines: OrderRecord['items'] = [];
       const invSnaps: Array<{ ref: DocumentReference; inv: InventoryRecord; qty: number }> =
         [];
-      for (const line of input.items) {
-        if (!Number.isInteger(line.qty) || line.qty < 1) {
-          return { ok: false, error: 'invalid_qty' };
-        }
+      for (const line of merged.items) {
         const ref = this.inventoryCol().doc(line.productId);
         const snap = await tx.get(ref);
         if (!snap.exists) return { ok: false, error: 'unknown_product' };
@@ -164,15 +164,41 @@ export class FirestoreStore implements Store {
 
   async markPaidAtomic(
     id: string,
-    opts: { amountCents: number; via: PaidVia; paymentId?: string },
+    opts: { amountCents: number; via: PaidVia; paymentId?: string; callbackId?: string },
   ): Promise<MarkPaidResult> {
     return this.db.runTransaction(async (tx) => {
       const ref = this.ordersCol().doc(id);
+      const webhookRef = opts.callbackId
+        ? this.db.doc(`processedWebhooks/${opts.callbackId}`)
+        : null;
+      const webhookSnap = webhookRef ? await tx.get(webhookRef) : null;
       const snap = await tx.get(ref);
+
+      if (webhookSnap?.exists) {
+        if (!snap.exists) return { ok: false, error: 'not_found' };
+        const existing = snap.data() as OrderRecord;
+        return {
+          ok: true,
+          order: existing,
+          alreadyPaid: existing.status === 'paid',
+          duplicate: true,
+        };
+      }
+
       if (!snap.exists) return { ok: false, error: 'not_found' };
       const order = snap.data() as OrderRecord;
+      if (
+        !Number.isFinite(opts.amountCents) ||
+        !Number.isInteger(opts.amountCents) ||
+        opts.amountCents < 0
+      ) {
+        return { ok: false, error: 'invalid_amount' };
+      }
       if (order.status === 'cancelled') return { ok: false, error: 'cancelled' };
-      if (order.status === 'paid') return { ok: true, order, alreadyPaid: true };
+      if (order.status === 'paid') {
+        if (webhookRef) tx.set(webhookRef, { at: new Date().toISOString(), orderId: id });
+        return { ok: true, order, alreadyPaid: true };
+      }
       if (opts.amountCents < order.amountCents) {
         order.underpaid = true;
         order.updatedAt = new Date().toISOString();
@@ -186,6 +212,7 @@ export class FirestoreStore implements Store {
       if (opts.paymentId) order.payseraPaymentId = opts.paymentId;
       order.updatedAt = new Date().toISOString();
       tx.set(ref, order);
+      if (webhookRef) tx.set(webhookRef, { at: new Date().toISOString(), orderId: id });
       return { ok: true, order, alreadyPaid: false };
     });
   }
@@ -242,5 +269,17 @@ export class FirestoreStore implements Store {
 
   async putWebhook(id: string): Promise<void> {
     await this.db.doc(`processedWebhooks/${id}`).set({ at: new Date().toISOString() });
+  }
+
+  async expireUnpaid(maxAgeMs: number): Promise<number> {
+    const cutoff = Date.now() - maxAgeMs;
+    const orders = await this.listOrders();
+    let expired = 0;
+    for (const order of orders) {
+      if (order.status !== 'awaiting_payment' || Date.parse(order.createdAt) >= cutoff) continue;
+      const result = await this.cancelAtomic(order.id);
+      if (result.ok) expired += 1;
+    }
+    return expired;
   }
 }

@@ -51,13 +51,31 @@ export const metadata: Metadata = {
   title: 'DKeramik — rankų darbo keramika Tavo namams',
   description:
     'Gražūs rankų darbo keramikos kūriniai, atsinešantys šilumą ir širdžiai mielas detales į Tavo namus.',
+  referrer: 'no-referrer',
 };
+
+const apiOrigin = (process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:8787').replace(/\/$/, '');
+const shopCsp = [
+  "default-src 'self'",
+  "img-src 'self' data:",
+  "style-src 'self' 'unsafe-inline'",
+  "font-src 'self'",
+  "script-src 'self' 'unsafe-inline'",
+  `connect-src 'self' ${apiOrigin} https:`,
+  "frame-ancestors 'none'",
+  "base-uri 'self'",
+  "form-action 'self'",
+].join('; ');
 
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="lt">
+      <head>
+        <meta httpEquiv="Content-Security-Policy" content={shopCsp} />
+        <meta httpEquiv="X-Content-Type-Options" content="nosniff" />
+      </head>
       <body className="font-nunito antialiased">
         <LanguageProvider>
           <CartProvider>

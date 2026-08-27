@@ -8,6 +8,7 @@ import { formatEur } from '@/lib/format-money';
 import { fetchInventory, type LiveInventory } from '@/lib/shop-api';
 import { getShopProducts, type Product } from '@/content/products';
 import { useCart } from '@/components/shop/CartProvider';
+import ProductImage from '@/components/ui/ProductImage';
 
 function merge(product: Product, live: LiveInventory | undefined) {
   return {
@@ -49,11 +50,10 @@ export default function ShopCatalog() {
             return (
               <li key={product.id}>
                 <article>
-                  <Link href={`/shop/${product.id}`} className="group block [&_svg]:pointer-events-none">
-                    <div
-                      className="bg-clay-100 aspect-[3/4] flex items-center justify-center mb-4"
-                      dangerouslySetInnerHTML={{ __html: product.image }}
-                    />
+                  <Link href={`/shop/${product.id}`} className="group block">
+                    <div className="bg-clay-100 aspect-[3/4] flex items-center justify-center mb-4">
+                      <ProductImage svg={product.image} alt={product.name[language]} />
+                    </div>
                     <h2 className="font-playfair text-xl text-clay-700">{product.name[language]}</h2>
                   </Link>
                   {priceCents != null ? (

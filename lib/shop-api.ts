@@ -53,13 +53,19 @@ export async function fetchSettings(): Promise<ShopSettings> {
 }
 
 export async function fetchOrder(orderId: string, token: string): Promise<PublicOrder> {
-  const res = await fetch(`${API_URL}/api/orders/${orderId}?token=${encodeURIComponent(token)}`);
+  const res = await fetch(`${API_URL}/api/orders/${encodeURIComponent(orderId)}`, {
+    headers: { 'X-Order-Token': token },
+  });
   if (!res.ok) throw new Error('not_found');
   return res.json() as Promise<PublicOrder>;
 }
 
-export function invoicePdfUrl(orderId: string, token: string): string {
-  return `${API_URL}/api/orders/${orderId}/invoice.pdf?token=${encodeURIComponent(token)}`;
+export async function fetchInvoicePdf(orderId: string, token: string): Promise<Blob> {
+  const res = await fetch(`${API_URL}/api/orders/${encodeURIComponent(orderId)}/invoice.pdf`, {
+    headers: { 'X-Order-Token': token },
+  });
+  if (!res.ok) throw new Error('not_found');
+  return res.blob();
 }
 
 export type CreateOrderBody = {

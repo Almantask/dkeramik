@@ -111,7 +111,9 @@ describe('Checkout', () => {
     await user.type(screen.getByLabelText(/telefonas/i), '+37060000000');
     await user.click(submit);
     await waitFor(() => {
-      expect(push).toHaveBeenCalledWith(expect.stringContaining('/checkout/confirmation?orderId=ord_1'));
+      expect(push).toHaveBeenCalledWith(
+        expect.stringContaining('/checkout/confirmation#orderId=ord_1'),
+      );
     });
   });
 

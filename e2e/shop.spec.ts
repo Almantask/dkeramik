@@ -141,8 +141,9 @@ test('signed webhook marks paid once and does not restock', async ({ page, reque
   await expect(definitionFor(page, /sąskaitos numeris|invoice number/i)).toHaveText(
     /DK-\d{4}-\d{4}/,
   );
-  const orderId = new URL(page.url()).searchParams.get('orderId');
-  const token = new URL(page.url()).searchParams.get('token');
+  const hash = new URL(page.url()).hash.replace(/^#/, '');
+  const orderId = new URLSearchParams(hash).get('orderId');
+  const token = new URLSearchParams(hash).get('token');
   expect(orderId).toBeTruthy();
   const raw = JSON.stringify({
     callback_id: 'cb-e2e',

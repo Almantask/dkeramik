@@ -14,8 +14,8 @@ export type CreateOrderResult =
   | { ok: false; error: 'insufficient_stock' | 'not_for_sale' | 'unknown_product' | 'invalid_qty' };
 
 export type MarkPaidResult =
-  | { ok: true; order: OrderRecord; alreadyPaid: boolean }
-  | { ok: false; error: 'not_found' | 'cancelled' | 'underpaid' };
+  | { ok: true; order: OrderRecord; alreadyPaid: boolean; duplicate?: boolean }
+  | { ok: false; error: 'not_found' | 'cancelled' | 'underpaid' | 'invalid_amount' };
 
 export type CancelResult =
   | { ok: true; order: OrderRecord }
@@ -33,7 +33,7 @@ export interface Store {
   updateOrder(id: string, patch: Partial<OrderRecord>): Promise<OrderRecord | null>;
   markPaidAtomic(
     id: string,
-    opts: { amountCents: number; via: PaidVia; paymentId?: string },
+    opts: { amountCents: number; via: PaidVia; paymentId?: string; callbackId?: string },
   ): Promise<MarkPaidResult>;
   cancelAtomic(id: string): Promise<CancelResult>;
   savePdf(invoiceNumber: string, bytes: Buffer): Promise<void>;
@@ -42,4 +42,5 @@ export interface Store {
   saveSettings(settings: ShopSettings): Promise<void>;
   hasWebhook(id: string): Promise<boolean>;
   putWebhook(id: string): Promise<void>;
+  expireUnpaid(maxAgeMs: number): Promise<number>;
 }

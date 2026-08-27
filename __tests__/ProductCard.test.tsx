@@ -48,6 +48,7 @@ describe('ProductCard', () => {
   it('renders image container', () => {
     const { container } = renderWithLanguage(<ProductCard product={mockProduct} />);
     expect(container.querySelector('.bg-clay-200')).toBeInTheDocument();
+    expect(container.querySelector('img')?.getAttribute('src')).toMatch(/^data:image\/svg\+xml/);
   });
 
   it('title overlay is hidden by default and shown on hover', () => {

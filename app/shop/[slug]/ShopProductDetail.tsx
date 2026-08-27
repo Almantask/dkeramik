@@ -9,6 +9,7 @@ import { getProductById } from '@/content/products';
 import { formatEur } from '@/lib/format-money';
 import { useLanguage } from '@/lib/i18n';
 import { fetchInventory, type LiveInventory } from '@/lib/shop-api';
+import ProductImage from '@/components/ui/ProductImage';
 
 export default function ShopProductDetail({ slug }: { slug: string }) {
   const { language, t } = useLanguage();
@@ -36,10 +37,9 @@ export default function ShopProductDetail({ slug }: { slug: string }) {
           {t.shop.backToShop}
         </Link>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mt-8">
-          <div
-            className="bg-clay-100 aspect-square flex items-center justify-center"
-            dangerouslySetInnerHTML={{ __html: product.image }}
-          />
+          <div className="bg-clay-100 aspect-square flex items-center justify-center">
+            <ProductImage svg={product.image} alt={product.name[language]} />
+          </div>
           <div>
             <h1 className="font-playfair text-3xl text-clay-700 mb-4">{product.name[language]}</h1>
             <p className="text-clay-600 leading-relaxed mb-6">{product.description[language]}</p>
