@@ -39,7 +39,7 @@
 
 .logo {
   display: block;
-  width: clamp(1.85rem, 3.33vw, 2.65rem);
+  width: clamp(3.7rem, 6.67vw, 5.3rem);
   height: auto;
   margin: 0 auto;
 }
