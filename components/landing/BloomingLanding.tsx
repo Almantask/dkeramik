@@ -1,4 +1,5 @@
 import type { CSSProperties } from 'react';
+import Logo from '@/components/ui/Logo';
 import { brandPalette as C } from '@/lib/brand-palette';
 import {
   brushLine,
@@ -79,10 +80,8 @@ export default function BloomingLanding() {
       <PaintFilters />
 
       <header className={styles.intro}>
-        <p className="font-lato text-xs sm:text-sm uppercase tracking-[0.45em] text-brand-terracotta">
-          DKeramik
-        </p>
-        <h1 className="mt-3 font-playfair italic font-normal text-brand-navy text-[clamp(2.6rem,7vw,5.25rem)] leading-[1.05]">
+        <Logo className={`${styles.logo} text-brand-terracotta`} />
+        <h1 className="mt-4 font-playfair italic font-normal text-brand-navy text-[clamp(2.6rem,7vw,5.25rem)] leading-[1.05]">
           Laukiam kol pražys
         </h1>
         <svg className={styles.underline} viewBox="0 0 320 24" aria-hidden="true">

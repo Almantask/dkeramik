@@ -30,6 +30,7 @@ describe('Landing-only mode (default)', () => {
 
   it('shows the "Laukiam kol pražys" landing on the home route', () => {
     render(<Home />);
+    expect(screen.getByRole('img', { name: 'DKeramik' })).toBeInTheDocument();
     expect(screen.getByRole('heading', { level: 1, name: 'Laukiam kol pražys' })).toBeInTheDocument();
     expect(screen.getByRole('img', { name: /aguona/i })).toBeInTheDocument();
   });

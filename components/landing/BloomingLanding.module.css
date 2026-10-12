@@ -37,6 +37,13 @@
   animation: rise 1.4s cubic-bezier(0.2, 0.7, 0.2, 1) 0.2s both;
 }
 
+.logo {
+  display: block;
+  width: clamp(5.5rem, 10vw, 8rem);
+  height: auto;
+  margin: 0 auto;
+}
+
 .underline {
   display: block;
   width: min(18rem, 62vw);
@@ -66,7 +73,7 @@
   position: relative;
   flex: none;
   aspect-ratio: 1000 / 480;
-  width: min(100%, 1100px, calc((100svh - 18.5rem) * 2.0833));
+  width: min(100%, 1100px, calc((100svh - 19.5rem) * 2.0833));
   min-width: 18rem;
 }
 
