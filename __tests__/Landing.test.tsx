@@ -34,7 +34,7 @@ describe('Landing-only mode (default)', () => {
     expect(screen.getByRole('img', { name: /aguona/i })).toBeInTheDocument();
   });
 
-  it('paints the bloom, pod, seeds and sprouts', () => {
+  it('paints the seed pod, seeds and sprouts', () => {
     const { container } = render(<Home />);
     // next/jest maps CSS-module class names to their keys.
     expect(container.querySelectorAll('.seed')).toHaveLength(12);

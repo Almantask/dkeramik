@@ -6,8 +6,6 @@ import {
   lensProfile,
   leafPath,
   midribPath,
-  petalPath,
-  petalStrokes,
   ribbonPath,
   seeded,
   smoothPath,
@@ -20,19 +18,21 @@ import styles from './BloomingLanding.module.css';
 // "Laukiam kol pražys" — the landing page shown while the rest of the site is
 // hidden (see lib/site-config.ts).
 //
-// The scene is painted in one 1000×640 coordinate system. Each moving part
-// (plant, bloom, seed pod, bud, every sprout) is its own absolutely positioned
-// layer, so the watercolour SVG filters are rasterised once and the browser
-// only has to rotate finished bitmaps while things sway.
+// The scene is painted in one 1000×640 coordinate system, framed from y = TOP
+// down so the empty sky above the seed pod is cropped away. Each moving part
+// (plant, seed pod, bud, every sprout) is its own absolutely positioned layer,
+// so the watercolour SVG filters are rasterised once and the browser only has
+// to rotate finished bitmaps while things sway.
 // ═══════════════════════════════════════════════════════════════════════════════
 
 const W = 1000;
 const H = 640;
 const GROUND = 562;
-const VIEWBOX = `0 0 ${W} ${H}`;
+const TOP = 160;
+const VIEW_H = H - TOP; // keep .scene's aspect-ratio in the CSS module in step
+const VIEWBOX = `0 ${TOP} ${W} ${VIEW_H}`;
 
 const PLANT_BASE: Pt = [330, GROUND];
-const FLOWER: Pt = [372, 194];
 const POD: Pt = [490, 290];
 const POD_TILT = 58;
 const BUD: Pt = [295, 342];
@@ -64,7 +64,7 @@ const SPROUTS: { seed: number; kind: SproutKind; scale: number; lean: number; hu
 
 type Vars = CSSProperties & Record<`--${string}`, string | number>;
 
-const origin = ([x, y]: Pt) => `${(x / W) * 100}% ${(y / H) * 100}%`;
+const origin = ([x, y]: Pt) => `${(x / W) * 100}% ${((y - TOP) / VIEW_H) * 100}%`;
 const sway = (pivot: Pt, amp: number, dur: number, delay = 0): Vars => ({
   transformOrigin: origin(pivot),
   '--amp': `${amp}deg`,
@@ -103,7 +103,7 @@ export default function BloomingLanding() {
         <div
           className={styles.scene}
           role="img"
-          aria-label="Žydinti aguona barsto sėklas, iš kurių dygsta maži daigeliai"
+          aria-label="Aguona barsto sėklas, iš kurių dygsta maži daigeliai"
         >
           <div className={`${styles.layer} ${styles.fadeIn}`}>
             <Ground />
@@ -121,11 +121,6 @@ export default function BloomingLanding() {
             <div className={`${styles.layer} ${styles.sway}`} style={sway(POD, 3.5, SEED_PERIOD / 3)}>
               <div className={`${styles.layer} ${styles.bloomIn}`}>
                 <SeedPod />
-              </div>
-            </div>
-            <div className={`${styles.layer} ${styles.sway}`} style={sway(FLOWER, 2.2, 7.3, 1.1)}>
-              <div className={`${styles.layer} ${styles.bloomIn}`}>
-                <Bloom />
               </div>
             </div>
           </div>
@@ -321,20 +316,21 @@ const LEAVES: { base: Pt; tip: Pt; width: number; lobes: number; bend: number }[
   { base: [328, 552], tip: [224, 524], width: 24, lobes: 4, bend: -16 },
   { base: [333, 548], tip: [438, 521], width: 22, lobes: 4, bend: 14 },
   { base: [337, 486], tip: [392, 452], width: 15, lobes: 3, bend: 8 },
-  { base: [354, 322], tip: [320, 264], width: 11, lobes: 2, bend: -6 },
 ];
 
 function Stems() {
   const rnd = seeded(7);
   const leaves = LEAVES.map((l) => ({ ...l, d: leafPath(l.base, l.tip, l.width, l.lobes, l.bend, rnd) }));
-  const mainStem: Pt[] = [[330, 566], [328, 520], [333, 470], [342, 410], [352, 350], [360, 290], [366, 240], [372, 198]];
-  const podStem: Pt[] = [[337, 458], [352, 430], [378, 400], [410, 371], [440, 343], [466, 315], [490, 292]];
+  // One stem, bowed over by the weight of the seed pod.
+  const mainStem: Pt[] = [
+    [330, 566], [328, 520], [333, 470], [342, 440], [358, 416], [378, 396], [410, 369], [440, 343], [466, 315], [490, 292],
+  ];
   const budStem: Pt[] = [
     [329, 508], [316, 480], [297, 450], [276, 418], [260, 386], [252, 356],
     [256, 330], [268, 316], [283, 316], [292, 328], [295, 340],
   ];
   const hairs = seeded(12);
-  const stemHairs = [...mainStem.slice(1, -1), ...podStem.slice(1, -1)].map(([x, y]) => {
+  const stemHairs = mainStem.slice(1, -1).map(([x, y]) => {
     const side = hairs() < 0.5 ? -1 : 1;
     return `M${x + side * 3},${y} l${side * (3 + hairs() * 3)},${-2 - hairs() * 3}`;
   });
@@ -350,8 +346,7 @@ function Stems() {
         ))}
       </g>
       <g filter="url(#pp-wash-sm)" fill={C.olive}>
-        <path d={taperPath(mainStem, 8, 4.2)} fillOpacity={0.88} />
-        <path d={taperPath(podStem, 5.2, 3.6)} fillOpacity={0.85} />
+        <path d={taperPath(mainStem, 8, 3.6)} fillOpacity={0.88} />
         <path d={taperPath(budStem, 4.4, 2.8)} fillOpacity={0.82} />
       </g>
       <g filter="url(#pp-ink)" fill="none" strokeLinecap="round">
@@ -364,69 +359,6 @@ function Stems() {
             <path key={i} d={d} />
           ))}
         </g>
-      </g>
-    </svg>
-  );
-}
-
-type PetalSpec = { angle: number; spread: number; length: number; squash: number; count: number; alpha: number };
-
-// Back to front: the far petal, the two side petals, then the near rim of the cup.
-const BACK_PETALS: PetalSpec[] = [
-  { angle: -92, spread: 36, length: 132, squash: 0.92, count: 4, alpha: 0.3 },
-  { angle: -150, spread: 29, length: 116, squash: 0.84, count: 4, alpha: 0.34 },
-  { angle: -32, spread: 29, length: 120, squash: 0.84, count: 4, alpha: 0.32 },
-];
-const FRONT_PETALS: PetalSpec[] = [
-  { angle: -122, spread: 27, length: 74, squash: 0.62, count: 3, alpha: 0.38 },
-  { angle: -60, spread: 27, length: 76, squash: 0.62, count: 3, alpha: 0.38 },
-];
-
-/** Each petal: one pale wash for its silhouette, then streaky ribbons on top. */
-function PetalLayer({ petals, rnd }: { petals: PetalSpec[]; rnd: () => number }) {
-  return (
-    <g filter="url(#pp-wash)">
-      {petals.map((p, i) => (
-        <g key={i} fill={C.terracotta}>
-          <path d={petalPath(p.angle, p.spread, p.length, rnd, p.squash)} fillOpacity={0.3} />
-          <g fillOpacity={p.alpha} stroke={C.terracotta} strokeOpacity={0.3} strokeWidth={1.2}>
-            {petalStrokes(p.angle, p.spread, p.length, p.count, rnd, p.squash).map((d, j) => (
-              <path key={j} d={d} />
-            ))}
-          </g>
-        </g>
-      ))}
-    </g>
-  );
-}
-
-function Bloom() {
-  const rnd = seeded(19);
-  const stamens = Array.from({ length: 20 }, (_, i) => {
-    const a = (i / 20) * Math.PI * 2 + rnd() * 0.2;
-    const r = 24 + rnd() * 7;
-    return { x: Math.cos(a) * r, y: -55 + Math.sin(a) * r * 0.34 };
-  });
-
-  return (
-    <svg viewBox={VIEWBOX} className={styles.svg} aria-hidden="true">
-      <g transform={`translate(${FLOWER[0]} ${FLOWER[1]}) rotate(-4) scale(1.12)`}>
-        <PetalLayer petals={BACK_PETALS} rnd={rnd} />
-        <g filter="url(#pp-wash-sm)">
-          <ellipse cx={-9} cy={-52} rx={24} ry={10} fill={C.navy} fillOpacity={0.42} />
-          <ellipse cx={11} cy={-54} rx={21} ry={9} fill={C.navy} fillOpacity={0.36} />
-          <g stroke={C.navy} strokeOpacity={0.7} strokeWidth={1.4} strokeLinecap="round">
-            {stamens.map((s, i) => (
-              <line key={i} x1={s.x * 0.4} y1={-58 + (s.y + 55) * 0.4} x2={s.x} y2={s.y - 3} />
-            ))}
-          </g>
-          {stamens.map((s, i) => (
-            <circle key={i} cx={s.x} cy={s.y - 3} r={2 + (i % 3) * 0.5} fill={C.ochre} fillOpacity={0.9} />
-          ))}
-          <ellipse cx={0} cy={-60} rx={11} ry={4.5} fill={C.olive} fillOpacity={0.95} />
-        </g>
-        <PetalLayer petals={FRONT_PETALS} rnd={rnd} />
-        <ellipse cx={0} cy={2} rx={8} ry={5} fill={C.olive} fillOpacity={0.9} filter="url(#pp-wash-sm)" />
       </g>
     </svg>
   );
@@ -563,9 +495,9 @@ function Sprout({
 
   const box: Vars = {
     left: `${((x + SPROUT_BOX.left) / W) * 100}%`,
-    top: `${((GROUND + SPROUT_BOX.top) / H) * 100}%`,
+    top: `${((GROUND + SPROUT_BOX.top - TOP) / VIEW_H) * 100}%`,
     width: `${(SPROUT_BOX.width / W) * 100}%`,
-    height: `${(SPROUT_BOX.height / H) * 100}%`,
+    height: `${(SPROUT_BOX.height / VIEW_H) * 100}%`,
     transformOrigin: `50% ${(-SPROUT_BOX.top / SPROUT_BOX.height) * 100}%`,
     '--t0': `${t0}s`,
     '--amp': `${(index % 2 ? -1 : 1) * (2.4 + (index % 3))}deg`,

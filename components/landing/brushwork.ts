@@ -32,38 +32,6 @@ export function smoothPath(pts: Pt[], closed = true): string {
   return closed ? `${d}Z` : d;
 }
 
-const polar = (r: number, deg: number): Pt => {
-  const a = (deg * Math.PI) / 180;
-  return [r * Math.cos(a), r * Math.sin(a)];
-};
-
-/**
- * A poppy petal's silhouette: a broad ruffled fan opening from the origin towards
- * `angle`. `squash` flattens it vertically to fake the cup seen at three-quarter view.
- */
-export function petalPath(
-  angle: number,
-  spread: number,
-  length: number,
-  rnd: () => number,
-  squash = 1,
-): string {
-  const arc: Pt[] = [];
-  const steps = 9;
-  for (let k = 0; k <= steps; k++) {
-    const u = k / steps;
-    const r = length * (0.86 + 0.14 * Math.sin(u * Math.PI)) * (1 + 0.07 * (rnd() * 2 - 1));
-    arc.push(polar(r, angle - spread + 2 * spread * u));
-  }
-  const pts: Pt[] = [
-    [0, 0],
-    polar(length * 0.42, angle - spread * 0.7),
-    ...arc,
-    polar(length * 0.42, angle + spread * 0.7),
-  ];
-  return smoothPath(pts.map(([x, y]) => [x, y * squash]));
-}
-
 /** Point on the bent midrib of a leaf, plus the unit normal there. */
 function midrib(base: Pt, tip: Pt, bend: number, t: number) {
   const [dx, dy] = [tip[0] - base[0], tip[1] - base[1]];
@@ -160,27 +128,6 @@ export function ribbonPath(
     right.push([p[0] - n[0] * wr, p[1] - n[1] * wr]);
   }
   return smoothPath([base, ...left, tip, ...right.reverse()]);
-}
-
-/**
- * A petal painted as several overlapping ribbons fanning out of the base,
- * so the overlaps streak darker and a little paper shows between strokes.
- */
-export function petalStrokes(
-  angle: number,
-  spread: number,
-  length: number,
-  count: number,
-  rnd: () => number,
-  squash = 1,
-): string[] {
-  const segment = (2 * length * Math.sin((spread * Math.PI) / 180)) / count;
-  return Array.from({ length: count }, (_, j) => {
-    const u = count === 1 ? 0 : (j / (count - 1)) * 2 - 1;
-    const len = length * (0.88 + 0.12 * Math.cos((u * Math.PI) / 2)) * (0.94 + 0.08 * rnd());
-    const [tx, ty] = polar(len, angle + spread * u * 0.72);
-    return ribbonPath([0, 0], [tx, ty * squash], segment * (1.6 + 0.4 * rnd()), (rnd() * 2 - 1) * length * 0.07, rnd);
-  });
 }
 
 /** A seed-leaf (cotyledon) pointing along +x from the origin. */
