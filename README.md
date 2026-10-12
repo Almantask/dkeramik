@@ -177,9 +177,9 @@ The public site is a static export on **GitHub Pages** at the custom domain [htt
 
 ### GitHub Actions
 
-- **CI** (`.github/workflows/ci.yml`) — on pull requests and `main`: frontend typecheck/Jest/build, backend typecheck/Vitest, Playwright.
-- **Pages** (`.github/workflows/deploy.yml`) — static `out/` to GitHub Pages.
-- **API** (`.github/workflows/deploy-api.yml`) — Docker image to Artifact Registry, Cloud Run in `europe-central2`, min instances 0.
+- **CI** (`.github/workflows/ci.yml`) - on pull requests and `main`: frontend typecheck/Jest/build, backend typecheck/Vitest, Playwright.
+- **Pages** (`.github/workflows/deploy.yml`) - static `out/` to GitHub Pages.
+- **API** (`.github/workflows/deploy-api.yml`) - Docker image to Artifact Registry, Cloud Run in `europe-central2`, min instances 0.
 
 ### Repository variables
 
@@ -229,7 +229,7 @@ The site embodies a warm, poetic, human voice:
 
 Key phrases:
 - "Homes become true homes when they are filled with heartfelt details."
-- "Homes are created little by little—detail by detail."
+- "Homes are created little by little - detail by detail."
 - "Take it into your hands and feel the warmth of clay."
 
 ## 📄 License

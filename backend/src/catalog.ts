@@ -1,6 +1,6 @@
 import type { InventoryRecord } from './domain.js';
 
-/** Seed rows — productId values must match content/products.ts */
+/** Seed rows - productId values must match content/products.ts */
 export const DEFAULT_INVENTORY_SEED: InventoryRecord[] = [
   { productId: 'rustic-dinner-bowl', sku: 'DK-BOWL-001', priceCents: 4500, stock: 2, forSale: true },
   { productId: 'morning-coffee-mug', sku: 'DK-CUP-001', priceCents: 3200, stock: 3, forSale: true },

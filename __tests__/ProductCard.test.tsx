@@ -34,7 +34,7 @@ describe('ProductCard', () => {
 
   it('does NOT render a price', () => {
     const { container } = renderWithLanguage(<ProductCard product={mockProduct} />);
-    // No price text should be present — this is a gallery, not a shop
+    // No price text should be present - this is a gallery, not a shop
     expect(container.textContent).not.toMatch(/\$\d+/);
     expect(container.textContent).not.toMatch(/€\d+/);
   });

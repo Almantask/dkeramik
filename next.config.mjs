@@ -12,11 +12,11 @@ import createMDX from '@next/mdx';
 //
 // GitHub Pages with a custom domain:
 //   • Set CUSTOM_DOMAIN=true in the CI workflow.
-//   • basePath is left empty — the site lives at the root of the domain.
+//   • basePath is left empty - the site lives at the root of the domain.
 //   • Create a public/CNAME file containing your domain name (e.g. www.example.com).
 //
 // Local development / Vercel / other hosts:
-//   • Leave both env vars unset — no basePath is applied.
+//   • Leave both env vars unset - no basePath is applied.
 // ═══════════════════════════════════════════════════════════════════════════════
 
 const isGitHubPages = process.env.GITHUB_PAGES === 'true';

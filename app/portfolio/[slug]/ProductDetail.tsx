@@ -39,7 +39,7 @@ export default function ProductDetail({ slug }: ProductDetailProps) {
             </div>
           </div>
 
-          {/* Details — no price shown (gallery, not shop) */}
+          {/* Details - no price shown (gallery, not shop) */}
           <div>
             <p className="text-clay-400 text-xs uppercase tracking-widest mb-2">
               {categoryLabel}

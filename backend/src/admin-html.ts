@@ -70,10 +70,10 @@ export function ordersPage(orders: OrderRecord[], frontendOrigin = '', csrf = ''
         return `<tr>
           <td>${esc(o.invoiceNumber)}</td>
           <td>${esc(o.status)}${o.underpaid ? ' (underpaid)' : ''}${o.overpaid ? ' (overpaid)' : ''}</td>
-          <td>${itemsHtml || '—'}</td>
+          <td>${itemsHtml || '-'}</td>
           <td>${esc(o.buyer.email)}</td>
           <td>${centsToEur(o.amountCents).toFixed(2)} EUR</td>
-          <td>${esc(o.paidVia ?? '—')}</td>
+          <td>${esc(o.paidVia ?? '-')}</td>
           <td>
             <div class="actions">
             ${
@@ -181,7 +181,7 @@ export function mockPayPage(order: OrderRecord): string {
   return `<!doctype html><html><head><meta charset="utf-8"><title>Mock pay</title><style>${css}</style></head>
   <body><main>
     <h1>Mock Paysera</h1>
-    <p>${esc(order.invoiceNumber)} — ${centsToEur(order.amountCents).toFixed(2)} EUR</p>
+    <p>${esc(order.invoiceNumber)} - ${centsToEur(order.amountCents).toFixed(2)} EUR</p>
     <form method="post" action="/mock-pay/${esc(order.id)}">
       <input type="hidden" name="token" value="${esc(order.token)}">
       <button class="btn" type="submit">Pay now</button>

@@ -16,7 +16,7 @@ import {
 import styles from './BloomingLanding.module.css';
 
 // ═══════════════════════════════════════════════════════════════════════════════
-// "Laukiam kol pražys" — the landing page shown while the rest of the site is
+// "Laukiam kol pražys" - the landing page shown while the rest of the site is
 // hidden (see lib/site-config.ts).
 //
 // The scene is painted in one 1000×640 coordinate system, framed from y = TOP
@@ -406,7 +406,7 @@ function SeedPod() {
   );
 }
 
-/** A nodding bud on its crook — the next flower, still waiting. */
+/** A nodding bud on its crook - the next flower, still waiting. */
 function Bud() {
   const rnd = seeded(41);
   const body: Pt[] = [[0, 0], [-11, 10], [-15, 28], [-10, 44], [0, 52], [10, 44], [15, 28], [11, 10]];

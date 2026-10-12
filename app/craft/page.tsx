@@ -5,19 +5,19 @@ import { useLanguage } from '@/lib/i18n';
 
 // Simple inline SVG icons for the process steps
 const processIcons = [
-  // Centering — concentric circles
+  // Centering - concentric circles
   <svg key="center" viewBox="0 0 40 40" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-8 h-8">
     <circle cx="20" cy="20" r="3" /><circle cx="20" cy="20" r="8" /><circle cx="20" cy="20" r="14" />
   </svg>,
-  // Shaping — hands
+  // Shaping - hands
   <svg key="shape" viewBox="0 0 40 40" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-8 h-8">
     <path d="M 10 28 Q 10 18, 15 15 L 15 10 Q 15 8, 17 8 Q 19 8, 19 10 L 19 18 Q 21 16, 23 16 Q 25 16, 25 18 L 25 28 Q 25 33, 18 33 Q 11 33, 10 28" />
   </svg>,
-  // Firing — flame
+  // Firing - flame
   <svg key="fire" viewBox="0 0 40 40" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-8 h-8">
     <path d="M 20 32 Q 10 28, 12 20 Q 14 14, 18 10 Q 16 16, 20 18 Q 18 12, 22 8 Q 26 14, 24 20 Q 28 16, 26 24 Q 28 20, 30 22 Q 30 30, 20 32" />
   </svg>,
-  // Finishing — sparkle
+  // Finishing - sparkle
   <svg key="finish" viewBox="0 0 40 40" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-8 h-8">
     <line x1="20" y1="6" x2="20" y2="14" /><line x1="20" y1="26" x2="20" y2="34" />
     <line x1="6" y1="20" x2="14" y2="20" /><line x1="26" y1="20" x2="34" y2="20" />

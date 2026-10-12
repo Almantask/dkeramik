@@ -1,4 +1,4 @@
-# GitHub Pages — static Next.js export
+# GitHub Pages - static Next.js export
 #
 # Repository secrets:
 #   NEXT_PUBLIC_API_URL  Cloud Run URL baked into the shop client (required)

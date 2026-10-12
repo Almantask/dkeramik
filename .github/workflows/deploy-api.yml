@@ -1,4 +1,4 @@
-# Cloud Run API — europe-central2, scale to zero
+# Cloud Run API - europe-central2, scale to zero
 #
 # GitHub secrets:
 #   FRONTEND_ORIGIN   https://dkeramik.lt (shop URL and CORS origin)

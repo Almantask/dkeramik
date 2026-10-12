@@ -1,8 +1,8 @@
-# DKeramik — marketing plans
+# DKeramik - marketing plans
 
 How to become visible, and a marketing plan for each money path. Companion file: [business-plans.md](./business-plans.md) (offers, prices, capacity, risks).
 
-Visibility for a ceramist is not a follower count. It is being easy to find when someone nearby wants clay **this month**, and easy to remember when they need a gift in **December**. One name, one mug, one studio feeling — repeated until it is boring to you.
+Visibility for a ceramist is not a follower count. It is being easy to find when someone nearby wants clay **this month**, and easy to remember when they need a gift in **December**. One name, one mug, one studio feeling - repeated until it is boring to you.
 
 Cadence below is a planning default for a solo studio, not a platform requirement.
 
@@ -80,7 +80,7 @@ Cash in, sessions run, pieces finished, emails collected, fair net vs fee. **Fol
 
 **Promise:** Sell a feeling (slow evening, warm studio, a cup they made) more than a technique. People buy the date, not the clay body.
 
-Business plan: [business-plans.md — Studio workshops](./business-plans.md#1-studio-workshops).
+Business plan: [business-plans.md - Studio workshops](./business-plans.md#1-studio-workshops).
 
 ### Channels
 
@@ -95,7 +95,7 @@ Business plan: [business-plans.md — Studio workshops](./business-plans.md#1-st
 - Reel: hands centering clay, 8–12 seconds, Lithuanian caption, date in the first line
 - Carousel: 5 photos of past pieces + “what is included”
 - Story series: 3 remaining seats, then 1 seat, then sold out
-- Student permission photos on pickup day — this is your best ad
+- Student permission photos on pickup day - this is your best ad
 
 ### Cadence
 
@@ -129,11 +129,11 @@ Business plan: [business-plans.md — Studio workshops](./business-plans.md#1-st
 
 **Promise:** The product is the ad. One recognizable mug, used in real kitchens, repeated until people can spot DKeramik across a room.
 
-Business plan: [business-plans.md — Signature tableware](./business-plans.md#2-signature-tableware--shop).
+Business plan: [business-plans.md - Signature tableware](./business-plans.md#2-signature-tableware--shop).
 
 ### Channels
 
-- Own shop (already live) — primary checkout, invoices, Paysera
+- Own shop (already live) - primary checkout, invoices, Paysera
 - Instagram Shop-style grid: same mug, many lives
 - Pinterest (ceramics and interior boards still send quiet traffic)
 - Journal on the site: one process post per month
@@ -141,7 +141,7 @@ Business plan: [business-plans.md — Signature tableware](./business-plans.md#2
 
 ### What to publish
 
-- In-use: oatmeal, berries, coffee — this matches the DKeramik story you already wrote
+- In-use: oatmeal, berries, coffee - this matches the DKeramik story you already wrote
 - Kiln-opening reel, then cut to the mug in a kitchen
 - “How this was made” 6-slide carousel
 - Gift guide in November: 3 price points
@@ -177,13 +177,13 @@ Business plan: [business-plans.md — Signature tableware](./business-plans.md#2
 
 **Promise:** Fairs are not “being present”. They are a launch. Treat each one like a product drop: announce, countdown, recap, restock online.
 
-Business plan: [business-plans.md — Fairs](./business-plans.md#3-curated-fairs-and-pop-ups).
+Business plan: [business-plans.md - Fairs](./business-plans.md#3-curated-fairs-and-pop-ups).
 
 ### Channels
 
 - Instagram countdown starting 10 days out
 - Email/WhatsApp to workshop students: “I’ll be at…”
-- Organizer tags — send them 5 good photos the week before
+- Organizer tags - send them 5 good photos the week before
 - Stories from the stall (process of wrapping, not empty table)
 - Monday after: sold pieces, remaining pieces in the shop, thank-you
 
@@ -224,7 +224,7 @@ Stall fee + **€0 ads**. Organizers already paid for footfall.
 
 **Promise:** Show the work in rooms, not on a white infinity sweep. Owners buy atmosphere.
 
-Business plan: [business-plans.md — Commissions](./business-plans.md#4-cafes-interiors-private-sets).
+Business plan: [business-plans.md - Commissions](./business-plans.md#4-cafes-interiors-private-sets).
 
 Do not run a weekly public content stream just for this. Not the main bet for the next 90 days.
 
@@ -265,14 +265,14 @@ Do not schedule this in the first 8 weeks. When the capsule exists: one week for
 
 **Promise:** Make buying easy for a busy person: one product, one deadline, one invoice.
 
-Business plan: [business-plans.md — Corporate and wedding gifts](./business-plans.md#5-corporate-and-wedding-gifts).
+Business plan: [business-plans.md - Corporate and wedding gifts](./business-plans.md#5-corporate-and-wedding-gifts).
 
 ### Channels
 
 - Warm WhatsApp/email to people you already know
 - LinkedIn once, in Lithuanian, with the box photo
 - Wedding planners and florist partners
-- Fair sign: “company gifts — ask for the PDF”
+- Fair sign: “company gifts - ask for the PDF”
 
 ### What to publish
 
@@ -310,7 +310,7 @@ Do not invent this in the first month of studio season.
 
 **Promise:** The shop’s audience is the point. Negotiate a tagged post when they unpack, not only a shelf.
 
-Business plan: [business-plans.md — Boutiques](./business-plans.md#6-boutiques-and-consignment).
+Business plan: [business-plans.md - Boutiques](./business-plans.md#6-boutiques-and-consignment).
 
 ### Channels
 

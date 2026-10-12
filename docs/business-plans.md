@@ -1,4 +1,4 @@
-# DKeramik — business plans
+# DKeramik - business plans
 
 For a ceramist with about two years of study, an own studio, one fair, and a live shop. Companion file: [marketing.md](./marketing.md).
 
@@ -14,9 +14,9 @@ Shop operations (orders, stock, invoices): [shop-management.md](./shop-managemen
 
 For the next 90 days:
 
-1. **Studio workshops** — cash engine
-2. **Three-form tableware capsule** (mug, bowl, small vase × two glazes) in the shop — product
-3. **One autumn design-leaning fair + one Christmas date** — amplifier
+1. **Studio workshops** - cash engine
+2. **Three-form tableware capsule** (mug, bowl, small vase × two glazes) in the shop - product
+3. **One autumn design-leaning fair + one Christmas date** - amplifier
 
 Park cafe commissions, corporate boxes, and wholesale until the capsule is in the kiln and on camera.
 
@@ -78,7 +78,7 @@ Assumes deposits on workshops, a few mug sales, then one fair in the last month.
 ## 1. Studio workshops
 
 **Verdict:** Do this first.  
-**When:** Now — this is the cash engine.
+**When:** Now - this is the cash engine.
 
 ### Customer
 
@@ -88,8 +88,8 @@ Adults 25–45 in Kaunas and nearby towns who want a tactile evening: birthdays,
 
 Three named offers, not a vague “come play with clay”:
 
-1. **Pirmas molis** — 2 hours, 4–6 people, one piece, firing included, pickup in 3 weeks.
-2. **Dviese prie molio** — private couple session.
+1. **Pirmas molis** - 2 hours, 4–6 people, one piece, firing included, pickup in 3 weeks.
+2. **Dviese prie molio** - private couple session.
 3. From month 3: a **4-week Thursday course** so the same people return.
 
 ### Pricing
@@ -102,7 +102,7 @@ Three named offers, not a vague “come play with clay”:
 
 ### Unit economics
 
-A 5-person group at €47 is **€235** revenue. Clay, glaze, firing, and tea ≈ €8–12 per person. Net before your time ≈ **€175–195**. Session block is ~3 hours including setup. That is roughly **€60/hour** — far better than a €36 mug that took a week of drying and two firings.
+A 5-person group at €47 is **€235** revenue. Clay, glaze, firing, and tea ≈ €8–12 per person. Net before your time ≈ **€175–195**. Session block is ~3 hours including setup. That is roughly **€60/hour** - far better than a €36 mug that took a week of drying and two firings.
 
 ### Capacity
 
@@ -121,7 +121,7 @@ Start with **2 public sessions per month** plus 1 private. Studio + kiln, not In
 1. Write a one-screen offer: date, time, price, what they make, what to wear, how they pay.
 2. Open 4 dates in the next 8 weeks (two weeknights, two Saturdays).
 3. Take deposits via the existing shop or a simple bank transfer with your invoice number.
-4. Photograph the table as students will see it: stools, clay, natural light — not only finished pots.
+4. Photograph the table as students will see it: stools, clay, natural light - not only finished pots.
 5. Decide pickup logistics (Saturday 12–14h window) so you are not doing 20 individual handovers.
 
 ### Risks
@@ -142,14 +142,14 @@ Start with **2 public sessions per month** plus 1 private. Studio + kiln, not In
 | Weeks 5–6 | Session 2, announce course waitlist. |
 | Weeks 7–8 | Sessions 3–4, Christmas voucher graphic, ask 5 students for a one-line review. |
 
-Marketing for this path: [marketing.md — Studio workshops](./marketing.md#1-studio-workshops).
+Marketing for this path: [marketing.md - Studio workshops](./marketing.md#1-studio-workshops).
 
 ---
 
 ## 2. Signature tableware + shop
 
 **Verdict:** Build in parallel.  
-**When:** Now, but as a small capsule — not 40 one-offs.
+**When:** Now, but as a small capsule - not 40 one-offs.
 
 ### Customer
 
@@ -159,7 +159,7 @@ Gift buyers and people furnishing a first real home. They already like your bran
 
 Lock **three forms and two glazes**: a morning mug, a bowl, a small vase. That is six SKUs. Optional: a two-mug gift set. Unique gallery pieces stay in the portfolio with for-sale off until someone asks.
 
-The shop already exists. The gap is real photos, stock, and a clear gift story — not more website features.
+The shop already exists. The gap is real photos, stock, and a clear gift story - not more website features.
 
 ### Pricing
 
@@ -211,7 +211,7 @@ If you also teach: **16–32 finished pieces per month** is a serious output. Ba
 | Week 4 | First pickup/ship, ask for a kitchen photo. |
 | Weeks 5–8 | Second batch, two-mug set, start a simple waitlist for restocks. |
 
-Marketing for this path: [marketing.md — Signature tableware](./marketing.md#2-signature-tableware--shop).
+Marketing for this path: [marketing.md - Signature tableware](./marketing.md#2-signature-tableware--shop).
 
 ---
 
@@ -264,7 +264,7 @@ Need **40–80 pieces** on the table plus wrapping. That is why the capsule line
 
 - Wrong crowd, cheap comparisons, weather, leftover inventory.
 - Selling unique pieces that were also online.
-- Standing for two days with no email capture — visibility dies on Sunday night.
+- Standing for two days with no email capture - visibility dies on Sunday night.
 
 ### 8-week calendar
 
@@ -276,7 +276,7 @@ Need **40–80 pieces** on the table plus wrapping. That is why the capsule line
 | Week 7 | Announce. |
 | Week 8 | Event, then list leftovers the same night. |
 
-Marketing for this path: [marketing.md — Fairs](./marketing.md#3-curated-fairs-and-pop-ups).
+Marketing for this path: [marketing.md - Fairs](./marketing.md#3-curated-fairs-and-pop-ups).
 
 ---
 
@@ -297,7 +297,7 @@ A one-page spec: clay, glaze, size, lead time (8–12 weeks), minimums, **40% to
 
 - Cafe mug wholesale **€22–28** at 24+ pieces
 - Private dinner set **€450–900**
-- Rush fees are real — kiln schedules are not elastic
+- Rush fees are real - kiln schedules are not elastic
 
 ### Unit economics
 
@@ -331,7 +331,7 @@ High ticket, slow cash. One cafe job can equal two months of workshops, or it ca
 
 Do not schedule this in the first 8 weeks. When the capsule exists: one week for the line sheet, one week of 4 visits, then stop and return to production.
 
-Marketing for this path: [marketing.md — Commissions](./marketing.md#4-cafes-interiors-private-sets).
+Marketing for this path: [marketing.md - Commissions](./marketing.md#4-cafes-interiors-private-sets).
 
 ---
 
@@ -342,7 +342,7 @@ Marketing for this path: [marketing.md — Commissions](./marketing.md#4-cafes-i
 
 ### Customer
 
-HR/office managers buying 8–30 gifts; wedding couples who want a useful favor, not plastic. Companies that already buy “nice Lithuanian” food boxes are the competitors — you win on an object they keep.
+HR/office managers buying 8–30 gifts; wedding couples who want a useful favor, not plastic. Companies that already buy “nice Lithuanian” food boxes are the competitors - you win on an object they keep.
 
 ### Offer
 
@@ -375,7 +375,7 @@ Cap at **40 boxes** in year one. After that you are a factory without staff.
 
 1. Photograph one packed box.
 2. Write a 1-page PDF: price, deadline (order by 10 Nov), invoice, pickup/shipping.
-3. Send to 15 people who work in offices (accountants, agencies, clinics) — warm network first.
+3. Send to 15 people who work in offices (accountants, agencies, clinics) - warm network first.
 4. Put “Kalėdinės dovanos” on Instagram from 1 October, not 15 December.
 
 ### Risks
@@ -394,7 +394,7 @@ Cap at **40 boxes** in year one. After that you are a factory without staff.
 
 Do not invent this in the first month of studio season.
 
-Marketing for this path: [marketing.md — Corporate and wedding gifts](./marketing.md#5-corporate-and-wedding-gifts).
+Marketing for this path: [marketing.md - Corporate and wedding gifts](./marketing.md#5-corporate-and-wedding-gifts).
 
 ---
 
@@ -446,7 +446,7 @@ Unpaid breakage, dusty corners, shops that never post, brand looking cheaper tha
 
 After 20 finished capsule pieces: one week of visits, then production to refill the studio first.
 
-Marketing for this path: [marketing.md — Boutiques](./marketing.md#6-boutiques-and-consignment).
+Marketing for this path: [marketing.md - Boutiques](./marketing.md#6-boutiques-and-consignment).
 
 ---
 

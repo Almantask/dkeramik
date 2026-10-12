@@ -6,7 +6,7 @@ export function generateStaticParams() {
   return lt.journal.entries.map((entry) => ({ slug: entry.slug }));
 }
 
-// In Next.js 15, params is a Promise — the page must be async to await it
+// In Next.js 15, params is a Promise - the page must be async to await it
 interface PageProps {
   params: Promise<{ slug: string }>;
 }

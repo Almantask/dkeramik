@@ -143,7 +143,7 @@ Recommended hosts:
 ## 🎯 Key Brand Messages
 
 - "Homes become true homes when they are filled with heartfelt details."
-- "Homes are created little by little—detail by detail."
+- "Homes are created little by little - detail by detail."
 - "Take it into your hands and feel the warmth of clay."
 
 ## 💡 Next Steps (Optional Enhancements)

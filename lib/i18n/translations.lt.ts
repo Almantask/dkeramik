@@ -24,17 +24,17 @@ export const lt: SiteTranslations = {
     quote: 'Namai kuriami po truputį – detalė po detalės.',
     greeting: 'Labas, aš Donata.',
     story:
-      'Augdama mačiau, kaip mama mūsų namus pripildydavo rankų darbo keramikos kūriniais iš vietinių kūrėjų — mažomis dėžutėmis, angelų skulptūrėlėmis ir kitais daiktais, turinčiais savo charakterį ir sielą. Iš jos išmokau, kad rankų darbo daiktai turi ypatingą galią — jie į kasdienybę atneša ne tik grožį, bet ir jaukumą, nuotaiką bei prasmę.',
+      'Augdama mačiau, kaip mama mūsų namus pripildydavo rankų darbo keramikos kūriniais iš vietinių kūrėjų - mažomis dėžutėmis, angelų skulptūrėlėmis ir kitais daiktais, turinčiais savo charakterį ir sielą. Iš jos išmokau, kad rankų darbo daiktai turi ypatingą galią - jie į kasdienybę atneša ne tik grožį, bet ir jaukumą, nuotaiką bei prasmę.',
     mission:
-      'Per DKeramik siekiu tęsti šią mintį — kurti keramiką, kuri primena, kad būtent mažos detalės praturtina gyvenimą.',
+      'Per DKeramik siekiu tęsti šią mintį - kurti keramiką, kuri primena, kad būtent mažos detalės praturtina gyvenimą.',
     journey:
-      'Į keramiką atėjau po darbo ir kasdienybės ofise. Atėjo diena, kai pagalvojau, kad svajonė pagaliau dirbti savo rankomis vis didėja ir plečiasi širdyje, galvoje užimdama vis daugiau vietos. Su dideliu, meilės kupinu palaikymu — atėjo drąsa palikti Vilnių, darbą, viską ką kūriau tiek metų. Dabar gyvenu Kaune ir save toliau pažįstu per keramiką.',
+      'Į keramiką atėjau po darbo ir kasdienybės ofise. Atėjo diena, kai pagalvojau, kad svajonė pagaliau dirbti savo rankomis vis didėja ir plečiasi širdyje, galvoje užimdama vis daugiau vietos. Su dideliu, meilės kupinu palaikymu - atėjo drąsa palikti Vilnių, darbą, viską ką kūriau tiek metų. Dabar gyvenu Kaune ir save toliau pažįstu per keramiką.',
     inspiration:
       'Mane įkvepia Lietuva, kraštas, kurį vadinu namais. Gamtos tekstūros, skirtingų metų laikų pokytis, besikeičiantis apšvietimas ir šešėliai, ugnies jaukumas, vanduo visomis savo formomis: lėtai tekanti upė, plati jūra, žali ežerai ir skaidrūs šaltiniai. Ramybę randu gamtoje, jos ritme, žalumoje, augaluose ir paukščiuose, kurie kiekvieną metų laiką nuspalvina vis kitaip. Šis paprastumas ir gylis formuoja mano kūrybą.',
     hope:
       'Tikiuosi, kad kiekvienas mano kūrinys taps daugiau nei tik objektu – maža džiaugsmo kibirkštimi ir jaukia Tavo namų istorijos dalimi.',
     contactPrompt:
-      'Jei turi klausimų apie konkretų kūrinį, domina individualus užsakymas, ar tiesiog nori pasikalbėti apie keramiką ir kūrybą — laukiu Tavo žinutės',
+      'Jei turi klausimų apie konkretų kūrinį, domina individualus užsakymas, ar tiesiog nori pasikalbėti apie keramiką ir kūrybą - laukiu Tavo žinutės',
     contactLinkText: 'Susisiekime',
   },
 
@@ -192,7 +192,7 @@ export const lt: SiteTranslations = {
 
   shop: {
     title: 'Parduotuvė',
-    intro: 'Rankų darbo kūriniai, kuriuos galima įsigyti dabar. Kainos ir likučiai atnaujinami gyvai — kiekvienas daiktas unikalus.',
+    intro: 'Rankų darbo kūriniai, kuriuos galima įsigyti dabar. Kainos ir likučiai atnaujinami gyvai - kiekvienas daiktas unikalus.',
     price: 'Kaina',
     stock: 'Likutis',
     inStock: 'Yra',
@@ -213,7 +213,7 @@ export const lt: SiteTranslations = {
     subtotal: 'Suma',
     checkout: 'Užsakyti',
     continueShopping: 'Tęsti apsipirkimą',
-    stockCap: 'Liko tik {stock} vnt. — kiekis pataisytas.',
+    stockCap: 'Liko tik {stock} vnt. - kiekis pataisytas.',
   },
 
   checkout: {
@@ -226,7 +226,7 @@ export const lt: SiteTranslations = {
     pickupHint: 'Laiką suderinsime el. paštu po apmokėjimo.',
     shipping: 'Siuntimas Lietuvoje',
     shippingHint: 'Fiksuotas tarifas Lietuvos adresu.',
-    international: 'Pristatymas į užsienį derinamas el. paštu — naudokite kontaktų formą.',
+    international: 'Pristatymas į užsienį derinamas el. paštu - naudokite kontaktų formą.',
     address: 'Adresas',
     city: 'Miestas',
     postalCode: 'Pašto kodas',
@@ -260,7 +260,7 @@ export const lt: SiteTranslations = {
       'Pardavėjas: DKeramik, individuali veikla Lietuvoje. Susisiekimui: info@dkeramik.lt.',
       'Šios sąlygos taikomos nuotoliniam rankų darbo keramikos pardavimui per dkeramik.lt. Pateikdami užsakymą sutinkate apmokėti sąskaitą eurais.',
       'Atsiskaitymas pavedimu (Paysera banko nuoroda arba SEPA, paskirtyje nurodant sąskaitos numerį). PVM netaikomas, kol pardavėjas nėra PVM mokėtojas.',
-      'Atsiėmimas Kaune nemokamas. Siuntimas Lietuvoje — fiksuotas tarifas, matomas užsakymo lange. Siuntimas į užsienį derinamas atskirai.',
+      'Atsiėmimas Kaune nemokamas. Siuntimas Lietuvoje - fiksuotas tarifas, matomas užsakymo lange. Siuntimas į užsienį derinamas atskirai.',
       'Kiekvienas kūrinys rankų darbo; nedideli dydžio, spalvos ir glazūros skirtumai yra kūrinio dalis, o ne defektas.',
       'Sutartis sudaroma, kai patvirtiname užsakymą ir išrašome sąskaitą. Neapmokėtą užsakymą galime atšaukti ir grąžinti prekes į sandėlį.',
     ],
@@ -269,7 +269,7 @@ export const lt: SiteTranslations = {
       'Nuotoliniams pirkimams turite 14 dienų nuo pristatymo (ar atsiėmimo) atsisakyti sutarties nenurodydami priežasties, pagal Lietuvos vartotojų teisę.',
       '14 dienų teisė netaikoma aiškiai individualizuotiems ar pagal Jūsų užsakymą pagamintiems kūriniams.',
       'Norėdami atsisakyti, rašykite info@dkeramik.lt ir nurodykite sąskaitos numerį. Grąžinkite nenaudotas prekes savo lėšomis, supakuotas taip, kad nesudužtų.',
-      'Grąžintų prekių kainą grąžiname jas gavę, kai įmanoma — tuo pačiu mokėjimo būdu. Atsiėmimas nemokamas, todėl atsiėmimo užsakymams siuntimo negrąžiname.',
+      'Grąžintų prekių kainą grąžiname jas gavę, kai įmanoma - tuo pačiu mokėjimo būdu. Atsiėmimas nemokamas, todėl atsiėmimo užsakymams siuntimo negrąžiname.',
       'Jei kūrinys atkeliavo sudužęs, nufotografuokite pakuotę ir kūrinį ir parašykite per 48 valandas. Sutarsime dėl pakeitimo ar grąžinimo.',
       'Atsiėmimo metu grynieji nepriimami, todėl kasos aparatas šioms pardavimams nenaudojamas.',
     ],
@@ -278,7 +278,7 @@ export const lt: SiteTranslations = {
       'Vardą, el. paštą, telefoną ir pristatymo adresą tvarkome tik užsakymams įvykdyti, sąskaitoms išrašyti ir Lietuvos buhalterinės apskaitos pareigoms.',
       'Teisiniai pagrindai: sutarties vykdymas ir teisinė prievolė (sąskaitos ir pajamų–išlaidų žurnalas). Duomenų neparduodame.',
       'Užsakymai ir sąskaitos saugomi Europos Sąjungoje (Google Cloud, regionas europe-central2) tiek, kiek reikalauja mokesčių teisė.',
-      'Mokėjimą per Paysera tvarko Paysera pagal savo privatumo politiką. Gauname mokėjimo būseną, sumą ir nuorodas — ne Jūsų banko slaptažodį.',
+      'Mokėjimą per Paysera tvarko Paysera pagal savo privatumo politiką. Gauname mokėjimo būseną, sumą ir nuorodas - ne Jūsų banko slaptažodį.',
       'Galite prašyti susipažinti, pataisyti ar ištrinti duomenis, kurių neprivalome saugoti, rašydami info@dkeramik.lt. Taip pat galite kreiptis į VDAI.',
       'Ši statinė svetainė gali saugoti kalbos pasirinkimą ir krepšelį Jūsų naršyklėje (localStorage).',
     ],

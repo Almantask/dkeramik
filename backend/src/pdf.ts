@@ -31,10 +31,10 @@ export function buildInvoicePdf(order: OrderRecord, settings: ShopSettings): Pro
     doc.text(lang === 'lt' ? 'Eilutes:' : 'Lines:');
     for (const line of order.items) {
       const name = lang === 'lt' ? line.nameLt : line.nameEn;
-      doc.text(`${line.qty} x ${name} (${line.sku}) — ${money(line.lineCents)}`);
+      doc.text(`${line.qty} x ${name} (${line.sku}) - ${money(line.lineCents)}`);
     }
     if (order.shippingCents > 0) {
-      doc.text(`Shipping LT — ${money(order.shippingCents)}`);
+      doc.text(`Shipping LT - ${money(order.shippingCents)}`);
     }
     doc.moveDown();
     doc.fontSize(13).text(`Total: ${money(order.amountCents)}`);

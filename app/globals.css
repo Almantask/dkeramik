@@ -4,7 +4,7 @@
 
 /* ─── Base styles ─────────────────────────────────────────────────────────── */
 /* Font families are defined in tailwind.config.ts and loaded via             */
-/* @fontsource imports in app/layout.tsx — see that file to change fonts.     */
+/* @fontsource imports in app/layout.tsx - see that file to change fonts.     */
 
 body {
   font-family: 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;

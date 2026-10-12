@@ -18,7 +18,7 @@ const config: Config = {
           200: '#e8d5c0',  // pale nude
           300: '#d4b896',  // dusty peach
           400: '#c19572',  // muted terracotta
-          500: '#a67c52',  // cinnamon clay — headings & accents
+          500: '#a67c52',  // cinnamon clay - headings & accents
           600: '#8b6340',  // deeper clay
           700: '#6b4c30',  // body text default
           800: '#4a3420',

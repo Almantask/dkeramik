@@ -104,7 +104,7 @@ export function taperPath(spine: Pt[], w0: number, w1: number): string {
 
 /** Brush pressure along a stroke: lands thin, swells, lifts off round. */
 export const fanProfile = (t: number) => Math.pow(t, 0.7) * Math.sqrt(Math.max(0, 1 - Math.pow(t, 5)));
-/** Thin at both ends, full in the middle — a pod segment or a calligraphic flick. */
+/** Thin at both ends, full in the middle - a pod segment or a calligraphic flick. */
 export const lensProfile = (t: number) => Math.pow(Math.sin(Math.PI * t), 0.8);
 
 /** One loose brush ribbon from `base` to `tip`, bowed sideways by `bend`. */

@@ -124,7 +124,7 @@ export const products: Product[] = [
     gallery: [bowlDetailSVG, bowlGlazeSVG],
     description: {
       lt: 'Dubenėlis, kuriame telpa daugiau nei maistas – jame telpa susitikimo šiluma ir dalijimosi džiaugsmas. Kiekviena forma rankų liesta, kiekviena glazūra unikali.',
-      en: 'A bowl that holds more than food — it holds the warmth of gathering and the joy of sharing. Each curve shaped by hand, each glaze unique.',
+      en: 'A bowl that holds more than food - it holds the warmth of gathering and the joy of sharing. Each curve shaped by hand, each glaze unique.',
     },
     dimensions: '20 cm × 7 cm',
     material: {
@@ -193,7 +193,7 @@ export const products: Product[] = [
     gallery: [vesselDetailSVG, vesselTextureSVG],
     description: {
       lt: 'Menas ir funkcija susipina. Šis kūrinys gražiai stovi tuščias ar pripildytas – meditacija apie formą, traukianti žvilgsnį ir raminanti dvasią.',
-      en: 'Art and function intertwined. This piece stands beautifully empty or filled — a meditation on form that draws the eye and soothes the spirit.',
+      en: 'Art and function intertwined. This piece stands beautifully empty or filled - a meditation on form that draws the eye and soothes the spirit.',
     },
     dimensions: '12 cm × 20 cm',
     material: {

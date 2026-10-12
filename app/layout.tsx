@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 // ═══════════════════════════════════════════════════════════════════════════════
 // CUSTOM FONTS
 //
-// Fonts are self-hosted via the @fontsource npm packages — no external CDN
+// Fonts are self-hosted via the @fontsource npm packages - no external CDN
 // requests required, so fonts work in CI/CD and offline builds.
 //
 // To change or add fonts:
@@ -22,21 +22,21 @@ import type { Metadata } from 'next';
 //   • Home page → Lato              (clean sans-serif, used on home body text)
 // ═══════════════════════════════════════════════════════════════════════════════
 
-// Playfair Display — serif for headings
+// Playfair Display - serif for headings
 import '@fontsource/playfair-display/400.css';
 import '@fontsource/playfair-display/400-italic.css';
 import '@fontsource/playfair-display/500.css';
 import '@fontsource/playfair-display/600.css';
 import '@fontsource/playfair-display/700.css';
 
-// Nunito — rounded humanist sans-serif for body text
+// Nunito - rounded humanist sans-serif for body text
 import '@fontsource/nunito/300.css';
 import '@fontsource/nunito/400.css';
 import '@fontsource/nunito/500.css';
 import '@fontsource/nunito/600.css';
 import '@fontsource/nunito/700.css';
 
-// Lato — clean sans-serif for home page body text
+// Lato - clean sans-serif for home page body text
 import '@fontsource/lato/300.css';
 import '@fontsource/lato/400.css';
 import '@fontsource/lato/700.css';
@@ -49,7 +49,7 @@ import { CartProvider } from '@/components/shop/CartProvider';
 export const metadata: Metadata = {
   // Absolute base for the link-preview image (app/opengraph-image.png).
   metadataBase: new URL('https://dkeramik.lt'),
-  title: 'DKeramik — rankų darbo keramika Tavo namams',
+  title: 'DKeramik - rankų darbo keramika Tavo namams',
   description:
     'Gražūs rankų darbo keramikos kūriniai, atsinešantys šilumą ir širdžiai mielas detales į Tavo namus.',
   referrer: 'no-referrer',

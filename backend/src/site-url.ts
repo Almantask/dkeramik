@@ -1,7 +1,7 @@
 /** GitHub Pages project site lives at https://<user>.github.io/<repo>. */
 export const GITHUB_PAGES_REPO = 'dkeramik';
 
-/** CORS Origin header is scheme+host only — never a path. */
+/** CORS Origin header is scheme+host only - never a path. */
 export function corsAllowOrigin(frontendOrigin: string): string {
   const trimmed = frontendOrigin.trim();
   if (!trimmed) return trimmed;

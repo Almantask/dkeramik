@@ -1,6 +1,6 @@
 # DKeramik backlog
 
-Ideas for building something people would **need** and **love** — grounded in a review of the live site ([github.io/dkeramik](https://almantask.github.io/dkeramik/)), the shop API, and the codebase. This is a product backlog, not a task dump. Items are ordered by how much they would change whether a stranger becomes a customer, then a person who cares.
+Ideas for building something people would **need** and **love** - grounded in a review of the live site ([github.io/dkeramik](https://almantask.github.io/dkeramik/)), the shop API, and the codebase. This is a product backlog, not a task dump. Items are ordered by how much they would change whether a stranger becomes a customer, then a person who cares.
 
 ---
 
@@ -17,7 +17,7 @@ That gap matters more than any missing feature. People buy handmade ceramics wit
 ## What already works (keep this)
 
 - **A clear reason to exist.** Not “pottery shop.” Homes become homes through small, heartfelt details. That is a feeling people already want.
-- **A maker people can root for.** Donata left office life in Vilnius, moved to Kaunas, and traces the work back to her mother’s handmade pieces. That story is rare and true — most shops invent a founder myth.
+- **A maker people can root for.** Donata left office life in Vilnius, moved to Kaunas, and traces the work back to her mother’s handmade pieces. That story is rare and true - most shops invent a founder myth.
 - **Objects that belong to daily life.** Morning mug, dinner bowl, tea pair, candle trio, planter. These are rituals, not gallery sculptures.
 - **Serious shop plumbing.** Stock, invoices, consumer-law pages, bilingual checkout. Most maker sites never get this far.
 - **Tone.** Warm, unhurried, Lithuanian-first. Do not flatten this into generic e-commerce copy.
@@ -30,7 +30,7 @@ That gap matters more than any missing feature. People buy handmade ceramics wit
 | --- | --- | --- |
 | Someone making a rental or new home feel theirs | One object that is not from a catalogue | A mug or bowl they chose, with a maker’s name attached |
 | A gift-giver (birthday, housewarming, wedding, host) | Something personal that will actually be used | A tea-cup pair or candle set that arrives as a gift, not a parcel of inventory |
-| A repeat morning-coffee person | A cup with the right weight and lip | The same form again when theirs chips — or a wait for the next firing |
+| A repeat morning-coffee person | A cup with the right weight and lip | The same form again when theirs chips - or a wait for the next firing |
 | Lithuanians abroad | A piece of home that ships | A story they can give, not just an object |
 | Curious Kaunas locals | A Saturday that is not shopping | A studio visit, pickup that feels like meeting Donata, or a first throwing class |
 | Someone who wants a *set*, not a souvenir | Matching tableware over time | “Start with two, add the bowl later” instead of one-off leftovers |
@@ -45,7 +45,7 @@ Love here is not more pages. It is **seeing the clay, trusting the maker, gettin
 2. **Home does not sell.** The two buttons are Portfolio and About. Shop is in the nav but not in the invitation.
 3. **The shop looks empty even when it is not.** The API currently has buyable pieces (morning mug €32, bud vase €28, candle trio €42). On the live shop, items first appear as “Išparduota” with the word “Kaina” instead of a price. Whether that is a loading flash, a failed API call, or inventory not reaching the page, the effect is the same: the store feels closed.
 4. **Sold out is a dead end.** Unique work *should* sell out. The site treats that as failure instead of “tell me when the next one is ready” or “commission something like it.”
-5. **Custom work is promised, not offered.** About and contact mention individual orders; there is no brief, timeline, or deposit path — only mailto.
+5. **Custom work is promised, not offered.** About and contact mention individual orders; there is no brief, timeline, or deposit path - only mailto.
 6. **Portfolio and shop are twins.** Same eight pieces, thinner shop product pages (no dimensions, care, or gallery), names on portfolio cards only on hover (invisible on a phone).
 7. **Trust is incomplete.** No packing photos, no “what if it breaks,” no studio face, no Instagram, no reviews from people who already live with a piece.
 8. **The URL looks like a project, not a studio.** `almantask.github.io/dkeramik` does not match the care of the copy. `dkeramik.lt` is already named in the legal text.
@@ -54,13 +54,13 @@ Love here is not more pages. It is **seeing the clay, trusting the maker, gettin
 
 ## North star (one sentence)
 
-**Help someone fall in love with a piece, trust Donata enough to pay, and then live with it — and come back when they want the next ritual object, a gift, or time in the studio.**
+**Help someone fall in love with a piece, trust Donata enough to pay, and then live with it - and come back when they want the next ritual object, a gift, or time in the studio.**
 
 Build toward that. Decline features that only make the site busier.
 
 ---
 
-## Now — make it real
+## Now - make it real
 
 Until these are true, extra features will not create love.
 
@@ -77,7 +77,7 @@ Until these are true, extra features will not create love.
 ### B3. Make the shop tell the truth while it loads
 **Need:** “Sold out” and “Price” with no euro amount looks like a broken store.  
 **Love:** Scarcity feels special only when the available pieces look available.  
-**Outcome:** No flash of sold-out on every item. Show a short loading state, then live price and stock. If the API is down, say so and point to email — do not fake emptiness. Align the three API items that *are* for sale with what the page shows.
+**Outcome:** No flash of sold-out on every item. Show a short loading state, then live price and stock. If the API is down, say so and point to email - do not fake emptiness. Align the three API items that *are* for sale with what the page shows.
 
 ### B4. A custom domain that matches the invoices
 **Need:** Paying a stranger on github.io feels risky.  
@@ -91,7 +91,7 @@ Until these are true, extra features will not create love.
 
 ---
 
-## Next — make it wanted
+## Next - make it wanted
 
 These turn a functioning shop into something people seek out.
 
@@ -113,21 +113,21 @@ These turn a functioning shop into something people seek out.
 ### B9. Show the maker, not only the manifesto
 **Need:** Trust in a one-person studio is facial and spatial.  
 **Love:** Seeing Donata, the wheel, the kiln, Kaunas light.  
-**Outcome:** About uses real portraits and workshop photos. A short film or photo sequence of one piece from clay to glaze. Put **Kūryba** (`/craft`) in the footer or About — it is one of the strongest pages and currently hidden.
+**Outcome:** About uses real portraits and workshop photos. A short film or photo sequence of one piece from clay to glaze. Put **Kūryba** (`/craft`) in the footer or About - it is one of the strongest pages and currently hidden.
 
 ### B10. Packing, pickup, and “if it breaks”
 **Need:** Ceramics shoppers fear the post. Legal returns text exists; the buying moment does not show it.  
 **Love:** A photo of how a mug is wrapped. Pickup in Kaunas framed as meeting the studio, not as a logistics SKU.  
-**Outcome:** Shop and checkout show: how it ships, pickup as an experience, 14-day rule in human language, breakage contact within 48 hours (already in returns — surface it).
+**Outcome:** Shop and checkout show: how it ships, pickup as an experience, 14-day rule in human language, breakage contact within 48 hours (already in returns - surface it).
 
 ### B11. Let people follow the studio where they already are
 **Need:** Lithuanian makers are discovered on Instagram; the site has no door out or in.  
 **Love:** Same visual world on IG and on the site; the site is where you actually buy.  
-**Outcome:** Instagram (and maybe Facebook) in the footer. Later: “new firing” posts that link to the exact shop URL. Newsletter only after B6 exists — same list, calmer cadence.
+**Outcome:** Instagram (and maybe Facebook) in the footer. Later: “new firing” posts that link to the exact shop URL. Newsletter only after B6 exists - same list, calmer cadence.
 
 ---
 
-## Later — make it a relationship
+## Later - make it a relationship
 
 Build these after photos, a working shop, and a way back from sold-out.
 
@@ -138,18 +138,18 @@ Build these after photos, a working shop, and a way back from sold-out.
 
 ### B13. Sets that grow
 **Need:** One mug creates the wish for a second, then a bowl. Today each SKU is an island.  
-**Love:** “This glaze family” — add over months as firings allow.  
+**Love:** “This glaze family” - add over months as firings allow.  
 **Outcome:** Related pieces on a product page. A restockable core form (especially the morning mug) plus true one-offs. Nesting bowls and tea pairs sold as sets with a path to add later.
 
 ### B14. Open studio / pickup as a small event
 **Need:** Kaunas pickup is free and unused as a brand moment.  
 **Love:** Choosing a time, seeing the shelf, leaving with the piece wrapped in front of you.  
-**Outcome:** After payment, propose pickup windows. Occasional open-studio hours listed on the site. No cash at pickup (already the legal stance) — keep it simple.
+**Outcome:** After payment, propose pickup windows. Occasional open-studio hours listed on the site. No cash at pickup (already the legal stance) - keep it simple.
 
 ### B15. A first workshop
 **Need:** Many people do not want another object; they want to *make* one. Highest emotional loyalty in ceramics.  
 **Love:** A two-hour tasting of clay in Kaunas; they go home with a story and often become customers.  
-**Outcome:** One repeating format (e.g. mug throwing or hand-building), date, price, small group, waitlist. Do not build a full course platform — a page + email + deposit is enough.
+**Outcome:** One repeating format (e.g. mug throwing or hand-building), date, price, small group, waitlist. Do not build a full course platform - a page + email + deposit is enough.
 
 ### B16. Seasonal firings
 **Need:** A reason to return without fake discounts.  
@@ -163,7 +163,7 @@ Build these after photos, a working shop, and a way back from sold-out.
 
 ### B18. Baltic and diaspora shipping that is honest
 **Need:** Checkout already says international is “email us.” Diaspora will try anyway.  
-**Love:** A clear yes for LV/EE or a short list of countries, with a breakage-aware packing fee — or a firm “Lithuania only, gifts via a local friend.”  
+**Love:** A clear yes for LV/EE or a short list of countries, with a breakage-aware packing fee - or a firm “Lithuania only, gifts via a local friend.”  
 **Outcome:** One written policy. Ambiguity feels like the shop is not ready.
 
 ---
@@ -178,7 +178,7 @@ These could be loved later. They are the wrong next build.
 - **Wholesale portal.** Cafés and small stays could be a later channel; it changes packing and volume. Earn the retail relationship first.
 - **Loyalty points.** Wrong tone. A waitlist and a remembered glaze family are the loyalty program.
 - **Chat widget.** Donata cannot staff a chat. Email or Instagram DMs are the human channel.
-- **More journal volume for SEO.** Four strong essays exist. Publish when there is a firing or a thought — not to feed a calendar.
+- **More journal volume for SEO.** Four strong essays exist. Publish when there is a firing or a thought - not to feed a calendar.
 
 ---
 
@@ -192,6 +192,6 @@ Photos + honest shop + homepage objects
                                 → seasons and proof from real homes
 ```
 
-The site already has a soul and a till. What people would need is a **piece they can see and actually buy**. What they would love is **Donata’s way of making a home** — in their hands, as a gift, or one morning in the studio.
+The site already has a soul and a till. What people would need is a **piece they can see and actually buy**. What they would love is **Donata’s way of making a home** - in their hands, as a gift, or one morning in the studio.
 
 When in doubt, spend the next week on a camera and three pieces in stock, not on a new page.

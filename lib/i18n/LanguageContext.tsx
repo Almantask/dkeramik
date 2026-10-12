@@ -40,7 +40,7 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
         setLanguageState(stored);
       }
     } catch {
-      // localStorage unavailable (SSR/private mode) — use default
+      // localStorage unavailable (SSR/private mode) - use default
     }
   }, []);
 
@@ -49,7 +49,7 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
     try {
       localStorage.setItem(STORAGE_KEY, lang);
     } catch {
-      // localStorage unavailable — skip persistence
+      // localStorage unavailable - skip persistence
     }
   }, []);
 

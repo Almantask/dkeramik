@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.1.1 — 2026-08-23
+## 0.1.1 - 2026-08-23
 
 Deploy and ops follow-up after the first public shop release.
 
@@ -13,7 +13,7 @@ Deploy and ops follow-up after the first public shop release.
 
 - Admin panel is linked from the private shop-management guide, not the public README.
 
-## 0.1.0 — 2026-08-23
+## 0.1.0 - 2026-08-23
 
 First public shop release. Live site: [https://almantask.github.io/dkeramik/](https://almantask.github.io/dkeramik/).
 

@@ -24,7 +24,7 @@ export default function PortfolioPage() {
           </p>
         </div>
 
-        {/* Gallery grid — no prices shown */}
+        {/* Gallery grid - no prices shown */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
           {products.map((product) => (
             <ProductCard key={product.id} product={product} />
