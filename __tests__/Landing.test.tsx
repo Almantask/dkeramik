@@ -32,6 +32,7 @@ describe('Landing-only mode (default)', () => {
     render(<Home />);
     expect(screen.getByRole('heading', { level: 1, name: 'Laukiam kol pražys' })).toBeInTheDocument();
     expect(screen.getByRole('img', { name: /aguona/i })).toBeInTheDocument();
+    expect(screen.queryByText('info@dkeramik.lt')).not.toBeInTheDocument();
   });
 
   it('paints the bloom, pod, seeds and sprouts', () => {
