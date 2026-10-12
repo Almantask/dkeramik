@@ -47,10 +47,14 @@ import { LanguageProvider } from '@/lib/i18n';
 import { CartProvider } from '@/components/shop/CartProvider';
 
 export const metadata: Metadata = {
+  // Absolute base for the link-preview image (app/opengraph-image.png).
+  metadataBase: new URL('https://dkeramik.lt'),
   title: 'DKeramik — rankų darbo keramika Tavo namams',
   description:
     'Gražūs rankų darbo keramikos kūriniai, atsinešantys šilumą ir širdžiai mielas detales į Tavo namus.',
   referrer: 'no-referrer',
+  openGraph: { type: 'website', siteName: 'DKeramik', locale: 'lt_LT' },
+  twitter: { card: 'summary_large_image' },
 };
 
 const apiOrigin = (process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:8787').replace(/\/$/, '');
