@@ -39,7 +39,7 @@
 
 .logo {
   display: block;
-  width: clamp(5.5rem, 10vw, 8rem);
+  width: clamp(1.85rem, 3.33vw, 2.65rem);
   height: auto;
   margin: 0 auto;
 }
@@ -73,7 +73,7 @@
   position: relative;
   flex: none;
   aspect-ratio: 1000 / 480;
-  width: min(100%, 1100px, calc((100svh - 19.5rem) * 2.0833));
+  width: min(100%, 1100px, calc((100svh - 18.5rem) * 2.0833));
   min-width: 18rem;
 }
 
