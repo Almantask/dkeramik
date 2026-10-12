@@ -1,5 +1,5 @@
 import type { CSSProperties } from 'react';
-import Logo from '@/components/ui/Logo';
+import { Wordmark } from '@/components/ui/Logo';
 import { brandPalette as C } from '@/lib/brand-palette';
 import {
   brushLine,
@@ -80,7 +80,7 @@ export default function BloomingLanding() {
       <PaintFilters />
 
       <header className={styles.intro}>
-        <Logo className={`${styles.logo} text-brand-terracotta`} />
+        <Wordmark className={`${styles.wordmark} text-brand-terracotta`} />
         <h1 className="mt-9 font-playfair italic font-normal text-brand-navy text-[clamp(2.6rem,7vw,5.25rem)] leading-[1.05]">
           Laukiam kol pražys
         </h1>

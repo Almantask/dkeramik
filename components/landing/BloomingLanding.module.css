@@ -37,9 +37,10 @@
   animation: rise 1.4s cubic-bezier(0.2, 0.7, 0.2, 1) 0.2s both;
 }
 
-.logo {
+/* Same footprint as the "DKERAMIK" text label it replaced. */
+.wordmark {
   display: block;
-  width: clamp(3.7rem, 6.67vw, 5.3rem);
+  width: clamp(6.5rem, 10vw, 7.5rem);
   height: auto;
   margin: 0 auto;
 }
