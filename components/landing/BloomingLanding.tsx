@@ -80,7 +80,7 @@ export default function BloomingLanding() {
       <PaintFilters />
 
       <header className={styles.intro}>
-        <Wordmark className={`${styles.wordmark} text-brand-terracotta`} />
+        <Wordmark className={`${styles.wordmark} text-brand-ochre`} />
         <h1 className="mt-9 font-playfair italic font-normal text-brand-navy text-[clamp(2.6rem,7vw,5.25rem)] leading-[1.05]">
           Laukiam kol pražys
         </h1>
