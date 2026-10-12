@@ -4,7 +4,8 @@
 #   NEXT_PUBLIC_API_URL  Cloud Run URL baked into the shop client (required)
 #
 # Repository variables:
-#   CUSTOM_DOMAIN        "true" to drop /dkeramik basePath
+#   CUSTOM_DOMAIN        defaults to "true" (site lives at https://dkeramik.lt);
+#                        set "false" only to serve under github.io/dkeramik
 #
 # next.config.mjs reads GITHUB_PAGES=true for the /dkeramik subpath.
 
@@ -55,7 +56,7 @@ jobs:
         run: npm run build
         env:
           GITHUB_PAGES: 'true'
-          CUSTOM_DOMAIN: ${{ vars.CUSTOM_DOMAIN || 'false' }}
+          CUSTOM_DOMAIN: ${{ vars.CUSTOM_DOMAIN || 'true' }}
           NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL }}
       - uses: actions/upload-pages-artifact@v3
         with:

@@ -1,7 +1,7 @@
 # Cloud Run API — europe-central2, scale to zero
 #
 # GitHub secrets:
-#   FRONTEND_ORIGIN   e.g. https://almantask.github.io/dkeramik
+#   FRONTEND_ORIGIN   https://dkeramik.lt (shop URL and CORS origin)
 #   PUBLIC_API_URL    Cloud Run HTTPS URL (https://dkeramik-api-409106094209.europe-central2.run.app)
 #   ADMIN_PASSWORD    Admin panel login (synced to Secret Manager on deploy)
 #

@@ -2,7 +2,7 @@
 
 A beautiful, static Next.js 14 website showcasing handcrafted ceramic pieces. Built with TypeScript, Tailwind CSS, and MDX for content management.
 
-**Website:** [https://almantask.github.io/dkeramik/](https://almantask.github.io/dkeramik/)
+**Website:** [https://dkeramik.lt](https://dkeramik.lt)
 
 Release notes: [CHANGELOG.md](CHANGELOG.md)
 
@@ -171,7 +171,7 @@ All tests use Jest and React Testing Library.
 
 ## 📦 Deployment
 
-The public site is a static export on **GitHub Pages**: [https://almantask.github.io/dkeramik/](https://almantask.github.io/dkeramik/). Checkout talks to **Cloud Run** (`dkeramik-api`).
+The public site is a static export on **GitHub Pages** at the custom domain [https://dkeramik.lt](https://dkeramik.lt) (`public/CNAME`). Checkout talks to **Cloud Run** (`dkeramik-api`).
 
 ### GitHub Actions
 
@@ -183,13 +183,13 @@ The public site is a static export on **GitHub Pages**: [https://almantask.githu
 
 | Variable | Used by | Example |
 | --- | --- | --- |
-| `CUSTOM_DOMAIN` | Pages (optional) | `true` to drop `/dkeramik` basePath |
+| `CUSTOM_DOMAIN` | Pages (optional) | Defaults to `true` (no basePath, for dkeramik.lt); `false` builds under `/dkeramik` |
 | `PAYSERA_TEST` | Cloud Run (optional) | `true` until live bank links |
 
 ### Secrets
 
 - GitHub: `NEXT_PUBLIC_API_URL` (Cloud Run HTTPS URL baked into the Pages shop client).
-- GitHub: `FRONTEND_ORIGIN` (shop URL and CORS, e.g. `https://<user>.github.io/dkeramik`; a bare `https://<user>.github.io` still gets `/dkeramik` on product links), `PUBLIC_API_URL` (Cloud Run HTTPS URL).
+- GitHub: `FRONTEND_ORIGIN` (shop URL and CORS, `https://dkeramik.lt`; a bare `https://<user>.github.io` still gets `/dkeramik` on product links), `PUBLIC_API_URL` (Cloud Run HTTPS URL).
 - GitHub: `ADMIN_PASSWORD` (admin panel login; applied to Cloud Run on each API deploy).
 - GitHub: `GCP_SA_KEY` (service account JSON for Artifact Registry + Cloud Run).
 - Secret Manager in `dkeramik-fullstack`:

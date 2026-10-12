@@ -62,7 +62,6 @@ const shopCsp = [
   "font-src 'self'",
   "script-src 'self' 'unsafe-inline'",
   `connect-src 'self' ${apiOrigin} https:`,
-  "frame-ancestors 'none'",
   "base-uri 'self'",
   "form-action 'self'",
 ].join('; ');
