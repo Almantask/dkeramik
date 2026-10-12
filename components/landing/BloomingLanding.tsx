@@ -81,7 +81,7 @@ export default function BloomingLanding() {
 
       <header className={styles.intro}>
         <Logo className={`${styles.logo} text-brand-terracotta`} />
-        <h1 className="mt-3 font-playfair italic font-normal text-brand-navy text-[clamp(2.6rem,7vw,5.25rem)] leading-[1.05]">
+        <h1 className="mt-9 font-playfair italic font-normal text-brand-navy text-[clamp(2.6rem,7vw,5.25rem)] leading-[1.05]">
           Laukiam kol pražys
         </h1>
         <svg className={styles.underline} viewBox="0 0 320 24" aria-hidden="true">
