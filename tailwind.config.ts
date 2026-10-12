@@ -1,4 +1,5 @@
 import type { Config } from 'tailwindcss';
+import { brandPalette } from './lib/brand-palette';
 
 const config: Config = {
   content: [
@@ -23,6 +24,7 @@ const config: Config = {
           800: '#4a3420',
           900: '#2d1f12',
         },
+        brand: brandPalette,
       },
       fontFamily: {
         // ─── CUSTOM FONTS ──────────────────────────────────────────────────

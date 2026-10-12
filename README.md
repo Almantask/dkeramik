@@ -91,6 +91,8 @@ npm run build
 
 Open [http://localhost:3000](http://localhost:3000) to view the site in development mode.
 
+While the shop is being prepared the site runs in **landing-only mode**: just the animated "Laukiam kol pražys" page. Set `NEXT_PUBLIC_LANDING_ONLY=false` in `.env.local` to work on the full site (see `lib/site-config.ts`).
+
 # Shop (Cloud Run + GitHub Pages)
 
 Live stock and checkout talk to `NEXT_PUBLIC_API_URL` (local default `http://localhost:8787`).
@@ -184,6 +186,7 @@ The public site is a static export on **GitHub Pages** at the custom domain [htt
 | Variable | Used by | Example |
 | --- | --- | --- |
 | `CUSTOM_DOMAIN` | Pages (optional) | Defaults to `true` (no basePath, for dkeramik.lt); `false` builds under `/dkeramik` |
+| `LANDING_ONLY` | Pages (optional) | Defaults to `true`: only the animated "Laukiam kol pražys" landing page is public and every other route redirects to `/`; `false` publishes the full site |
 | `PAYSERA_TEST` | Cloud Run (optional) | `true` until live bank links |
 
 ### Secrets

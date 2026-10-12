@@ -6,6 +6,8 @@
 # Repository variables:
 #   CUSTOM_DOMAIN        defaults to "true" (site lives at https://dkeramik.lt);
 #                        set "false" only to serve under github.io/dkeramik
+#   LANDING_ONLY         defaults to "true" (only the "Laukiam kol pražys" landing
+#                        page is public); set "false" to publish the full site
 #
 # next.config.mjs reads GITHUB_PAGES=true for the /dkeramik subpath.
 
@@ -57,6 +59,7 @@ jobs:
         env:
           GITHUB_PAGES: 'true'
           CUSTOM_DOMAIN: ${{ vars.CUSTOM_DOMAIN || 'true' }}
+          NEXT_PUBLIC_LANDING_ONLY: ${{ vars.LANDING_ONLY || 'true' }}
           NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL }}
       - uses: actions/upload-pages-artifact@v3
         with:

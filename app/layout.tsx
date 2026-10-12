@@ -42,8 +42,7 @@ import '@fontsource/lato/400.css';
 import '@fontsource/lato/700.css';
 
 import './globals.css';
-import Header from '@/components/layout/Header';
-import Footer from '@/components/layout/Footer';
+import SiteShell from '@/components/layout/SiteShell';
 import { LanguageProvider } from '@/lib/i18n';
 import { CartProvider } from '@/components/shop/CartProvider';
 
@@ -78,9 +77,7 @@ export default function RootLayout({
       <body className="font-nunito antialiased">
         <LanguageProvider>
           <CartProvider>
-            <Header />
-            <main>{children}</main>
-            <Footer />
+            <SiteShell>{children}</SiteShell>
           </CartProvider>
         </LanguageProvider>
       </body>

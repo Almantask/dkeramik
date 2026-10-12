@@ -35,6 +35,8 @@ export default defineConfig({
       reuseExistingServer: !process.env.CI,
       env: {
         NEXT_PUBLIC_API_URL: 'http://localhost:8787',
+        // The shop is hidden behind the landing page by default; e2e needs it.
+        NEXT_PUBLIC_LANDING_ONLY: 'false',
       },
     },
   ],
