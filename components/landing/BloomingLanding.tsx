@@ -134,15 +134,6 @@ export default function BloomingLanding() {
           </div>
         </div>
       </div>
-
-      <footer className={styles.footer}>
-        <a
-          href="mailto:info@dkeramik.lt"
-          className="font-lato text-sm tracking-wide text-brand-navy/70 hover:text-brand-terracotta transition-colors"
-        >
-          info@dkeramik.lt
-        </a>
-      </footer>
     </div>
   );
 }
